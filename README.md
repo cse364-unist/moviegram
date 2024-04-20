@@ -22,7 +22,7 @@ Let's register and create a user account for you, so you have full experience.
 Step 1: Register a new user account.  
 Step 2: Login to your newly created account  
 Step 3: Get the users list to follow  
-Step 4: Follow a user 
+Step 4: Follow a user  
 Step 5: Get the movie list  
 Step 6: Leave a rate to a movie  
 Step 7: Leave a review to a movie  
