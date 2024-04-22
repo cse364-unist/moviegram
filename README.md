@@ -32,4 +32,5 @@ Step 10: Take a look at friends activities from the feed
 
 
 ### Feature #2: Movie Collections - Makida
+
 ### Feature #3: Movie Recommendations - Aizat
