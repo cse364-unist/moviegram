@@ -29,15 +29,30 @@ Below is an example that you can use directly:
 ```bash
 curl -X POST http://localhost:8000/users/ -d "username=instructor&email=myemail@example.com&password=asdf"
 ```
-
+Step 2: Login to your newly created account  
 From now on you are going to use this username and password in each request you make. Because there functionalities that require the user to be authenticated.   
 
-
-Step 2: Login to your newly created account  
 Step 3: Get the users list to follow  
+```bash
+curl -X GET http://localhost:8000/users/ | json_pp
+```  
+
 Step 4: Follow a user  
+```bash
+curl -X POST -u username:password http://localhost:8000/follow/<user_id>/ | json_pp
+```
+
 Step 5: Get the movie list  
-Step 6: Leave a rate to a movie  
+Following request return first 100 movie items out of 3883 movies. As it has pagination enabled.  
+```bash 
+curl -X GET http://localhost:8000/movies/ | json_pp
+```
+
+Step 6: Give a rating to a movie from 1 to 5 
+```bash
+
+```
+
 Step 7: Leave a review to a movie  
 Step 8: Save a movie to your favorites  
 Step 9: Share your activities with followers (they will see it on their feed)  
@@ -45,15 +60,24 @@ Step 10: Take a look at friends activities from the feed
 
 
 ### Feature #2: Movie Collections - Makida
+This feature helps users to (1) create collections of movies and (2) follow other collections of movies that were created by other users. Similar to Spotify music collections. Each time creator of collection adds new movie then all the followers are notifed on a new movie.  
+Below are the API endpoints that are supported.   
+
+1. Get the list of collections (we will have some preadded collections) 
+2. Choose the collection and see the movies that it has 
+3. Follow a collection 
+4. Create your own collection
+5. Add a new movie to your collection 
+
 
 ### Feature #3: Movie Recommendations - Aizat 
 The purpose of this feature is to help users to explore new movies to watch. Our recommendation system uses collaborative recommendation, that is to recommend movies based on the movies that were watched by friends of the user.  
 Make a GET request to following endpoint by providing authentication credentials.  
 ```bash
-curl -u username:password  http://localhost:8000/recommend/
+curl -u username:password  http://localhost:8000/recommend/ | json_pp
 ``` 
 
 Below is the request to get recommendations for our user that we created.
 ```bash
-curl -u instructor:asdf  http://localhost:8000/recommend/
+curl -u instructor:asdf  http://localhost:8000/recommend/ | json_pp
 ```  
