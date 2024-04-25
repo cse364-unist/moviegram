@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'moviegram',
 ]
 
@@ -85,8 +86,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'moviegram',
-        'USER': 'root',
+        'USER': 'aibek',
         'PASSWORD': 'asdf',
+        # 'USER':'root',
+        # 'PASSWORD':'asdf',
         'HOST': 'localhost',   
         'PORT': '3306', 
     }
