@@ -7,22 +7,33 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer
 
-def recommend_movies(request):
-    # Check if user is logged in
-    if request.user.is_authenticated:
-        user = request.user
-        recommended_movies = recommend_movies_for_user(user)
-        # Serialize recommended movies as JSON
-        # data = [{'name': movie.name, 'genres': [genre.name for genre in movie.genres.all()]} for movie in recommended_movies]
-        return recommend_movies #JsonResponse(data, safe=False)
-    else:
-        return JsonResponse({'error': 'User not authenticated. Login to get recommendations.'}, status=401) 
-    
+
+from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+from django.contrib.auth.hashers import make_password
+
+
 class UserViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
+            # Hash the password before saving the user
+            validated_data = serializer.validated_data
+            validated_data['password'] = make_password(validated_data['password'])
+            
             user = serializer.save()
             return Response({'id': user.id, 'username': user.username}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Recommend(APIView):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_id = request.user.id
+        movies = recommend_movies_for_user(user_id)
+        return Response({"message":movies}, status=status.HTTP_200_OK)

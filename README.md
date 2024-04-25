@@ -17,9 +17,22 @@ The purpose of this feature is to give an ability to users interact with each ot
 
 Below is the detailed guide on how to test these functionalities.  
 Assume that this is your first time opening our webpage.  
-Let's register and create a user account for you, so you have full experience.  
+Let's register a user account for you, so you have full experience.  
 
 Step 1: Register a new user account.  
+To create a new user make a post request to the following API endpoint by providing username, email and password in the body.  
+```bash
+curl -X POST http://localhost:8000/users/ -d "username=username&email=email@example.com&password=mypassword123"
+```   
+
+Below is an example that you can use directly:   
+```bash
+curl -X POST http://localhost:8000/users/ -d "username=instructor&email=myemail@example.com&password=asdf"
+```
+
+From now on you are going to use this username and password in each request you make. Because there functionalities that require the user to be authenticated.   
+
+
 Step 2: Login to your newly created account  
 Step 3: Get the users list to follow  
 Step 4: Follow a user  
@@ -33,4 +46,14 @@ Step 10: Take a look at friends activities from the feed
 
 ### Feature #2: Movie Collections - Makida
 
-### Feature #3: Movie Recommendations - Aizat
+### Feature #3: Movie Recommendations - Aizat 
+The purpose of this feature is to help users to explore new movies to watch. Our recommendation system uses collaborative recommendation, that is to recommend movies based on the movies that were watched by friends of the user.  
+Make a GET request to following endpoint by providing authentication credentials.  
+```bash
+curl -u username:password  http://localhost:8000/recommend/
+``` 
+
+Below is the request to get recommendations for our user that we created.
+```bash
+curl -u instructor:asdf  http://localhost:8000/recommend/
+```  
