@@ -80,6 +80,25 @@ class MovieViewSet(viewsets.ViewSet):
 
         # Return paginated response
         return paginator.get_paginated_response(serializer.data)
+    
+    def rate(self, request, movie_id):
+        movie = get_object_or_404(Movie, pk=movie_id)
+
+        if 'rating' not in request.data:
+            return Response({'error': 'Rating is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        rating = int(request.data['rating'])
+        if rating < 1 or rating > 5:
+            return Response({'error':'Rating must in range 1 - 5'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Update movie rating
+        movie.total_people_rated += 1
+        movie.rating_sum += rating
+        movie.average_rating = movie.rating_sum / movie.total_people_rated
+        movie.save()
+
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class RecommendViewSet(viewsets.GenericViewSet):

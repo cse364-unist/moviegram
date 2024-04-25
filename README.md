@@ -48,10 +48,16 @@ Following request return first 100 movie items out of 3883 movies. As it has pag
 curl -X GET http://localhost:8000/movies/ | json_pp
 ```
 
-Step 6: Give a rating to a movie from 1 to 5 
+Step 6: Give a rating to a movie from 1 to 5  
 ```bash
-
+curl -X POST -H "Content-Type: application/json" -d '{"rating": <given_rating>}' http://localhost:8000/movies/<movie_id>/rate/ | json_pp
 ```
+
+Example command to give a rating 2 to a movie with id 1:   
+ ```bash
+ curl -X POST -H "Content-Type: application/json" -d '{"rating": 2}' http://localhost:8000/movies/1/rate/ | json_pp
+
+ ```
 
 Step 7: Leave a review to a movie  
 Step 8: Save a movie to your favorites  

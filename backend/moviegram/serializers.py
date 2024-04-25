@@ -37,7 +37,4 @@ class FollowSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ['id', 'name', 'average_rating']
-    
-    def list(self, instance): 
-        return instance
+        fields = ['id', 'name', 'genres', 'total_people_rated', 'rating_sum', 'average_rating']

@@ -12,5 +12,6 @@ router.register(r'recommend', RecommendViewSet, basename='recommend')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('follow/<int:pk>', FollowViewSet.as_view({'post':'create'})), 
+    path('movies/<int:movie_id>/rate/', MovieViewSet.as_view({'post': 'rate'}), name='movie-rate'), 
     path('', include(router.urls)),
 ]
