@@ -39,7 +39,18 @@ curl -X GET http://localhost:8000/users/ | json_pp
 
 Step 4: Follow a user  
 ```bash
-curl -X POST -u username:password http://localhost:8000/follow/<user_id>/ | json_pp
+curl -X POST -u username:password http://localhost:8000/users/<user_id>/follow/ | json_pp
+```
+
+Example: Let's follow a user with id = 1  
+
+```bash
+curl -X POST -u instructor:asdf http://localhost:8000/users/1/follow/ | json_pp
+```
+
+Reguest to unfollow a user:  
+```bash
+curl -X DELETE  -u username:password http://localhost:8000/users/<user_id>/unfollow/ | json_pp
 ```
 
 Step 5: Get the movie list  
