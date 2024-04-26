@@ -13,5 +13,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('follow/<int:pk>', FollowViewSet.as_view({'post':'create'})), 
     path('movies/<int:movie_id>/rate/', MovieViewSet.as_view({'post': 'rate'}), name='movie-rate'), 
+    path('movies/<int:movie_id>/review/', MovieViewSet.as_view({'post': 'give_review'}), name='movie-review'), 
     path('', include(router.urls)),
 ]

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Movie, Follow
+from .models import User, Movie, Follow, Review
 
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
@@ -21,20 +21,25 @@ class FollowSerializer(serializers.ModelSerializer):
         fields = ['follower', 'following']
 
 
-# class FollowingSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer): 
+    # user_name = serializers.SerializerMethodField()
+    class Meta: 
+        model = Review 
+        fields = ['id', 'user', 'movie', 'content']
 
-#     class Meta:
-#         model = Follow
-#         fields = ("id", "following", "created")
-
-# class FollowersSerializer(serializers.ModelSerializer):
-    
-#     class Meta:
-#         model = Follow
-#         fields = ("id", "follower", "created")
-
+    # def get_user_name(self, obj):
+    #     return obj.user.username
 
 class MovieSerializer(serializers.ModelSerializer):
+    review_list = serializers.SerializerMethodField()
+
     class Meta:
         model = Movie
-        fields = ['id', 'name', 'genres', 'total_people_rated', 'rating_sum', 'average_rating']
+        fields = ['name', 'review_list']
+    
+    def list(self, instance):
+        return instance 
+
+    def get_review_list(self, obj):
+        reviews = obj.review_set.all()
+        return ReviewSerializer(reviews, many=True).data

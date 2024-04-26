@@ -4,7 +4,7 @@
 ## Note
 If you don't have README previwer, please, open this README in the some previewer such as (https://markdownlivepreview.com/) for better experience.  
 
-### Setup Instructions   
+### Setup Instructions  
 ### Feature #1: Social Media notion
 The purpose of this feature is to give an ability to users interact with each other as well as with movies. Collections of small features make up this big feature. To make sure users can interact with each other we implemented functinalities:  
 1. Create a user. 
@@ -43,7 +43,7 @@ curl -X POST -u username:password http://localhost:8000/follow/<user_id>/ | json
 ```
 
 Step 5: Get the movie list  
-Following request return first 100 movie items out of 3883 movies. As it has pagination enabled.  
+We enabled pagination for this request since our movie table has more 3000 movies. It returns 10 items per page, so it more comfortable to see the in the terminal when you check. You will get link to another page, so you can make another request to that page to get another 10 items.  
 ```bash 
 curl -X GET http://localhost:8000/movies/ | json_pp
 ```
@@ -56,10 +56,20 @@ curl -X POST -H "Content-Type: application/json" -d '{"rating": <given_rating>}'
 Example command to give a rating 2 to a movie with id 1:   
  ```bash
  curl -X POST -H "Content-Type: application/json" -d '{"rating": 2}' http://localhost:8000/movies/1/rate/ | json_pp
-
  ```
 
 Step 7: Leave a review to a movie  
+```bash
+curl -X POST -u username:password -H "Content-Type: application/json" -d '{"content": "Your review text"}' http://localhost:8000/movies/<movie_id>/review/ | json_pp
+```
+
+Example command to leave a review to movie with id = 3.  
+```bash
+curl -X POST -u Instructor:asdf -H "Content-Type: application/json" -d '{"content": "I like this movie very much."}' http://localhost:8000/movies/3/review/ | json_pp
+```
+
+
+
 Step 8: Save a movie to your favorites  
 Step 9: Share your activities with followers (they will see it on their feed)  
 Step 10: Take a look at friends activities from the feed  

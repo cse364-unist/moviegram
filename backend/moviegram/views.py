@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 
-
 from .recommendation import recommend_movies_for_user
 
 from rest_framework import viewsets
@@ -12,9 +11,8 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination  # Import pagination class
 
-
-from .serializers import UserSerializer, FollowSerializer, MovieSerializer
-from .models import Movie, Follow 
+from .serializers import UserSerializer, FollowSerializer, MovieSerializer, ReviewSerializer   
+from .models import Movie, Review, Follow 
 
 
 class UserViewSet(viewsets.ViewSet):
@@ -29,7 +27,6 @@ class UserViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            # Hash the password before saving the user
             validated_data = serializer.validated_data
             validated_data['password'] = make_password(validated_data['password'])
             
@@ -66,19 +63,16 @@ class FollowViewSet(viewsets.ViewSet):
 
 class MovieViewSet(viewsets.ViewSet): 
     
-    pagination_class = PageNumberPagination  # Apply pagination class
+    pagination_class = PageNumberPagination 
 
     def list(self, request):
-        queryset = Movie.objects.all()
-
-        # Paginate the queryset
+        queryset = Movie.objects.order_by('id') 
+        
         paginator = self.pagination_class()
         paginated_queryset = paginator.paginate_queryset(queryset, request)
 
-        # Serialize paginated queryset
         serializer = MovieSerializer(paginated_queryset, many=True)
 
-        # Return paginated response
         return paginator.get_paginated_response(serializer.data)
     
     def rate(self, request, movie_id):
@@ -99,6 +93,28 @@ class MovieViewSet(viewsets.ViewSet):
 
         serializer = MovieSerializer(movie)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def give_review(self, request, movie_id): 
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        movie = get_object_or_404(Movie, pk=movie_id) 
+
+        if 'content' not in request.data: 
+            return Response({'error': 'Content is required'}, status=status.HTTP_400_BAD_REQUEST) 
+        
+        review_data = {
+            'movie': movie_id,
+            'user': request.user.id,
+            'content': request.data['content']
+        }
+        serializer = ReviewSerializer(data=review_data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RecommendViewSet(viewsets.GenericViewSet):
