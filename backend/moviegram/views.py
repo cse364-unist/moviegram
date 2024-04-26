@@ -13,7 +13,7 @@ from rest_framework.pagination import PageNumberPagination  # Import pagination 
 
 # Project imports
 from .serializers import UserSerializer, FollowSerializer, MovieSerializer, ReviewSerializer
-from .models import Movie, Review, Follow
+from .models import Movie, Review, Follow, Activity
 from .recommendation import recommend_movies_for_user
 
 
@@ -146,3 +146,42 @@ class RecommendViewSet(viewsets.GenericViewSet):
         user_id = request.user.id
         movies = recommend_movies_for_user(user_id)
         return Response({"message": movies}, status=status.HTTP_200_OK)
+
+
+class FeedViewSet(viewsets.GenericViewSet):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        follow_users_id = [
+            follow.following.id for follow in user.following_set.all()]
+
+        activities = Activity.objects.filter(
+            user_id__in=follow_users_id).order_by('-created_at')
+
+        activity_messages = []
+
+        for activity in activities:
+            if activity.type == 'rate':
+                movie = Movie.objects.get(id=activity.activity_id)
+                activity_messages.append(
+                    f"{activity.user} rated '{movie.name}'")
+
+            elif activity.type == 'review':
+                review = Review.objects.get(id=activity.activity_id)
+                movie = review.movie
+                activity_messages.append(
+                    f"{activity.user} gave a review to '{movie.name}': '{review.content}'")
+            else:
+                activity_messages.append(
+                    f"{activity.user} create a new collection"
+                )
+
+            # elif activity.type == 'collection':
+            #     collection = Collection.objects.get(
+            #         id=activity.activity_id)
+            #     activity_messages.append(
+            #         f"{activity.user} created new collection: '{collection.name}'")
+
+        return Response({'activities': activity_messages})

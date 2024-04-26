@@ -79,11 +79,17 @@ Example command to leave a review to movie with id = 3.
 curl -X POST -u Instructor:asdf -H "Content-Type: application/json" -d '{"content": "I like this movie very much."}' http://localhost:8000/movies/3/review/ | json_pp
 ```
 
-
-
 Step 8: Save a movie to your favorites  
-Step 9: Share your activities with followers (they will see it on their feed)  
-Step 10: Take a look at friends activities from the feed  
+
+Step 9: Take a look at friends activities from the home page (feed)    
+```bash 
+curl -X GET -u username:password http://localhost:8000/ | json_pp
+```
+
+Example request to get the your friends activity  
+```bash
+curl -X GET -u Instructor:asdf http://localhost:8000/ | json_pp
+```
 
 
 ### Feature #2: Movie Collections - Makida

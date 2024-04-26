@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from moviegram.views import UserViewSet, MovieViewSet, RecommendViewSet, FollowViewSet
+from moviegram.views import UserViewSet, MovieViewSet, RecommendViewSet, FollowViewSet, FeedViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
@@ -18,5 +18,7 @@ urlpatterns = [
          MovieViewSet.as_view({'post': 'rate'}), name='movie-rate'),
     path('movies/<int:movie_id>/review/',
          MovieViewSet.as_view({'post': 'give_review'}), name='movie-review'),
-    path('', include(router.urls)),
+    path('', FeedViewSet.as_view({'get': 'get'}), name='feed'),
 ]
+
+urlpatterns += router.urls
