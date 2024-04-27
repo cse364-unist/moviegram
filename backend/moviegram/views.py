@@ -2,6 +2,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
+from django.db import transaction
+
 
 # DRF imports
 from rest_framework import viewsets
@@ -12,8 +14,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination  # Import pagination class
 
 # Project imports
-from .serializers import UserSerializer, FollowSerializer, MovieSerializer, ReviewSerializer
-from .models import Movie, Review, Follow, Activity
+from .serializers import UserSerializer, FollowSerializer, MovieSerializer, ReviewSerializer, ActivitySerializer
+from .models import Movie, Review, Follow, Activity, Rate, Collection
 from .recommendation import recommend_movies_for_user
 
 
@@ -97,20 +99,37 @@ class MovieViewSet(viewsets.ViewSet):
         return paginator.get_paginated_response(serializer.data)
 
     def rate(self, request, movie_id):
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
         movie = get_object_or_404(Movie, pk=movie_id)
 
         if 'rating' not in request.data:
             return Response({'error': 'Rating is required'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            rating = int(request.data['rating'])
+        except ValueError:
+            return Response({'error': 'Invalid rating value'}, status=status.HTTP_400_BAD_REQUEST)
 
         rating = int(request.data['rating'])
         if rating < 1 or rating > 5:
             return Response({'error': 'Rating must in range 1 - 5'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Update movie rating
-        movie.total_people_rated += 1
-        movie.rating_sum += rating
-        movie.average_rating = movie.rating_sum / movie.total_people_rated
-        movie.save()
+        with transaction.atomic():
+            # Create Rate instance
+            rate_instance = Rate.objects.create(
+                user=request.user, movie=movie, rate=rating)
+
+            # Create Activity instance
+            Activity.objects.create(
+                user=request.user, type='rate', activity_id=rate_instance.id)
+
+            movie.refresh_from_db()
+
+            # Update movie rating
+            movie.total_people_rated += 1
+            movie.rating_sum += rating
+            movie.average_rating = movie.rating_sum / movie.total_people_rated
+            movie.save()
 
         serializer = MovieSerializer(movie)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -159,29 +178,6 @@ class FeedViewSet(viewsets.GenericViewSet):
 
         activities = Activity.objects.filter(
             user_id__in=follow_users_id).order_by('-created_at')
+        serializer = ActivitySerializer(activities, many=True)
 
-        activity_messages = []
-
-        for activity in activities:
-            if activity.type == 'rate':
-                movie = Movie.objects.get(id=activity.activity_id)
-                activity_messages.append(
-                    f"{activity.user} rated '{movie.name}'")
-
-            elif activity.type == 'review':
-                review = Review.objects.get(id=activity.activity_id)
-                movie = review.movie
-                activity_messages.append(
-                    f"{activity.user} gave a review to '{movie.name}': '{review.content}'")
-            else:
-                activity_messages.append(
-                    f"{activity.user} create a new collection"
-                )
-
-            # elif activity.type == 'collection':
-            #     collection = Collection.objects.get(
-            #         id=activity.activity_id)
-            #     activity_messages.append(
-            #         f"{activity.user} created new collection: '{collection.name}'")
-
-        return Response({'activities': activity_messages})
+        return Response({'activities': serializer.data})

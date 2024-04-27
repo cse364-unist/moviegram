@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Movie, Follow, Review
+from .models import User, Movie, Follow, Review, Activity #, Collection 
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -60,3 +60,22 @@ class MovieSerializer(serializers.ModelSerializer):
     def get_review_list(self, obj):
         reviews = obj.review_set.all()
         return ReviewSerializer(reviews, many=True).data
+
+class ActivitySerializer(serializers.ModelSerializer):
+    message = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Activity
+        fields = ['user', 'type', 'activity_id', 'message']
+
+    def get_message(self, obj):
+        if obj.type == 'rate':
+            movie = Movie.objects.get(id=obj.activity_id)
+            return f"{obj.user} rated '{movie.name}'"
+        elif obj.type == 'review':
+            review = Review.objects.get(id=obj.activity_id)
+            movie = review.movie
+            return f"{obj.user} gave a review to '{movie.name}': '{review.content}'"
+        # elif obj.type == 'collection':
+        #     collection = Collection.objects.get(id=obj.activity_id)
+        #     return f"{obj.user} created new collection: '{collection.name}'. Do you want to follow ? "

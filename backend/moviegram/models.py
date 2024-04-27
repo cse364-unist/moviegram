@@ -20,6 +20,33 @@ class Movie(models.Model):
         return self.name
 
 
+class Rate(models.Model):
+    ONE_STAR = 1
+    TWO_STARS = 2
+    THREE_STARS = 3
+    FOUR_STARS = 4
+    FIVE_STARS = 5
+
+    RATING_CHOICES = [
+        (ONE_STAR, '1 Star'),
+        (TWO_STARS, '2 Stars'),
+        (THREE_STARS, '3 Stars'),
+        (FOUR_STARS, '4 Stars'),
+        (FIVE_STARS, '5 Stars'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    rate = models.IntegerField(choices=RATING_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'movie')
+
+    def __str__(self):
+        return f'{self.user.username} rated {self.movie.title}'
+
+
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
@@ -56,3 +83,17 @@ class Activity(models.Model):
 
     def __str__(self):
         return f"{self.user}'s activity"
+
+
+class Collection(models.Model):
+    name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_public = models.BooleanField(default=False)
+    movies = models.ManyToManyField('Movie', related_name='collections')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    followers = models.ManyToManyField(
+        User, related_name='followed_collections')
+
+    def __str__(self):
+        return self.name
