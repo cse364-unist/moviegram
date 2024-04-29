@@ -96,7 +96,11 @@ curl -X GET -u Instructor:asdf http://localhost:8000/ | json_pp
 This feature helps users to (1) create collections of movies and (2) follow other collections of movies that were created by other users. Similar to Spotify music collections. Each time creator of collection adds new movie then all the followers are notifed on a new movie.  
 Below are the API endpoints that are supported.   
 
-1. Get the list of collections (we will have some preadded collections) 
+1. Get the list of collections that already exist:   
+```bash
+curl -X GET http://localhost:8000/collections/ | json_pp
+``` 
+
 2. Choose the collection and see the movies that it has 
 3. Follow a collection 
 4. Create your own collection

@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from moviegram.views import UserViewSet, MovieViewSet, RecommendViewSet, FollowViewSet, FeedViewSet
+from moviegram.views import UserViewSet, MovieViewSet, RecommendViewSet, FollowViewSet, FeedViewSet, CollectionViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'movies', MovieViewSet, basename='movie')
 router.register(r'recommend', RecommendViewSet, basename='recommend')
+router.register(r'collections', CollectionViewSet, basename='collection')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

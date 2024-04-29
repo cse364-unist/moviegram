@@ -62,6 +62,26 @@ class MovieSerializer(serializers.ModelSerializer):
         return ReviewSerializer(reviews, many=True).data
 
 
+class CollectionSerializer(serializers.ModelSerializer):
+    followers_list = serializers.SerializerMethodField()
+    movies_list = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Collection
+        fields = ['id', 'name', 'user',
+                  'is_public', 'movies_list', 'followers_list']
+
+    def get_followers_list(self, obj):
+        followers = obj.followers.all()
+        follower_names = [follower.username for follower in followers]
+        return follower_names
+
+    def get_movies_list(self, obj):
+        movies = obj.movies.all() 
+        movie_names = [movie.name for movie in movies]
+        return movie_names
+
+
 class ActivitySerializer(serializers.ModelSerializer):
     message = serializers.SerializerMethodField()
 

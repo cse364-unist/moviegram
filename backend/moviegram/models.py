@@ -93,7 +93,7 @@ class Collection(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     followers = models.ManyToManyField(
-        User, related_name='followed_collections')
+        User, related_name='followed_collections', null=True, blank=True)
 
     def __str__(self):
         return self.name

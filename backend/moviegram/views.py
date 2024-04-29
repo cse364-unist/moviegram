@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination  # Import pagination class
 
 # Project imports
-from .serializers import UserSerializer, FollowSerializer, MovieSerializer, ReviewSerializer, ActivitySerializer, RateSerializer
+from .serializers import UserSerializer, FollowSerializer, MovieSerializer, ReviewSerializer, ActivitySerializer, RateSerializer, CollectionSerializer
 from .models import Movie, Review, Follow, Activity, Rate, Collection
 from .recommendation import recommend_movies_for_user
 
@@ -178,8 +178,33 @@ class MovieViewSet(viewsets.ViewSet):
                 activity_serializer.save()
             else:
                 return Response(activity_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class CollectionViewSet(viewsets.ViewSet):
+
+    pagination_class = PageNumberPagination
+
+    def list(self, request):
+
+        queryset = Collection.objects.filter(is_public=True).order_by('id')
+
+        paginator = self.pagination_class()
+        paginated_queryset = paginator.paginate_queryset(queryset, request)
+
+        serializer = CollectionSerializer(paginated_queryset, many=True)
+
+        return paginator.get_paginated_response(serializer.data)
+
+    def create(self, request):  # request to create a new collection
+        pass
+
+    def add(self, request):  # requst to add new movie item to existing collection
+        pass
+
+    def delete(self, request):  # request to delete a movie from collection
+        pass
 
 
 class RecommendViewSet(viewsets.GenericViewSet):
