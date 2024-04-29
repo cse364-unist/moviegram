@@ -84,8 +84,9 @@ class FollowViewSet(viewsets.ViewSet):
             return Response({'error': 'You are not following this user.'}, status=status.HTTP_404_NOT_FOUND)
 
 
-class MovieViewSet(viewsets.ViewSet):
-
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
     pagination_class = PageNumberPagination
 
     def list(self, request):
@@ -94,9 +95,25 @@ class MovieViewSet(viewsets.ViewSet):
         paginator = self.pagination_class()
         paginated_queryset = paginator.paginate_queryset(queryset, request)
 
-        serializer = MovieSerializer(paginated_queryset, many=True)
+        serializer = MovieSerializer(
+            paginated_queryset, many=True, context={'request': request})
 
         return paginator.get_paginated_response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return Response({'error': 'You do not have permission to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return Response({'error': 'You do not have permission to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return Response({'error': 'You do not have permission to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
+        return super().update(request, *args, **kwargs)
 
     def rate(self, request, movie_id):
         if not request.user.is_authenticated:

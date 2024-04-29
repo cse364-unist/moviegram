@@ -47,15 +47,12 @@ class ReviewSerializer(serializers.ModelSerializer):
     #     return obj.user.username
 
 
-class MovieSerializer(serializers.ModelSerializer):
+class MovieSerializer(serializers.HyperlinkedModelSerializer):
     review_list = serializers.SerializerMethodField()
 
     class Meta:
         model = Movie
-        fields = ['id', 'name', 'average_rating', 'review_list']
-
-    def list(self, instance):
-        return instance
+        fields = ['id', 'url', 'name', 'average_rating', 'review_list']
 
     def get_review_list(self, obj):
         reviews = obj.review_set.all()
@@ -77,7 +74,7 @@ class CollectionSerializer(serializers.ModelSerializer):
         return follower_names
 
     def get_movies_list(self, obj):
-        movies = obj.movies.all() 
+        movies = obj.movies.all()
         movie_names = [movie.name for movie in movies]
         return movie_names
 

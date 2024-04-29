@@ -59,6 +59,27 @@ We enabled pagination for this request since our movie table has more 3000 movie
 curl -X GET http://localhost:8000/movies/ | json_pp
 ```
 
+GET details of the single movie item by movie id:  
+```bash 
+curl -X GET http://localhost:8000/movies/<movie_id>/ | json_pp
+``` 
+Example: Get the details of movie #1 
+```
+curl -X GET http://localhost:8000/movies/1/ | json_pp
+```
+POST a new movie item. Only staff users have permissions.     
+```bash
+curl -X POST -u username:password -H "Content-Type: application/json" -d '{"name":"Movie Name"}' http://localhost:8000/movies/ | json_pp
+```  
+DELETE a movie item. Only staff users have permissions.  
+```bash 
+curl -X DELETE -u username:password http://localhost:8000/movies/1/
+```
+PUT (update) a movie item by id. Only staff users have permissions.  
+```bash
+curl -X PUT -u username:password -H "Content-Type: application/json" -d '{"name": "Updated Movie Name"}' http://localhost:8000/movies/3884/ | json_pp
+```
+
 Step 6: Give a rating to a movie from 1 to 5  
 ```bash
 curl -X POST -u instructor:asdf -H "Content-Type: application/json" -d '{"rating": <given_rating>}' http://localhost:8000/movies/<movie_id>/rate/ | json_pp
@@ -118,3 +139,7 @@ Below is the request to get recommendations for our user that we created.
 ```bash
 curl -u instructor:asdf  http://localhost:8000/recommend/ | json_pp
 ```  
+
+
+## To do: 
+1. Add some hyperlinking realtinoships in serializers. 
