@@ -61,12 +61,12 @@ curl -X GET http://localhost:8000/movies/ | json_pp
 
 Step 6: Give a rating to a movie from 1 to 5  
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"rating": <given_rating>}' http://localhost:8000/movies/<movie_id>/rate/ | json_pp
+curl -X POST -u instructor:asdf -H "Content-Type: application/json" -d '{"rating": <given_rating>}' http://localhost:8000/movies/<movie_id>/rate/ | json_pp
 ```
 
 Example command to give a rating 2 to a movie with id 1:   
  ```bash
- curl -X POST -H "Content-Type: application/json" -d '{"rating": 2}' http://localhost:8000/movies/1/rate/ | json_pp
+ curl -X POST -u instructor:asdf -H "Content-Type: application/json" -d '{"rating": 2}' http://localhost:8000/movies/1/rate/ | json_pp
  ```
 
 Step 7: Leave a review to a movie  

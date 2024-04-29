@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination  # Import pagination class
 
 # Project imports
-from .serializers import UserSerializer, FollowSerializer, MovieSerializer, ReviewSerializer, ActivitySerializer
+from .serializers import UserSerializer, FollowSerializer, MovieSerializer, ReviewSerializer, ActivitySerializer, RateSerializer
 from .models import Movie, Review, Follow, Activity, Rate, Collection
 from .recommendation import recommend_movies_for_user
 
@@ -116,12 +116,25 @@ class MovieViewSet(viewsets.ViewSet):
 
         with transaction.atomic():
             # Create Rate instance
-            rate_instance = Rate.objects.create(
-                user=request.user, movie=movie, rate=rating)
+            rate_data = {'user': request.user.id,
+                         'movie': movie.id, 'rate': rating}
+            rate_serializer = RateSerializer(data=rate_data)
+
+            if rate_serializer.is_valid():
+                rate_instance = rate_serializer.save()
+            else:
+                # return Response(rate_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message": f'User already rated movie {movie_id}'}, status=status.HTTP_400_BAD_REQUEST)
 
             # Create Activity instance
-            Activity.objects.create(
-                user=request.user, type='rate', activity_id=rate_instance.id)
+            activity_data = {'user': request.user.id,
+                             'type': 'rate', 'activity_id': rate_instance.id}
+            activity_serializer = ActivitySerializer(data=activity_data)
+
+            if activity_serializer.is_valid():
+                activity_serializer.save()
+            else:
+                return Response(activity_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
             movie.refresh_from_db()
 
@@ -131,8 +144,8 @@ class MovieViewSet(viewsets.ViewSet):
             movie.average_rating = movie.rating_sum / movie.total_people_rated
             movie.save()
 
-        serializer = MovieSerializer(movie)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            serializer = MovieSerializer(movie)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
     def give_review(self, request, movie_id):
         if not request.user.is_authenticated:
@@ -143,18 +156,30 @@ class MovieViewSet(viewsets.ViewSet):
         if 'content' not in request.data:
             return Response({'error': 'Content is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        review_data = {
-            'movie': movie_id,
-            'user': request.user.id,
-            'content': request.data['content']
-        }
-        serializer = ReviewSerializer(data=review_data)
+        with transaction.atomic():
+            review_data = {
+                'movie': movie_id,
+                'user': request.user.id,
+                'content': request.data['content']
+            }
+            serializer = ReviewSerializer(data=review_data)
 
-        if serializer.is_valid():
-            serializer.save()
+            if serializer.is_valid():
+                review_instance = serializer.save()
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            # Create Activity instance
+            activity_data = {'user': request.user.id,
+                             'type': 'review', 'activity_id': review_instance.id}
+            activity_serializer = ActivitySerializer(data=activity_data)
+
+            if activity_serializer.is_valid():
+                activity_serializer.save()
+            else:
+                return Response(activity_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RecommendViewSet(viewsets.GenericViewSet):
