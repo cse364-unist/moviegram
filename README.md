@@ -177,5 +177,17 @@ curl -u instructor:asdf  http://localhost:8000/recommend/ | json_pp
 ```  
 
 
+## Test Coverage:  
+Here is way to check for coverage: 
+Assuming you are in the root directory.  
+```bash
+cd backend
+coverage run manage.py test 
+coverage report
+```
+
+
 ## To do: 
 1. Add some hyperlinking realtinoships in serializers. 
+2. Add expected outcomes to the readme file 
+3. 

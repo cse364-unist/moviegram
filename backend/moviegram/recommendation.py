@@ -13,6 +13,6 @@ def recommend_movies_for_user(user_id):
     username = user.get_username()
 
     if len(followings_ids) == 0: # case when the user does not follow others, just return the popular movies by rating
-        pass
+        return "Popular movies"
     else: # else return movie recommendations based on friends activity(friends' movie rates )
         return f'Below are the recommended movies for {username} (id = {user.id}) Based on his friends activity: {followings_ids}'

@@ -15,5 +15,7 @@ backend/moviegram/__pycache__/
 backend/moviegram/management/commands/__pycache__/
 backend/moviegram/migrations/
 
+# Ignore test coverage report
+backend/.coverage 
 
 
