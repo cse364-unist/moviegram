@@ -113,7 +113,7 @@ curl -X GET -u Instructor:asdf http://localhost:8000/ | json_pp
 ```
 
 
-### Feature #2: Movie Collections - Makida
+### Feature #2: Movie Collections
 This feature helps users to (1) create collections of movies and (2) follow other collections of movies that were created by other users. Similar to Spotify music collections. Each time creator of collection adds new movie then all the followers are notifed on a new movie.  
 Below are the API endpoints that are supported.   
 
@@ -164,7 +164,7 @@ curl -X POST -u instructor:asdf -H "Content-type: application/json" -d '{"name" 
 5. Add a new movie to your collection 
 
 
-### Feature #3: Movie Recommendations - Aizat 
+### Feature #3: Movie Recommendations
 The purpose of this feature is to help users to explore new movies to watch. Our recommendation system uses collaborative recommendation, that is to recommend movies based on the movies that were watched by friends of the user.  
 Make a GET request to following endpoint by providing authentication credentials.  
 ```bash
