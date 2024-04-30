@@ -123,8 +123,44 @@ curl -X GET http://localhost:8000/collections/ | json_pp
 ``` 
 
 2. Choose the collection and see the movies that it has 
-3. Follow a collection 
-4. Create your own collection
+```bash
+curl -X GET http://localhost:8000/collections/<id>/ | json_pp
+```
+GET the details about collection with id = 1 (public collection):  
+```bash
+curl -X GET http://localhost:8000/collections/1/ | json_pp
+```
+To get the details about private collection authentications as a creator of collections is needed:  
+```bash
+curl -X GET -u username:password http://localhost:8000/collections/<id>/
+```
+
+3. Follow/Unfollow  a collection by collection id:  
+```bash
+curl -X POST -u username:password http://localhost:8000/collections/<id>/follow/
+```
+Example: Let's follow a collection with id = 1:  
+```bash
+curl -X POST -u instructor:asdf http://localhost:8000/collections/1/follow/ | json_pp
+```
+```bash
+curl -X POST -u username:password http://localhost:8000/collections/<id>/unfollow/
+```
+Example: Let's unfollow a collection with id = 1:  
+```bash
+curl -X POST -u instructor:asdf http://localhost:8000/collections/1/unfollow/ | json_pp
+```
+
+4. Create your own collection  
+```bash
+curl -X POST -u username:password -H "Content-type: application/json" -d '{"name" : "Collection Name", "is_public" : "True"}' http://localhost:8000/collections/
+ ```
+
+Example: Let's add a collection  
+```bash
+curl -X POST -u instructor:asdf -H "Content-type: application/json" -d '{"name" : "Funny movies", "is_public" : "True"}' http://localhost:8000/collections/
+ ```
+
 5. Add a new movie to your collection 
 
 

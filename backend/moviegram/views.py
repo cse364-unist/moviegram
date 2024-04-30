@@ -199,12 +199,12 @@ class MovieViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class CollectionViewSet(viewsets.ViewSet):
-
+class CollectionViewSet(viewsets.ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
     pagination_class = PageNumberPagination
 
     def list(self, request):
-
         queryset = Collection.objects.filter(is_public=True).order_by('id')
 
         paginator = self.pagination_class()
@@ -214,14 +214,71 @@ class CollectionViewSet(viewsets.ViewSet):
 
         return paginator.get_paginated_response(serializer.data)
 
-    def create(self, request):  # request to create a new collection
-        pass
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
 
-    def add(self, request):  # requst to add new movie item to existing collection
-        pass
+        if not instance.is_public:
+            if not (request.user.is_authenticated and request.user.id == instance.user.id):
+                return Response({'error': 'You do not have permission to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
+        serializer = CollectionSerializer(instance)
+        return Response(serializer.data)
 
-    def delete(self, request):  # request to delete a movie from collection
-        pass
+    def follow(self, request, collection_id):
+        user = request.user
+
+        if not user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            collection = Collection.objects.get(
+                id=collection_id, is_public=True)
+        except Collection.DoesNotExist:
+            return Response({'error': "Collection is not found or not public. Please provide an existing public collection to follow."}, status=status.HTTP_404_NOT_FOUND)
+
+        if user in collection.followers.all():
+            return Response({"error": "You already follow this collection ! "})
+
+        collection.followers.add(user)
+        return Response({"message": f'{user.username} now follows {collection.name} collection'})
+
+    def unfollow(self, request, collection_id):
+        user = request.user
+
+        if not user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            collection = Collection.objects.get(
+                id=collection_id, is_public=True)
+        except Collection.DoesNotExist:
+            return Response({'error': "Collection is not found or not public. Please provide an existing public collection to unfollow."}, status=status.HTTP_404_NOT_FOUND)
+
+        if user not in collection.followers.all():
+            return Response({"error": "You don't follow this collection! "})
+
+        collection.followers.remove(user)
+        return Response({"message": f'{user.get_username()} unfollowed the {collection.name} collection! '})
+
+    def create(self, request):
+        user = request.user
+        if not user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        if "name" not in request.data:
+            return Response({'error': 'Name is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if "is_public" not in request.data:
+            return Response({'error': 'Public is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        collection_data = {'name': request.data['name'],
+                           'is_public': request.data['is_public'], 'user': user.id}
+
+        serializer = CollectionSerializer(data=collection_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RecommendViewSet(viewsets.GenericViewSet):

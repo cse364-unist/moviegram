@@ -11,14 +11,22 @@ router.register(r'collections', CollectionViewSet, basename='collection')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('users/<int:user_id>/follow/',
          FollowViewSet.as_view({'post': 'create'}), name='user-follow'),
     path('users/<int:user_id>/unfollow/',
          FollowViewSet.as_view({'delete': 'delete'}), name='user-unfollow'),
+
     path('movies/<int:movie_id>/rate/',
          MovieViewSet.as_view({'post': 'rate'}), name='movie-rate'),
     path('movies/<int:movie_id>/review/',
          MovieViewSet.as_view({'post': 'give_review'}), name='movie-review'),
+
+    path('collections/<int:collection_id>/follow/',
+         CollectionViewSet.as_view({'post': 'follow'}), name='collection-follow'),
+    path('collections/<int:collection_id>/unfollow/',
+         CollectionViewSet.as_view({'post': 'unfollow'}), name='collection-unfollow'),
+
     path('', FeedViewSet.as_view({'get': 'get'}), name='feed'),
 ]
 
