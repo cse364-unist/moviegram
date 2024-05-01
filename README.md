@@ -162,7 +162,13 @@ curl -X POST -u instructor:asdf -H "Content-type: application/json" -d '{"name" 
  ```
 
 5. Add a new movie to your collection 
-
+```bash
+curl -X POST -u username:password -H "Content-type: application/json" -d '{"movie":<movie_id>}' http://localhost:8000/collections/1/add/ | json_pp
+```
+Example: 
+```bash
+curl -X POST -u instructor:asdf -H "Content-type: application/json" -d '{"movie":"1"}' http://localhost:8000/collections/1/add/ | json_pp
+```
 
 ### Feature #3: Movie Recommendations
 The purpose of this feature is to help users to explore new movies to watch. Our recommendation system uses collaborative recommendation, that is to recommend movies based on the movies that were watched by friends of the user.  

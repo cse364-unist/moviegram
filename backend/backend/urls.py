@@ -27,6 +27,9 @@ urlpatterns = [
     path('collections/<int:collection_id>/unfollow/',
          CollectionViewSet.as_view({'post': 'unfollow'}), name='collection-unfollow'),
 
+    path('collections/<int:collection_id>/add/',
+         CollectionViewSet.as_view({'post': 'add_movie'}), name='collection-add'),
+
     path('', FeedViewSet.as_view({'get': 'get'}), name='feed'),
 ]
 

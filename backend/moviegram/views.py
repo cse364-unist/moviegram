@@ -277,15 +277,56 @@ class CollectionViewSet(viewsets.ModelViewSet):
         if "is_public" not in request.data:
             return Response({'error': 'Public is required'}, status=status.HTTP_400_BAD_REQUEST)
 
+        movies = []
+        if "movies" in request.data:
+            for movie_id in request.data['movies']:
+                try:
+                    movie = Movie.objects.get(id=movie_id)
+                    movies.append(movie.id)
+
+                except Movie.DoesNotExist:
+                    return Response({'error': 'Such movie does not exist. Can have only existing movie items. '}, status=status.HTTP_400_BAD_REQUEST)
+
         collection_data = {'name': request.data['name'],
                            'is_public': request.data['is_public'], 'user': user.id}
 
         serializer = CollectionSerializer(data=collection_data)
         if serializer.is_valid():
-            serializer.save()
+            collection = serializer.save()
+            for movie_id in movies:
+                collection.movies.add(movie_id)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def add_movie(self, request, collection_id):
+        user = request.user
+        if not user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            collection = Collection.objects.get(id=collection_id)
+        except Collection.DoesNotExist:
+            return Response({'error': "Collection is not found. Please provide an existing collection. "}, status=status.HTTP_404_NOT_FOUND)
+
+        if collection.user.id != user.id:
+            return Response({'error': "Don't have permissions to edit current colleciton."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if "movie" not in request.data:
+            return Response({'error': 'Movie id is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            movie_id = int(request.data['movie'])
+        except ValueError:
+            return Response({'error': 'Invalid movie ID provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            Movie.objects.get(id=movie_id)
+        except Movie.DoesNotExist:
+            return Response({'error': "Movie is not found. Please provide an existing movie to add. "}, status=status.HTTP_404_NOT_FOUND)
+
+        collection.movies.add(movie_id)
+        return Response({'message': 'Movie added to collection successfully.'}, status=status.HTTP_200_OK)
 
 
 class RecommendViewSet(viewsets.GenericViewSet):

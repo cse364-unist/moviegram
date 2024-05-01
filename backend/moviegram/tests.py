@@ -43,11 +43,11 @@ class UserCreationAPITest(TestCase):
         # Create another user with the same username
         response = self.client.post(
             reverse('user-list'), self.user_data, format='json')
-        
-        self.assertEqual(response.status_code, 400) 
 
+        self.assertEqual(response.status_code, 400)
 
     # TO DO: this test is not working. Don't know why? Must figure out later.
+
     # def test_user_authentication(self):
     #     client = APIClient()
     #     user_data = {
@@ -56,16 +56,35 @@ class UserCreationAPITest(TestCase):
     #         'password': 'asdf'
     #     }
 
-    #     # Create a new user
     #     client.post(reverse('user-list'), user_data, format='json')
     #     self.assertTrue(User.objects.filter(username='instructor').exists())
 
-    #     # Authenticate with basic authentication
-    #     client.login(username='instructor', password='asdf')
-    #     print(self.client._headers)
+    #     print(client.login(username='instructor', password='asdf'))
 
-    #     # Send a GET request to a protected endpoint (example)
-    #     response = client.get(reverse('recommend-list'))
+    #     response = client.get(username='instructor', password='asdf', reverse('recommend-list'))
 
-    #     # Assert that the response status code is 200 (OK)
     #     self.assertEqual(response.status_code, 200)
+
+    def test_user_authentication(self):
+        client = APIClient()
+        user_data = {
+            'username': 'instructor',
+            'email': 'myemail@example.com',
+            'password': 'asdf'
+        }
+
+        # Create a user
+        # user = User.objects.create_user(**user_data)
+
+        client.post(reverse('user-list'), user_data, format='json')
+        user = User.objects.get(username='instructor')
+      
+      
+        # Authenticate the client with the created user
+        client.force_authenticate(user=user)
+
+        # Make a GET request to the 'recommend-list' endpoint
+        response = client.get(reverse('recommend-list'))
+
+        # Assert that the response status code is 200 (OK)
+        self.assertEqual(response.status_code, 200)
