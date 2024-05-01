@@ -32,7 +32,22 @@ class UserCreationAPITest(TestCase):
         # Assert that a user with the given username exists in the database
         self.assertTrue(User.objects.filter(username='instructor').exists())
 
-    #TO DO: this test is not working. Don't know why? Must figure out later. 
+    def test_duplicate_user_creation(self):
+        # Send a POST request to the endpoint
+        response = self.client.post(
+            reverse('user-list'), self.user_data, format='json')
+
+        # Assert that the response status code is 201 (Created)
+        self.assertEqual(response.status_code, 201)
+
+        # Create another user with the same username
+        response = self.client.post(
+            reverse('user-list'), self.user_data, format='json')
+        
+        self.assertEqual(response.status_code, 400) 
+
+
+    # TO DO: this test is not working. Don't know why? Must figure out later.
     # def test_user_authentication(self):
     #     client = APIClient()
     #     user_data = {
@@ -46,7 +61,8 @@ class UserCreationAPITest(TestCase):
     #     self.assertTrue(User.objects.filter(username='instructor').exists())
 
     #     # Authenticate with basic authentication
-    #     print(">>", client.login(username='instructor', password='asdf'))
+    #     client.login(username='instructor', password='asdf')
+    #     print(self.client._headers)
 
     #     # Send a GET request to a protected endpoint (example)
     #     response = client.get(reverse('recommend-list'))

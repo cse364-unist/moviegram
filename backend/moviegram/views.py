@@ -2,7 +2,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
-from django.db import transaction
+from django.db import transaction, IntegrityError
 
 
 # DRF imports
@@ -25,19 +25,26 @@ class UserViewSet(viewsets.ViewSet):
         User = get_user_model()
         queryset = User.objects.all()
         serializer = UserSerializer(queryset, many=True)
-        # usernames = [user['username'] for user in serializer.data]
-        # return Response(usernames)
         return Response(serializer.data)
 
     def create(self, request):
         serializer = UserSerializer(data=request.data)
+        User = get_user_model()
+
         if serializer.is_valid():
             validated_data = serializer.validated_data
-            validated_data['password'] = make_password(
-                validated_data['password'])
 
-            user = serializer.save()
-            return Response({'id': user.id, 'username': user.username}, status=status.HTTP_201_CREATED)
+            try:
+                user = User.objects.create_user(
+                    username=validated_data['username'],
+                    email=validated_data['email'],
+                    password=validated_data['password']
+                )
+
+                return Response({'id': user.id, 'username': user.username}, status=status.HTTP_201_CREATED)
+            except IntegrityError:
+                return Response({'error': 'Username is already taken.'}, status=status.HTTP_400_BAD_REQUEST)
+
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
