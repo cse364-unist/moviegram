@@ -32,8 +32,8 @@ curl -X POST http://localhost:8000/users/ -d "username=instructor&email=myemail@
 Expected output
 ```bash
 {
-  "id": 6041,
-  "username": "username"
+  "id": 6042,
+  "username": "instructor"
 }
 ```
 
@@ -44,7 +44,7 @@ Step 3: Get the users list to follow
 ```bash
 curl -X GET http://localhost:8000/users/ | json_pp
 ```  
-Expected output 
+Snippet of Expected output
 ```bash
     {
       "email" : "",
