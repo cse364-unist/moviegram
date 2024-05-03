@@ -37,28 +37,30 @@ Step 3: Get the users list to follow
 ```bash
 curl -X GET http://localhost:8000/users/ | json_pp
 ```  
-    Expected output 
+Expected output 
+```bash
     {
       "email" : "",
       "follower_list" : [],
       "following_list" : [],
       "id" : 6040,
-      "username" : "mbass" 
-      },
-      {
+      "username" : "mbass"
+   },
+   {
       "email" : "email@example.com",
       "follower_list" : [],
       "following_list" : [],
       "id" : 6041,
       "username" : "username"
-      },
-      {
+   },
+   {
       "email" : "myemail@example.com",
       "follower_list" : [],
       "following_list" : [],
       "id" : 6042,
-      "username" : "instructor"}
-   
+      "username" : "instructor"
+   }
+```
 Step 4: Follow a user  
 ```bash
 curl -X POST -u username:password http://localhost:8000/users/<user_id>/follow/ | json_pp
@@ -69,7 +71,13 @@ Example: Let's follow a user with id = 1
 ```bash
 curl -X POST -u instructor:asdf http://localhost:8000/users/1/follow/ | json_pp
 ```
-
+Expected output
+```bash
+    {
+   "message" : "You now follow williammyers."
+    }
+```
+    
 Reguest to unfollow a user:  
 ```bash
 curl -X DELETE  -u username:password http://localhost:8000/users/<user_id>/unfollow/ | json_pp
