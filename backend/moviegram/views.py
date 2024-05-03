@@ -352,4 +352,4 @@ class FeedViewSet(viewsets.GenericViewSet):
             user_id__in=follow_users_id).order_by('-created_at')
         serializer = ActivitySerializer(activities, many=True)
 
-        return Response({'activities': serializer.data})
+        return Response({'activities': serializer.data}, status=status.HTTP_200_OK)

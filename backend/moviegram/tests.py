@@ -104,6 +104,7 @@ class FollowUserAPITest(TestCase):
         self.client = APIClient()
 
     def test_successfull_follow_attempt(self):
+        print("test_follow1")
         user = User.objects.get(username='user1')
         self.client.force_authenticate(user=user)
 
@@ -122,7 +123,7 @@ class FollowUserAPITest(TestCase):
         self.client.force_authenticate(user=user)
 
         response = self.client.post(
-            reverse('user-follow', kwargs={'user_id': 3}))
+            reverse('user-follow', kwargs={'user_id': 70}))
         self.assertEqual(response.status_code, 404)
 
 
@@ -350,3 +351,29 @@ class ReviewMovieAPITest(TestCase):
 
         rate_count = Rate.objects.count()
         self.assertEqual(rate_count, 0)
+
+
+class FeedAPITest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        user_1 = User.objects.create_user(
+            username='user1', password='asdf', is_staff=True)
+        user_2 = User.objects.create_user(username='user2', password='asdf')
+
+        movie_1 = Movie.objects.create(name='BlaBlaShow_1')
+        movie_2 = Movie.objects.create(name='BlaBlaShow_2')
+        cls.movie_1_id = movie_1.id
+        cls.movie_2_id = movie_2.id
+
+    def setUp(self):
+        self.client = APIClient()
+
+    def test_successfull_feed_response(self):
+        print("test_feed")
+        user = User.objects.get(username='user1')
+        self.client.force_authenticate(user=user)
+
+        response = self.client.get(reverse('feed'))
+
+        self.assertEqual(response.status_code, 200)
