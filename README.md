@@ -4,7 +4,6 @@
 ## Note
 If you don't have README previwer, please, open this README in the some previewer such as (https://markdownlivepreview.com/) for better experience.  
 
-### Setup Instructions  
 ### Feature #1: Social Media notion
 The purpose of this feature is to give an ability to users interact with each other as well as with movies. Collections of small features make up this big feature. To make sure users can interact with each other we implemented functinalities:  
 1. Create a user. 
