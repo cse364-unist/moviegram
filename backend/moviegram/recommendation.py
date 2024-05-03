@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User
 from moviegram.models import Movie, Rate
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
 from tensorflow import keras
 from keras import Model, layers
-import matplotlib.pyplot as plt
 
 ratings = Rate.objects.all()
 movies = Movie.objects.all()
@@ -43,9 +43,7 @@ class RecommenderNet(Model):
         movie_vector = self.movie_embedding(inputs[:, 1])
         movie_bias = self.movie_bias(inputs[:, 1])
         dot_user_movie = tf.tensordot(user_vector, movie_vector, 2)
-        # Add all the components (including bias)
         x = dot_user_movie + user_bias + movie_bias
-        # The sigmoid activation forces the rating to be between 0 and 1
         return tf.nn.sigmoid(x)
 
 
@@ -69,32 +67,18 @@ def recommend_movies_for_user(user_id):
     num_users = len(user2user_encoded)
     num_movies = len(movie_encoded2movie)
 
-    # Min and max ratings will be used to normalize the ratings later
     min_rating = min(ratings_df["rate"])
     max_rating = max(ratings_df["rate"])
-
-    print(
-        f"Number of users: {num_users}, Number of Movies: {num_movies}, Min Rating: {min_rating}, Max Rating: {max_rating}")
-
-    # Shuffling the data
+    
     ratings_df = ratings_df.sample(frac=1, random_state=42)
 
-    # Extracting features (user and movie IDs)
     x = ratings_df[["user_encoded", "movie_encoded"]].values
 
-    # Normalizing the targets between 0 and 1
     y = ratings_df["rate"].apply(lambda x: (
         x - min_rating) / (max_rating - min_rating)).values
 
-    # Splitting the data into training and validation sets
     x_train, x_val, y_train, y_val = train_test_split(
         x, y, test_size=0.1, random_state=42)
-
-    # Check the shapes of the data to ensure correctness
-    print("x_train shape:", x_train.shape)
-    print("y_train shape:", y_train.shape)
-    print("x_val shape:", x_val.shape)
-    print("y_val shape:", y_val.shape)
 
     model = RecommenderNet(num_users, num_movies, EMBEDDING_SIZE)
     model.compile(
@@ -109,15 +93,12 @@ def recommend_movies_for_user(user_id):
         validation_data=(x_val, y_val)
     )
 
-    # Get the movies watched by the user
     movies_watched_by_user = [
         rating.movie_id for rating in ratings if rating.user_id == user_id]
 
-    # Find movies not watched by the user
     movies_not_watched = [
         movie_id for movie_id in movie_ids if movie_id not in movies_watched_by_user]
 
-    # Convert to movie encoded format
     movies_not_watched_encoded = [
         movie2movie_encoded[movie_id] for movie_id in movies_not_watched]
 
@@ -128,21 +109,5 @@ def recommend_movies_for_user(user_id):
     ratings_final = model.predict(user_movie_array).flatten()
     top_ratings_indices = ratings_final.argsort()[-10:][::-1]
 
-    # Get recommended movie IDs
     recommended_movie_ids = [movie_encoded2movie[x] for x in top_ratings_indices] 
-
-    # print("\nTop 10 recommended movie IDs:", recommended_movie_ids)
-
-    # # Print recommendations
-    # print("\nShowing recommendations for user: {}".format(user_id))
-    # print("====" * 9)
-    # print("Top 10 movie recommendations")
-    # print("----" * 8)
-    # # recommended_movies = movies_df[movies_df["id"].isin(recommended_movie_ids)]
-    
-    # # # for movie in recommended_movies.itertuples():
-    # # #     cur_movie = Movie.objects.get(id=movie.id)
-    # # #     genres_list = [genre.name for genre in cur_movie.genres.all()]
-    # # #     print(movie.name, ":", genres_list, ":", movie.average_rating)
-
     return recommended_movie_ids
