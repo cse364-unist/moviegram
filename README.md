@@ -360,8 +360,16 @@ Expected output
 ```
 
 ### Feature #3: Movie Recommendations
-The purpose of this feature is to help users to explore new movies to watch. Our recommendation system uses collaborative recommendation, that is to recommend movies based on the movies that were watched by friends of the user.  
-Make a GET request to following endpoint by providing authentication credentials.  
+Our recommendation feature utilizes collaborative filtering to provide personalized movie recommendations to users. This is how it works:
+
+1. We preprocess the user, movie, and rating data. 
+2. We train a neural network model using TensorFlow and Keras. The model learns embeddings for users and movies, capturing their latent features.
+3. These embeddings are used to compute match scores between users and movies, incorporating user and movie biases.
+4. We identify movies the user has not yet watched.
+5. The model predicts ratings for these movies, and the top-rated movies are recommended to the user.
+
+   
+Make a GET request to the following endpoint by providing authentication credentials.  
 ```bash
 curl -u username:password  http://localhost:8000/recommend/ | json_pp
 ``` 
@@ -370,7 +378,6 @@ Below is the request to get recommendations for our user that we created.
 ```bash
 curl -u instructor:asdf  http://localhost:8000/recommend/ | json_pp
 ```  
-
 
 ## Test Coverage:  
 Here is way to check for coverage: 
