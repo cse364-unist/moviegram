@@ -99,15 +99,105 @@ We enabled pagination for this request since our movie table has more 3000 movie
 ```bash 
 curl -X GET http://localhost:8000/movies/ | json_pp
 ```
-
+Expected output
+```bash
+{
+   "count" : 3883,
+   "next" : "http://localhost:8000/movies/?page=2",
+   "previous" : null,
+   "results" : [
+      {
+         "average_rating" : 4,
+         "id" : 1,
+         "name" : "Toy Story (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/1/"
+      },
+      {
+         "average_rating" : 3,
+         "id" : 2,
+         "name" : "Jumanji (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/2/"
+      },
+      {
+         "average_rating" : 3,
+         "id" : 3,
+         "name" : "Grumpier Old Men (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/3/"
+      },
+      {
+         "average_rating" : 2,
+         "id" : 4,
+         "name" : "Waiting to Exhale (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/4/"
+      },
+      {
+         "average_rating" : 3,
+         "id" : 5,
+         "name" : "Father of the Bride Part II (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/5/"
+      },
+      {
+         "average_rating" : 3,
+         "id" : 6,
+         "name" : "Heat (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/6/"
+      },
+      {
+         "average_rating" : 3,
+         "id" : 7,
+         "name" : "Sabrina (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/7/"
+      },
+      {
+         "average_rating" : 3,
+         "id" : 8,
+         "name" : "Tom and Huck (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/8/"
+      },
+      {
+         "average_rating" : 2,
+         "id" : 9,
+         "name" : "Sudden Death (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/9/"
+      },
+      {
+         "average_rating" : 3,
+         "id" : 10,
+         "name" : "GoldenEye (1995)",
+         "review_list" : [],
+         "url" : "http://localhost:8000/movies/10/"
+      }
+   ]
+}
+```
 GET details of the single movie item by movie id:  
 ```bash 
 curl -X GET http://localhost:8000/movies/<movie_id>/ | json_pp
 ``` 
 Example: Get the details of movie #1 
-```
+```bash
 curl -X GET http://localhost:8000/movies/1/ | json_pp
 ```
+Expected output 
+```bash
+{
+   "average_rating" : 4,
+   "id" : 1,
+   "name" : "Toy Story (1995)",
+   "review_list" : [],
+   "url" : "http://localhost:8000/movies/1/"
+}
+```
+
 POST a new movie item. Only staff users have permissions.     
 ```bash
 curl -X POST -u username:password -H "Content-Type: application/json" -d '{"name":"Movie Name"}' http://localhost:8000/movies/ | json_pp
@@ -140,7 +230,15 @@ Example command to leave a review to movie with id = 3.
 ```bash
 curl -X POST -u Instructor:asdf -H "Content-Type: application/json" -d '{"content": "I like this movie very much."}' http://localhost:8000/movies/3/review/ | json_pp
 ```
-
+Expected output 
+```bash
+{
+   "content" : "I like this movie very much.",
+   "id" : 1,
+   "movie" : 3,
+   "user" : 6042
+}
+```
 Step 8: Save a movie to your favorites  
 
 Step 9: Take a look at friends activities from the home page (feed)    
@@ -152,6 +250,12 @@ Example request to get the your friends activity
 ```bash
 curl -X GET -u Instructor:asdf http://localhost:8000/ | json_pp
 ```
+Expected output 
+```bash
+{
+   "activities" : []
+}
+```
 
 
 ### Feature #2: Movie Collections
@@ -162,7 +266,15 @@ Below are the API endpoints that are supported.
 ```bash
 curl -X GET http://localhost:8000/collections/ | json_pp
 ``` 
-
+Expected output 
+```bash
+{
+   "count" : 0,
+   "next" : null,
+   "previous" : null,
+   "results" : []
+}
+```
 2. Choose the collection and see the movies that it has 
 ```bash
 curl -X GET http://localhost:8000/collections/<id>/ | json_pp
@@ -170,6 +282,12 @@ curl -X GET http://localhost:8000/collections/<id>/ | json_pp
 GET the details about collection with id = 1 (public collection):  
 ```bash
 curl -X GET http://localhost:8000/collections/1/ | json_pp
+```
+Expected output 
+```bash
+{
+   "detail" : "Not found."
+}
 ```
 To get the details about private collection authentications as a creator of collections is needed:  
 ```bash
@@ -183,6 +301,12 @@ curl -X POST -u username:password http://localhost:8000/collections/<id>/follow/
 Example: Let's follow a collection with id = 1:  
 ```bash
 curl -X POST -u instructor:asdf http://localhost:8000/collections/1/follow/ | json_pp
+```
+Expected output 
+```bash
+{
+   "error" : "Collection is not found or not public. Please provide an existing public collection to follow."
+}
 ```
 ```bash
 curl -X POST -u username:password http://localhost:8000/collections/<id>/unfollow/
@@ -201,6 +325,17 @@ Example: Let's add a collection
 ```bash
 curl -X POST -u instructor:asdf -H "Content-type: application/json" -d '{"name" : "Funny movies", "is_public" : "True"}' http://localhost:8000/collections/
  ```
+Expected output
+```bash
+{
+"id":1,
+"name": "Funny movies",
+"user": 6042,
+"is_public": true,
+"movies_list": [],
+"followers_list": []
+}
+```
 
 5. Add a new movie to your collection 
 ```bash
@@ -209,6 +344,12 @@ curl -X POST -u username:password -H "Content-type: application/json" -d '{"movi
 Example: 
 ```bash
 curl -X POST -u instructor:asdf -H "Content-type: application/json" -d '{"movie":"1"}' http://localhost:8000/collections/1/add/ | json_pp
+```
+Expected output 
+```bash
+{
+   "message" : "Movie added to collection successfully."
+}
 ```
 
 ### Feature #3: Movie Recommendations
