@@ -24,12 +24,19 @@ To create a new user make a post request to the following API endpoint by provid
 ```bash
 curl -X POST http://localhost:8000/users/ -d "username=username&email=email@example.com&password=mypassword123"
 ```   
-    Expected output 
 
 Below is an example that you can use directly:   
 ```bash
 curl -X POST http://localhost:8000/users/ -d "username=instructor&email=myemail@example.com&password=asdf"
 ```
+Expected output
+```bash
+{
+  "id": 6041,
+  "username": "username"
+}
+```
+
 Step 2: Login to your newly created account  
 From now on you are going to use this username and password in each request you make. Because there functionalities that require the user to be authenticated.   
 
