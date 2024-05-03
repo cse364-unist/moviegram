@@ -43,22 +43,22 @@ curl -X GET http://localhost:8000/users/ | json_pp
       "follower_list" : [],
       "following_list" : [],
       "id" : 6040,
-      "username" : "mbass"
-   },
-   {
+      "username" : "mbass" 
+      },
+      {
       "email" : "email@example.com",
       "follower_list" : [],
       "following_list" : [],
       "id" : 6041,
       "username" : "username"
-   },
-   {
+      },
+      {
       "email" : "myemail@example.com",
       "follower_list" : [],
       "following_list" : [],
       "id" : 6042,
-      "username" : "instructor"
-   }
+      "username" : "instructor"}
+   
 Step 4: Follow a user  
 ```bash
 curl -X POST -u username:password http://localhost:8000/users/<user_id>/follow/ | json_pp
