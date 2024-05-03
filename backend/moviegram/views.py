@@ -243,7 +243,7 @@ class CollectionViewSet(viewsets.ModelViewSet):
             return Response({'error': "Collection is not found or not public. Please provide an existing public collection to follow."}, status=status.HTTP_404_NOT_FOUND)
 
         if user in collection.followers.all():
-            return Response({"error": "You already follow this collection ! "})
+            return Response({"error": "You already follow this collection ! "}, status=status.HTTP_409_CONFLICT)
 
         collection.followers.add(user)
         return Response({"message": f'{user.username} now follows {collection.name} collection'})
@@ -261,10 +261,10 @@ class CollectionViewSet(viewsets.ModelViewSet):
             return Response({'error': "Collection is not found or not public. Please provide an existing public collection to unfollow."}, status=status.HTTP_404_NOT_FOUND)
 
         if user not in collection.followers.all():
-            return Response({"error": "You don't follow this collection! "})
+            return Response({"error": "You don't follow this collection! "}, status=status.HTTP_409_CONFLICT)
 
         collection.followers.remove(user)
-        return Response({"message": f'{user.get_username()} unfollowed the {collection.name} collection! '})
+        return Response({"message": f'{user.get_username()} unfollowed the {collection.name} collection! '}, status=status.HTTP_200_OK)
 
     def create(self, request):
         user = request.user
@@ -310,7 +310,7 @@ class CollectionViewSet(viewsets.ModelViewSet):
             return Response({'error': "Collection is not found. Please provide an existing collection. "}, status=status.HTTP_404_NOT_FOUND)
 
         if collection.user.id != user.id:
-            return Response({'error': "Don't have permissions to edit current colleciton."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': "Don't have permissions to edit current colleciton."}, status=status.HTTP_403_FORBIDDEN)
 
         if "movie" not in request.data:
             return Response({'error': 'Movie id is required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -343,11 +343,14 @@ class FeedViewSet(viewsets.GenericViewSet):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        user = request.user
+    def list(self, request):
+        user = request.user 
         follow_users_id = [
             follow.following.id for follow in user.following_set.all()]
 
+        if len(follow_users_id) == 0: 
+            return Response({'message':'Please follow other users to see their activities.'}, status = status.HTTP_200_OK)
+        
         activities = Activity.objects.filter(
             user_id__in=follow_users_id).order_by('-created_at')
         serializer = ActivitySerializer(activities, many=True)

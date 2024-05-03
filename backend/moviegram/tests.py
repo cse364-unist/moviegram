@@ -1,6 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import Movie, Rate, Review
+from django.core.exceptions import ObjectDoesNotExist
+from .models import Movie, Rate, Review, Collection 
+
+import random 
 
 from rest_framework.test import APIClient
 
@@ -97,24 +100,25 @@ class FollowUserAPITest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        User.objects.create_user(username='user1', password='asdf')
-        User.objects.create_user(username='user2', password='asdf')
+        user_1 = User.objects.create_user(username='user1', password='asdf')
+        user_2 = User.objects.create_user(username='user2', password='asdf')
+        cls.user_1_id = user_1.id 
+        cls.user_2_id = user_2.id 
 
     def setUp(self):
         self.client = APIClient()
 
     def test_successfull_follow_attempt(self):
-        print("test_follow1")
         user = User.objects.get(username='user1')
         self.client.force_authenticate(user=user)
 
         response = self.client.post(
-            reverse('user-follow', kwargs={'user_id': 2}))
+            reverse('user-follow', kwargs={'user_id': self.user_2_id}))
         self.assertEqual(response.status_code, 201)
 
     def test_unauthenticated_follow_attempt(self):
         response = self.client.post(
-            reverse('user-follow', kwargs={'user_id': 1}))
+            reverse('user-follow', kwargs={'user_id': self.user_2_id}))
         self.assertEqual(response.status_code, 401)
 
     def test_non_existing_user_follow_attempt(self):
@@ -122,9 +126,16 @@ class FollowUserAPITest(TestCase):
         user = User.objects.get(username='user1')
         self.client.force_authenticate(user=user)
 
-        response = self.client.post(
-            reverse('user-follow', kwargs={'user_id': 70}))
-        self.assertEqual(response.status_code, 404)
+        non_exist_id = random.randint(1000, 10000)
+        try: 
+            non_user = User.objects.get(id=non_exist_id)
+            while non_user:
+                non_exist_id = random.randint(1000, 10000)
+                non_user = User.objects.get(id=non_exist_id)
+        except ObjectDoesNotExist:
+            response = self.client.post(
+                reverse('user-follow', kwargs={'user_id': non_exist_id}))
+            self.assertEqual(response.status_code, 404)
 
 
 class UnfollowUserAPITest(TestCase):
@@ -288,8 +299,8 @@ class RateMovieAPITest(TestCase):
     def test_non_existing_movie_rate_attempt(self):
         user = User.objects.get(username="user1")
         self.client.force_authenticate(user=user)
-
-        non_exist_movie_id = 10
+        
+        non_exist_movie_id = 10000
         movie = Movie.objects.filter(id=non_exist_movie_id).first()
         self.assertIsNone(movie)
 
@@ -340,7 +351,7 @@ class ReviewMovieAPITest(TestCase):
         user = User.objects.get(username="user1")
         self.client.force_authenticate(user=user)
 
-        non_exist_movie_id = 10
+        non_exist_movie_id = 10000
         movie = Movie.objects.filter(id=non_exist_movie_id).first()
         self.assertIsNone(movie)
 
@@ -370,10 +381,248 @@ class FeedAPITest(TestCase):
         self.client = APIClient()
 
     def test_successfull_feed_response(self):
-        print("test_feed")
         user = User.objects.get(username='user1')
         self.client.force_authenticate(user=user)
 
         response = self.client.get(reverse('feed'))
 
         self.assertEqual(response.status_code, 200)
+    
+    def test_unauthorized_feed_attempt(self): 
+        response = self.client.get(reverse('feed')) 
+        
+        self.assertEqual(response.status_code, 401) 
+
+class CollectionAPITest(TestCase): 
+
+    @classmethod
+    def setUpTestData(cls):
+        user_1 = User.objects.create_user(
+            username='user1', password='asdf', is_staff=True)
+
+        movie_1 = Movie.objects.create(name='BlaBlaShow_1')
+        movie_2 = Movie.objects.create(name='BlaBlaShow_2')
+  
+        cls.movie_1_id = movie_1.id
+        cls.movie_2_id = movie_2.id
+
+        collection_1 = Collection.objects.create(name='Funny movies', user=user_1, is_public=True)
+        cls.collection_1_id = collection_1.id 
+
+        collection_2 = Collection.objects.create(name='Sad movies', user=user_1)
+        cls.collection_2_id = collection_2.id 
+    def setUp(self):
+        self.client = APIClient()
+    
+    def test_successfull_collection_retrieve(self): 
+        response = self.client.get(reverse('collection-list'))
+        self.assertEqual(response.status_code, 200) 
+    
+    def test_public_collection_detail(self): 
+        # Test existing collection 
+        response = self.client.get(reverse('collection-detail', kwargs={'pk':self.collection_1_id}))
+        self.assertEqual(response.status_code, 200) 
+
+        # Test non-existing collection 
+        non_exist_collection_id = 10000 
+        response_2 = self.client.get(reverse('collection-detail', kwargs={'pk':non_exist_collection_id}))  
+        self.assertEqual(response_2.status_code, 404) 
+
+    def test_non_public_collection_detail(self): 
+        response = self.client.get(reverse('collection-detail', kwargs={'pk':self.collection_2_id}))
+        self.assertEqual(response.status_code, 403)  
+
+        user = User.objects.get(username='user1') 
+        self.client.force_authenticate(user=user) 
+        response_2 = self.client.get(reverse('collection-detail', kwargs={'pk':self.collection_2_id})) 
+        self.assertEqual(response_2.status_code, 200) 
+    
+class FollowCollectionAPITest(TestCase): 
+
+    @classmethod 
+    def setUpTestData(cls): 
+        user_1 = User.objects.create_user(
+            username='user1', password='asdf')
+
+        movie_1 = Movie.objects.create(name='BlaBlaShow_1')
+        movie_2 = Movie.objects.create(name='BlaBlaShow_2')
+  
+        cls.movie_1_id = movie_1.id
+        cls.movie_2_id = movie_2.id
+
+        collection_1 = Collection.objects.create(name='Funny movies', user=user_1, is_public=True)
+        cls.collection_1_id = collection_1.id 
+
+        collection_2 = Collection.objects.create(name='Sad movies', user=user_1)
+        cls.collection_2_id = collection_2.id 
+    def setUp(self):
+        self.client = APIClient() 
+
+    def test_collection_follow_attempt(self): 
+        user = User.objects.get(username='user1') 
+        self.client.force_authenticate(user=user) 
+
+        response = self.client.post(reverse('collection-follow', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response.status_code, 200) 
+
+        non_exist_collection_id = 10000
+        response_2 = self.client.post(reverse('collection-follow', kwargs={'collection_id':non_exist_collection_id}))
+        self.assertEqual(response_2.status_code, 404) 
+    
+        response_3 = self.client.post(reverse('collection-follow', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response_3.status_code, 409) 
+
+    
+    def test_unauthorized_follow(self): 
+        response = self.client.post(reverse('collection-follow', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response.status_code, 401) 
+    
+class UnfollowCollectionAPITest(TestCase): 
+
+    @classmethod
+    def setUpTestData(cls): 
+        user_1 = User.objects.create_user(
+            username='user1', password='asdf')
+
+        movie_1 = Movie.objects.create(name='BlaBlaShow_1')
+        movie_2 = Movie.objects.create(name='BlaBlaShow_2')
+  
+        cls.movie_1_id = movie_1.id
+        cls.movie_2_id = movie_2.id
+
+        collection_1 = Collection.objects.create(name='Funny movies', user=user_1, is_public=True)
+        cls.collection_1_id = collection_1.id 
+
+        collection_2 = Collection.objects.create(name='Sad movies', user=user_1)
+        cls.collection_2_id = collection_2.id 
+    
+    def setUp(self):
+        self.client = APIClient()  
+
+    def test_collection_unfollow_attempt(self): 
+        user = User.objects.get(username='user1') 
+        self.client.force_authenticate(user=user) 
+
+        response = self.client.post(reverse('collection-follow', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response.status_code, 200) 
+
+        response_2 = self.client.post(reverse('collection-unfollow', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response_2.status_code, 200)
+
+        response_3 = self.client.post(reverse('collection-unfollow', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response_3.status_code, 409)
+
+        non_exist_collection_id = 10000
+        response_4 = self.client.post(reverse('collection-unfollow', kwargs={'collection_id':non_exist_collection_id}))
+        self.assertEqual(response_4.status_code, 404)
+
+
+    def test_unauthorized_unfollow(self): 
+        response = self.client.post(reverse('collection-unfollow', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response.status_code, 401)     
+
+class CreateCollectionAPITest(TestCase): 
+
+    @classmethod
+    def setUpTestData(cls): 
+        user_1 = User.objects.create_user(
+            username='user1', password='asdf')
+  
+        cls.collection_data = {}
+
+        movie_1 = Movie.objects.create(name='BlaBlaShow_1')
+        movie_2 = Movie.objects.create(name='BlaBlaShow_2')
+  
+        cls.movie_1_id = movie_1.id
+        cls.movie_2_id = movie_2.id
+    
+    def setUp(self):
+        self.client = APIClient()  
+
+    def test_unauthorized_collection_create(self): 
+        response = self.client.post(reverse('collection-list'), self.collection_data, format='json') 
+        self.assertEqual(response.status_code, 401) 
+    
+    
+    def test_successfull_collection_create(self): 
+        user = User.objects.get(username='user1')
+        self.client.force_authenticate(user=user) 
+
+        response = self.client.post(reverse('collection-list'), self.collection_data, format='json') 
+        self.assertEqual(response.status_code, 400) 
+
+        self.collection_data['name'] = "Very funny movies" 
+        
+        response = self.client.post(reverse('collection-list'), self.collection_data, format='json') 
+        self.assertEqual(response.status_code, 400)  
+
+        self.collection_data['is_public'] = 'True' 
+        response = self.client.post(reverse('collection-list'), self.collection_data, format='json') 
+        self.assertEqual(response.status_code, 200)  
+
+        self.collection_data['movies'] = [10] 
+        response = self.client.post(reverse('collection-list'), self.collection_data, format='json') 
+        self.assertEqual(response.status_code, 400) 
+
+        self.collection_data['movies'] = [self.movie_1_id] 
+        response = self.client.post(reverse('collection-list'), self.collection_data, format='json') 
+        self.assertEqual(response.status_code, 200) 
+
+class AddMovieToCollectionTest(TestCase): 
+    @classmethod
+    def setUpTestData(cls): 
+        user_1 = User.objects.create_user(
+            username='user1', password='asdf')
+        user_2 = User.objects.create_user(
+            username='user2', password='asdf')
+  
+        collection_1 = Collection.objects.create(name="Funny movies collection", user_id=user_1.id)
+        cls.collection_1_id = collection_1.id 
+
+        movie_1 = Movie.objects.create(name='BlaBlaShow_1')
+        movie_2 = Movie.objects.create(name='BlaBlaShow_2')
+  
+        cls.movie_1_id = movie_1.id
+        cls.movie_2_id = movie_2.id
+    
+    def setUp(self):
+        self.client = APIClient() 
+
+    def test_unauthorized_add(self): 
+        response = self.client.post(reverse('collection-add', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response.status_code, 401) 
+    
+    def test_add_movie_to_collection(self): 
+        user = User.objects.get(username = 'user2') 
+        self.client.force_authenticate(user=user) 
+
+        non_existing_collection_id = 10000 
+        response = self.client.post(reverse('collection-add', kwargs={'collection_id':non_existing_collection_id}))
+        self.assertEqual(response.status_code, 404)
+
+        response_2 = self.client.post(reverse('collection-add', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response_2.status_code, 403)  
+    
+    def test_successfull_add_movie_to_collection(self): 
+        user = User.objects.get(username = 'user1') 
+        self.client.force_authenticate(user=user) 
+
+        response = self.client.post(reverse('collection-add', kwargs={'collection_id':self.collection_1_id}))
+        self.assertEqual(response.status_code, 400) 
+
+        request_data = {'movie':"hi"} 
+        response_2 = self.client.post(reverse('collection-add', kwargs={'collection_id':self.collection_1_id}), request_data, format='json')
+        self.assertEqual(response_2.status_code, 400)
+
+        non_exist_movie_id = 10000
+        request_data = {'movie':non_exist_movie_id} 
+        response_3 = self.client.post(reverse('collection-add', kwargs={'collection_id':self.collection_1_id}), request_data, format='json')
+        self.assertEqual(response_3.status_code, 404) 
+
+        request_data = {'movie':self.movie_1_id} 
+        response_4 = self.client.post(reverse('collection-add', kwargs={'collection_id':self.collection_1_id}), request_data, format='json')
+        self.assertEqual(response_4.status_code, 200) 
+
+        
+
+

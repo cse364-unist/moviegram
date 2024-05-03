@@ -30,7 +30,7 @@ urlpatterns = [
     path('collections/<int:collection_id>/add/',
          CollectionViewSet.as_view({'post': 'add_movie'}), name='collection-add'),
 
-    path('', FeedViewSet.as_view({'get': 'get'}), name='feed'),
+    path('', FeedViewSet.as_view({'get': 'list'}), name='feed'),
 ]
 
 urlpatterns += router.urls
