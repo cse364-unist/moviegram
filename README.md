@@ -83,6 +83,17 @@ Reguest to unfollow a user:
 curl -X DELETE  -u username:password http://localhost:8000/users/<user_id>/unfollow/ | json_pp
 ```
 
+Example: Let's unfollow a user with id = 1
+```bash
+curl -X DELETE -u instructor:asdf http://localhost:8000/users/1/unfollow/ | json_pp
+```
+Expected output
+```bash
+{
+   "message" : "You have unfollowed williammyers."
+}
+```
+
 Step 5: Get the movie list  
 We enabled pagination for this request since our movie table has more 3000 movies. It returns 10 items per page, so it more comfortable to see the in the terminal when you check. You will get link to another page, so you can make another request to that page to get another 10 items.  
 ```bash 
