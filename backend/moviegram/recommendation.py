@@ -124,5 +124,31 @@ def recommend_movies_for_user(user_id):
     for i in range(5):
         print("Predicted Rating:", predictions[i][0])
         print("Actual Rating:", y_val[i])
+
+
+
+    ####Getting the movie recommendations for a user
+
+    # Get the movies watched by the user
+    movies_watched_by_user = [rating.movie_id for rating in ratings_df.filter(user_id=user_id)]
+
+    # Find movies not watched by the user
+    movies_not_watched = [movie_id for movie_id in movie_ids if movie_id not in movies_watched_by_user]
+
+    # Convert to movie encoded format
+    movies_not_watched_encoded = [movie2movie_encoded[movie_id] for movie_id in movies_not_watched]
+
+    # Repeat user ID for all movies not watched
+    user_encoder = user2user_encoded[user_id]
+    user_movie_array = [[user_encoder] * len(movies_not_watched_encoded), movies_not_watched_encoded]
+
+    # Predict ratings for all user-movie pairs
+    ratings = [model.predict(user_movie_pair).flatten() for user_movie_pair in user_movie_array]
+
+    # Get indices of top 10 rated movies
+    top_ratings_indices = sorted(range(len(ratings)), key=lambda i: ratings[i], reverse=True)[:10]
+
+    # Get recommended movie IDs
+    recommended_movie_ids = [movie_encoded2movie[movies_not_watched_encoded[i]] for i in top_ratings_indices]
         
     return "HI"
