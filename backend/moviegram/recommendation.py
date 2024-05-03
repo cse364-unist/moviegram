@@ -50,18 +50,14 @@ class RecommenderNet(Model):
 
 
 def recommend_movies_for_user(user_id):
-    user_id = 6040
-    users_df = pd.DataFrame(list(users.values()))
+    # users_df = pd.DataFrame(list(users.values()))
     movies_df = pd.DataFrame(list(movies.values()))
     ratings_df = pd.DataFrame(list(ratings.values()))
 
-    # Map user ID to a "user vector" via an embedding matrix
     user_ids = ratings_df["user_id"].unique().tolist()
     user2user_encoded = {x: i for i, x in enumerate(user_ids)}
-    # print(user2user_encoded[6040])
-    userencoded2user = {i: x for i, x in enumerate(user_ids)}
+    # userencoded2user = {i: x for i, x in enumerate(user_ids)}
 
-    # Map movie ID to a "movie vector" via an embedding matrix
     movie_ids = ratings_df["movie_id"].unique().tolist()
     movie2movie_encoded = {x: i for i, x in enumerate(movie_ids)}
     movie_encoded2movie = {i: x for i, x in enumerate(movie_ids)}
@@ -79,8 +75,6 @@ def recommend_movies_for_user(user_id):
 
     print(
         f"Number of users: {num_users}, Number of Movies: {num_movies}, Min Rating: {min_rating}, Max Rating: {max_rating}")
-
-    #### Preparing the data####
 
     # Shuffling the data
     ratings_df = ratings_df.sample(frac=1, random_state=42)
@@ -107,8 +101,6 @@ def recommend_movies_for_user(user_id):
         loss=tf.keras.losses.BinaryCrossentropy(), optimizer=keras.optimizers.Adam(learning_rate=0.001)
     )
 
-    #### Training the model on the Data Split ####
-
     history = model.fit(
         x=x_train,
         y=y_train,
@@ -116,20 +108,6 @@ def recommend_movies_for_user(user_id):
         epochs=5,
         validation_data=(x_val, y_val)
     )
-
-    # Evaluate model on validation set
-    loss = model.evaluate(x_val, y_val)
-    print("Validation Loss:", loss)
-
-    # Make predictions on validation set
-    predictions = model.predict(x_val)
-
-    # Inspect some sample predictions
-    for i in range(5):
-        print("Predicted Rating:", predictions[i][0])
-        print("Actual Rating:", y_val[i])
-
-    #### Getting the movie recommendations for a user ####
 
     # Get the movies watched by the user
     movies_watched_by_user = [
@@ -143,36 +121,28 @@ def recommend_movies_for_user(user_id):
     movies_not_watched_encoded = [
         movie2movie_encoded[movie_id] for movie_id in movies_not_watched]
 
-    # Repeat user ID for all movies not watched
     user_encoder = user2user_encoded[user_id]
-    # Shape should be (num_movies, 2)
-    user_movie_array = np.full(
-        (len(movies_not_watched_encoded), 2), user_encoder)
-    # Fill movie IDs in the second column
+    user_movie_array = np.full((len(movies_not_watched_encoded), 2), user_encoder)
     user_movie_array[:, 1] = movies_not_watched_encoded
 
-    # Predict ratings for all user-movie pairs
     ratings_final = model.predict(user_movie_array).flatten()
-
-    # Get indices of top 10 rated movies
     top_ratings_indices = ratings_final.argsort()[-10:][::-1]
 
     # Get recommended movie IDs
-    recommended_movie_ids = [movie_encoded2movie[x]
-                             for x in top_ratings_indices]
+    recommended_movie_ids = [movie_encoded2movie[x] for x in top_ratings_indices] 
 
-    print("\nTop 10 recommended movie IDs:", recommended_movie_ids)
+    # print("\nTop 10 recommended movie IDs:", recommended_movie_ids)
 
-    # Print recommendations
-    print("\nShowing recommendations for user: {}".format(user_id))
-    print("====" * 9)
-    print("Top 10 movie recommendations")
-    print("----" * 8)
-    recommended_movies = movies_df[movies_df["id"].isin(recommended_movie_ids)]
-    for movie in recommended_movies.itertuples():
-        cur_movie = Movie.objects.get(id=movie.id) 
-        genres_list = [genre.name for genre in cur_movie.genres.all()]
+    # # Print recommendations
+    # print("\nShowing recommendations for user: {}".format(user_id))
+    # print("====" * 9)
+    # print("Top 10 movie recommendations")
+    # print("----" * 8)
+    # # recommended_movies = movies_df[movies_df["id"].isin(recommended_movie_ids)]
+    
+    # # # for movie in recommended_movies.itertuples():
+    # # #     cur_movie = Movie.objects.get(id=movie.id)
+    # # #     genres_list = [genre.name for genre in cur_movie.genres.all()]
+    # # #     print(movie.name, ":", genres_list, ":", movie.average_rating)
 
-        print(movie.name, ":", genres_list)
-
-    return "HI"
+    return recommended_movie_ids
