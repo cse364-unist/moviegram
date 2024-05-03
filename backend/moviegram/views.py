@@ -168,8 +168,8 @@ class MovieViewSet(viewsets.ModelViewSet):
             movie.average_rating = movie.rating_sum / movie.total_people_rated
             movie.save()
 
-            serializer = MovieSerializer(movie)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            serializer = MovieSerializer(movie, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def give_review(self, request, movie_id):
         if not request.user.is_authenticated:
