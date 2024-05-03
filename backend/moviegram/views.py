@@ -335,8 +335,10 @@ class RecommendViewSet(viewsets.GenericViewSet):
 
     def list(self, request):
         user_id = request.user.id
-        movies = recommend_movies_for_user(user_id)
-        return Response({"message": movies}, status=status.HTTP_200_OK)
+        recommended_movie_ids = recommend_movies_for_user(user_id)
+        recommended_movies = Movie.objects.filter(id__in=recommended_movie_ids)
+        serializer = MovieSerializer(recommended_movies, many=True, context={'request':request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class FeedViewSet(viewsets.GenericViewSet):

@@ -84,7 +84,6 @@ Expected output
    "message" : "You now follow williammyers."
     }
 ```
-
 Reguest to unfollow a user:  
 ```bash
 curl -X DELETE  -u username:password http://localhost:8000/users/<user_id>/unfollow/ | json_pp
