@@ -69,7 +69,10 @@ Example: Let's follow a user with id = 1
 ```bash
 curl -X POST -u instructor:asdf http://localhost:8000/users/1/follow/ | json_pp
 ```
-
+    Expected output
+    {
+    "message" : "You now follow williammyers."
+    }    
 Reguest to unfollow a user:  
 ```bash
 curl -X DELETE  -u username:password http://localhost:8000/users/<user_id>/unfollow/ | json_pp
