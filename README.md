@@ -267,7 +267,8 @@ Expected output
 This feature helps users to (1) create collections of movies and (2) follow other collections of movies that were created by other users. Similar to Spotify music collections. Each time creator of collection adds new movie then all the followers are notifed on a new movie.  
 Below are the API endpoints that are supported.   
 
-1. Get the list of collections that already exist:   
+1. Get the list of collections that already exist:
+   Note: Since collections dataset is not populated, there are no collections shown. Left for the further work.  
 ```bash
 curl -X GET http://localhost:8000/collections/ | json_pp
 ``` 
@@ -386,8 +387,4 @@ coverage run manage.py test
 coverage report
 ```
 
-
-## To do: 
-1. Add some hyperlinking realtinoships in serializers. 
-2. Add expected outcomes to the readme file 
-3. 
+FYI, Movie gamification feature from the proposal won't be implemented, since we already have 3 big features.
