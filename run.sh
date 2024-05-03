@@ -9,6 +9,7 @@ cd moviegram
 
 pip install --upgrade pip
 pip install -r requirements.txt
+pip install pandas numpy tensorflow scikit-learn
 git checkout milestone2 
 cd backend
 python3 manage.py makemigrations
