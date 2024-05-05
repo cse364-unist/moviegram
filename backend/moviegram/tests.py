@@ -56,6 +56,7 @@ class UserCreationAPITest(TestCase):
 
         self.assertEqual(response.status_code, 400)
 
+    # TO DO: Fix this test case. Error is raised from recommend endpoint. 
     # def test_user_authentication(self):
     #     '''
     #     Make a request to a protected enpoint.
