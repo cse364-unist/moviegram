@@ -1,14 +1,13 @@
 .header {
     height: 70px;
-    flex-shrink: 0;
     padding-top: 20px;
 }
 
 .header-inner {
     width: 100%;
-    max-width: 1240px;
+    /* max-width: 1240px;    */
     margin: 0 auto;
-    display: flex;
+    display: inline-block;
     justify-content: center;
     align-items: center;
 }
@@ -22,10 +21,12 @@
 nav {
     display: flex;
     justify-content: center;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker shadow */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    /* Darker shadow */
     height: 50px;
     background-color: #f8f9fa;
-    width: auto; /* Width stays the same */
+    width: auto;
+    /* Width stays the same */
     border-radius: 8px;
 
 }
@@ -61,6 +62,6 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #fff; 
+    color: #fff;
     background-color: #A87FF3;
 }

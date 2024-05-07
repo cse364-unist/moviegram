@@ -1,0 +1,11 @@
+.review_wrapper {
+    margin-top: 20px; 
+    border-style: solid;
+    height: auto;
+    width: 300px;
+}
+
+.review_img {
+    height: auto;
+    width: 100%;
+}

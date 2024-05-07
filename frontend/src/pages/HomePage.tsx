@@ -1,7 +1,13 @@
-export default function HomePage(){
+import "./HomePage.css"
+import Review from "../components/Review/Review"
+
+export default function HomePage() {
     return (
-        <>
-            <h1>Home Page</h1>
-        </>
-    )   
+        <div className="feed">
+            <div className="activities">
+                <Review />
+                <Review />
+            </div>
+        </div>
+    )
 } 

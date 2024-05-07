@@ -1,0 +1,9 @@
+.feed {
+    display: flex;
+    align-items: center;
+}
+
+.activities {
+    border-style: dotted;
+    width: 1000px;
+}

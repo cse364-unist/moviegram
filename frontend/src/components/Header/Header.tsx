@@ -1,10 +1,5 @@
 import './Header.css';
-import { Link, Routes, Route } from 'react-router-dom'
-
-//import pages 
-import HomePage from '../../pages/HomePage';
-import ExplorePage from '../../pages/ExplorePage'
-import CollectionsPage from '../../pages/CollectionsPage'
+import { Link} from 'react-router-dom'
 
 function Header() {
     return (
@@ -17,12 +12,6 @@ function Header() {
                         <li><Link to="/collections">Collections</Link></li>
                     </ul>
                 </nav>
-
-                <Routes>
-                    <Route path='/*' element={<HomePage />} />
-                    <Route path="/explore" element={<ExplorePage />} />
-                    <Route path="/collections" element={<CollectionsPage />} />
-                </Routes>
             </div>
         </header>
     );
