@@ -1,9 +1,11 @@
 .feed {
+    padding-top: 70px; 
     display: flex;
-    align-items: center;
+    justify-content: center;
+    width: 70%; 
+    /* border-style: dotted; */
 }
 
 .activities {
-    border-style: dotted;
-    width: 1000px;
+    /* border-style: dotted; */
 }

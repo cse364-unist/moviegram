@@ -1,8 +1,13 @@
 .review_wrapper {
-    margin-top: 20px; 
-    border-style: solid;
+    margin-top: 20px;
     height: auto;
-    width: 300px;
+    width: 450px;
+
+    border: solid;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-color: #fff
 }
 
 .review_img {

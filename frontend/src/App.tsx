@@ -1,5 +1,6 @@
+import './App.css'
 import Header from './components/Header/Header'
-import {Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 //import pages 
 import HomePage from './pages/HomePage'
@@ -10,12 +11,15 @@ function App() {
   return (
     <>
       <Header />
+      <div className='main'>
+        <Routes>
+          <Route path='/*' element={<HomePage />} />
+          <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/collections" element={<CollectionsPage />} />
+        </Routes>
 
-      <Routes>
-        <Route path='/*' element={<HomePage />} />
-        <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/collections" element={<CollectionsPage />} />
-      </Routes>
+      </div>
+
     </>
   )
 }

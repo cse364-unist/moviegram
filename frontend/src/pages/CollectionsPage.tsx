@@ -1,7 +1,9 @@
 export default function CollectionsPage() {
     return (
         <>
-            <h1>Collections Page</h1>
+            <div className='test' style={{ paddingTop: '70px' }}>
+                <h1>Explore page - Makida</h1>
+            </div>
         </>
     )
 } 
