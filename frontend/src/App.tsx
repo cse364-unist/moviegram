@@ -3,9 +3,9 @@ import Header from './components/Header/Header'
 import { Routes, Route } from 'react-router-dom'
 
 //import pages 
-import HomePage from './pages/HomePage'
-import ExplorePage from './pages/ExplorePage'
-import CollectionsPage from './pages/CollectionsPage'
+import HomePage from './pages/HomePage/HomePage'
+import ExplorePage from './pages/ExplorePage/ExplorePage'
+import CollectionsPage from './pages/CollectionsPage/CollectionsPage'
 
 function App() {
   return (

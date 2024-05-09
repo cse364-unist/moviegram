@@ -1,5 +1,5 @@
 import "./HomePage.css"
-import Review from "../components/Review/Review"
+import Review from "../../components/Review/Review"
 
 export default function HomePage() {
     return (
