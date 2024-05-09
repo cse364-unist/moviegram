@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Header />
-      <div className='main'>
+      <div className='flex justify-center bg-white'>
         <Routes>
           <Route path='/*' element={<HomePage />} />
           <Route path="/explore" element={<ExplorePage />} />

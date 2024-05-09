@@ -7,5 +7,6 @@
 }
 
 .activities {
-    /* border-style: dotted; */
+    width: 300px;
+    border-style: dotted;
 }
