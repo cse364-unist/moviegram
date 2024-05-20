@@ -388,3 +388,6 @@ coverage report
 ```
 
 FYI, Movie gamification feature from the proposal won't be implemented, since we already have 3 big features.
+
+
+
