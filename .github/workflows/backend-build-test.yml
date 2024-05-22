@@ -29,12 +29,10 @@ jobs:
         ENGINE: django.db.backends.mysql
         NAME: moviegram
         DB_USER: root
-        DB_PASSWORD: asdf
-        HOST: localhost
-        PORT: 3306
+        DB_PASSWORD: root
       run: |
         sudo systemctl start mysql
-        mysql -u$DB_USER -p$DB_PASSWORD -e "CREATE DATABASE $NAME DEFAULT CHARACTER SET utf8mb4;"
+        mysql -u$DB_USER -p$DB_PASSWORD -e "CREATE DATABASE $NAME;"
         python3 --version
         python3 -m venv venv
         source venv/bin/activate
@@ -58,9 +56,8 @@ jobs:
         ENGINE: django.db.backends.mysql
         NAME: moviegram
         DB_USER: root
-        DB_PASSWORD: asdf
-        HOST: localhost
-        PORT: 3306
+        DB_PASSWORD: root
+        
       run: |
         source venv/bin/activate
         python backend/manage.py test
