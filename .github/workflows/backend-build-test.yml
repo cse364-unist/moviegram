@@ -42,7 +42,7 @@ jobs:
         source venv/bin/activate
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
-        python manage.py makemigrations
+        python backend/manage.py makemigrations
 
         # Output the environment variables
         echo $ENGINE
@@ -52,7 +52,7 @@ jobs:
         echo $HOST
         echo $PORT
 
-        python manage.py migrate
+        python backend/manage.py migrate
         export DJANGO_SECRET_KEY="$(base64 <<< "$RANDOM|TeStiNg|$RANDOM" | tr -d '\n')"
 
     - name: Run tests
