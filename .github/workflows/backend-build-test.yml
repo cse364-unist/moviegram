@@ -8,53 +8,50 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
       matrix:
-        python-version: ['3.10']
+        python-version: [3.10]
 
     steps:
     - name: Checkout
-    - uses: actions/checkout@v4
-
+      uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-        cache: pip 
-   
+        cache: pip
+
     - name: Set up
       env:
         ENGINE: django.db.backends.mysql
         NAME: moviegram
-        USER: root
-        PASSWORD: asdf
+        DB_USER: root
+        DB_PASSWORD: asdf
         HOST: localhost
         PORT: 3306
-      run: 
+      run: |
         sudo systemctl start mysql
-        mysql -u root -proot -e "CREATE USER '$USER'@'localhost' IDENTIFIED BY '$PASSWORD';"
-        mysql -u root -proot -e "GRANT CREATE, DROP, SELECT, UPDATE, INSERT, DELETE, ALTER, REFERENCES, INDEX on $NAME.* to '$USER'@'localhost';"
-        mysql -u$USER -p$PASSWORD -e "CREATE DATABASE $NAME DEFAULT CHARACTER SET utf8mb4;"
+        mysql -u root -proot -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
+        mysql -u root -proot -e "GRANT CREATE, DROP, SELECT, UPDATE, INSERT, DELETE, ALTER, REFERENCES, INDEX on $NAME.* to '$DB_USER'@'localhost';"
+        mysql -u$DB_USER -p$DB_PASSWORD -e "CREATE DATABASE $NAME DEFAULT CHARACTER SET utf8mb4;"
         python3 --version
         python3 -m venv venv
         source venv/bin/activate
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
         python manage.py makemigrations
-        
-      
-       # Output the environment variables
+
+        # Output the environment variables
         echo $ENGINE
         echo $NAME
-        echo $USER
-        echo $PASSWORD
+        echo $DB_USER
+        echo $DB_PASSWORD
         echo $HOST
         echo $PORT
-        
+
         python manage.py migrate
         export DJANGO_SECRET_KEY="$(base64 <<< "$RANDOM|TeStiNg|$RANDOM" | tr -d '\n')"
 
@@ -62,11 +59,11 @@ jobs:
       env:
         ENGINE: django.db.backends.mysql
         NAME: moviegram
-        USER: root
-        PASSWORD: asdf
+        DB_USER: root
+        DB_PASSWORD: asdf
         HOST: localhost
         PORT: 3306
       run: |
-        mysql -u root -proot -e "GRANT ALL ON portfolio_db.* TO '$USER'@'localhost';"
+        mysql -u root -proot -e "GRANT ALL ON moviegram.* TO '$DB_USER'@'localhost';"
         source venv/bin/activate
         python manage.py test
