@@ -11,20 +11,62 @@ jobs:
 
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 4
+      max-parallel: 1
       matrix:
         python-version: ['3.10']
 
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
+
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
-      run: |
+        cache: pip 
+   
+    - name: Set up
+      env:
+        ENGINE: django.db.backends.mysql
+        NAME: moviegram
+        USER: root
+        PASSWORD: asdf
+        HOST: localhost
+        PORT: 3306
+      run: 
+        sudo systemctl start mysql
+        mysql -u root -proot -e "CREATE USER '$USER'@'localhost' IDENTIFIED BY '$PASSWORD';"
+        mysql -u root -proot -e "GRANT CREATE, DROP, SELECT, UPDATE, INSERT, DELETE, ALTER, REFERENCES, INDEX on $NAME.* to '$USER'@'localhost';"
+        mysql -u$USER -p$PASSWORD -e "CREATE DATABASE $NAME DEFAULT CHARACTER SET utf8mb4;"
+        python3 --version
+        python3 -m venv venv
+        source venv/bin/activate
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Run Tests
+        python -m pip install -r requirements.txt
+        python manage.py makemigrations
+        
+      
+       # Output the environment variables
+        echo $ENGINE
+        echo $NAME
+        echo $USER
+        echo $PASSWORD
+        echo $HOST
+        echo $PORT
+        
+        python manage.py migrate
+        export DJANGO_SECRET_KEY="$(base64 <<< "$RANDOM|TeStiNg|$RANDOM" | tr -d '\n')"
+
+    - name: Run tests
+      env:
+        ENGINE: django.db.backends.mysql
+        NAME: moviegram
+        USER: root
+        PASSWORD: asdf
+        HOST: localhost
+        PORT: 3306
       run: |
-        python backend/manage.py test
+        mysql -u root -proot -e "GRANT ALL ON portfolio_db.* TO '$USER'@'localhost';"
+        source venv/bin/activate
+        python manage.py test
