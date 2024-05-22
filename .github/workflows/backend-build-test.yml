@@ -28,13 +28,13 @@ jobs:
       env:
         ENGINE: django.db.backends.mysql
         NAME: moviegram
-        DB_USER: root
+        DB_USER: test_user
         DB_PASSWORD: asdf
         HOST: localhost
         PORT: 3306
       run: |
         sudo systemctl start mysql
-        # mysql -u root -proot -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
+        mysql -u test_user -proot -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
         mysql -u root -proot -e "GRANT CREATE, DROP, SELECT, UPDATE, INSERT, DELETE, ALTER, REFERENCES, INDEX on $NAME.* to '$DB_USER'@'localhost';"
         mysql -u$DB_USER -p$DB_PASSWORD -e "CREATE DATABASE $NAME DEFAULT CHARACTER SET utf8mb4;"
         python3 --version
