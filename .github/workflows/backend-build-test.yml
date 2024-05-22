@@ -66,4 +66,4 @@ jobs:
       run: |
         mysql -u root -proot -e "GRANT ALL ON moviegram.* TO '$DB_USER'@'localhost';"
         source venv/bin/activate
-        python manage.py test
+        python backend/manage.py test
