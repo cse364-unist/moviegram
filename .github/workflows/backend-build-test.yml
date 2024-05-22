@@ -60,5 +60,6 @@ jobs:
         
       run: |
         source venv/bin/activate
+        cd backend
         ls # just to see the content 
         python manage.py test
