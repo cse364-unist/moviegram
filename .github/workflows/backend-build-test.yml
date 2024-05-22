@@ -34,8 +34,6 @@ jobs:
         PORT: 3306
       run: |
         sudo systemctl start mysql
-        # mysql -u root -proot -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
-        # mysql -u root -proot -e "GRANT CREATE, DROP, SELECT, UPDATE, INSERT, DELETE, ALTER, REFERENCES, INDEX on $NAME.* to '$DB_USER'@'localhost';"
         mysql -u$DB_USER -p$DB_PASSWORD -e "CREATE DATABASE $NAME DEFAULT CHARACTER SET utf8mb4;"
         python3 --version
         python3 -m venv venv
@@ -64,6 +62,5 @@ jobs:
         HOST: localhost
         PORT: 3306
       run: |
-        # mysql -u root -proot -e "GRANT ALL ON moviegram.* TO '$DB_USER'@'localhost';"
         source venv/bin/activate
         python backend/manage.py test
