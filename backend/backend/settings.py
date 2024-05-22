@@ -74,10 +74,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'moviegram',
-        # 'USER': 'aibek',
-        # 'PASSWORD': 'asdf',
         'USER':'root',
-        'PASSWORD':'asdf',
+        'PASSWORD':'root',
         'HOST': 'localhost',   
         'PORT': '3306', 
     }
