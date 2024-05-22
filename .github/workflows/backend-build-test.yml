@@ -48,7 +48,7 @@ jobs:
         echo $HOST
         echo $PORT
 
-        python backend/manage.py migrate
+        python manage.py migrate
         export DJANGO_SECRET_KEY="$(base64 <<< "$RANDOM|TeStiNg|$RANDOM" | tr -d '\n')"
 
     - name: Run tests
@@ -60,4 +60,5 @@ jobs:
         
       run: |
         source venv/bin/activate
-        python backend/manage.py test
+        ls # just to see the content 
+        python manage.py test
