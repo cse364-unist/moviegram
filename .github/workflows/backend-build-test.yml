@@ -48,7 +48,7 @@ jobs:
         echo $HOST
         echo $PORT
 
-        python3 manage.py migrate
+        python3 backend/manage.py migrate
         export DJANGO_SECRET_KEY="$(base64 <<< "$RANDOM|TeStiNg|$RANDOM" | tr -d '\n')"
 
     - name: Run tests
