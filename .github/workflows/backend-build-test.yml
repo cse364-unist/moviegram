@@ -36,9 +36,9 @@ jobs:
         python3 --version
         python3 -m venv venv
         source venv/bin/activate
-        python -m pip install --upgrade pip
-        python -m pip install -r requirements.txt
-        python backend/manage.py makemigrations
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -r requirements.txt
+        python3 backend/manage.py makemigrations
 
         # Output the environment variables
         echo $ENGINE
@@ -48,7 +48,7 @@ jobs:
         echo $HOST
         echo $PORT
 
-        python manage.py migrate
+        python3 manage.py migrate
         export DJANGO_SECRET_KEY="$(base64 <<< "$RANDOM|TeStiNg|$RANDOM" | tr -d '\n')"
 
     - name: Run tests
@@ -60,6 +60,4 @@ jobs:
         
       run: |
         source venv/bin/activate
-        cd backend
-        ls # just to see the content 
-        python manage.py test
+        python3  backend/manage.py test
