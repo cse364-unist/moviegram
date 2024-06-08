@@ -19,3 +19,6 @@ backend/moviegram/migrations/
 backend/.coverage 
 
 
+
+# Local Netlify folder
+.netlify
