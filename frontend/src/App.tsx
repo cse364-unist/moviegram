@@ -6,6 +6,8 @@ import { Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage/HomePage'
 import ExplorePage from './pages/ExplorePage/ExplorePage'
 import CollectionsPage from './pages/CollectionsPage/CollectionsPage'
+import LoginPage from './pages/LoginPage/LoginPage'
+import SignUpPage from './pages/SignUpPage/SignUpPage'
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path='/*' element={<HomePage />} />
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/collections" element={<CollectionsPage />} />
+          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/signup" element={<SignUpPage/>} />
         </Routes>
 
       </div>
