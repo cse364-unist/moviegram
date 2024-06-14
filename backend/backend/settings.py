@@ -14,6 +14,31 @@ DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
+# CORS
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",    # development
+    "https://mooviegram.netlify.app" # production
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'Accept',
+    'Accept-Encoding',
+    'Authorization',
+    'Content-Type',
+    'DNT',
+    'Origin',
+    'User-Agent',
+    'X-Requested-With',
+]
 
 # Application definition
 
@@ -24,12 +49,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'moviegram',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,7 +105,7 @@ prod_db = {
 
 
 if ENVIRONMENT == 'development':
-    DATABASES = dev_db
+    DATABASES = prod_db
 elif ENVIRONMENT == 'production':
     DATABASES = prod_db
 elif ENVIRONMENT == 'testing':
