@@ -1,7 +1,5 @@
 # Virtual environments 
-env/
-venv/
-virtualenv/ 
+backend/env/
 
 # Django
 backend/backend/__pycache__/
