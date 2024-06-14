@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, {useEffect, useState} from 'react'; 
+import {Link} from 'react-router-dom'
 
 const SignUpPage = () => {
     const [name, setName] = useState('');
@@ -6,12 +7,12 @@ const SignUpPage = () => {
     const [password, setPassword] = useState('');
 
     const handleSignUp = () => {
-        // Handle sign up logic here
+        // To do: Implement sign up functionality
     };
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div className="bg-white shadow-lg border border-gray-200 rounded px-8 pt-6 pb-8 mb-4">
                 <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
@@ -61,6 +62,7 @@ const SignUpPage = () => {
                         Sign Up
                     </button>
                 </div>
+                <p className='mt-4'>Already have an account? <Link className='text-blue-500' to="/login">Login</Link></p>
             </div>
         </div>
     );
