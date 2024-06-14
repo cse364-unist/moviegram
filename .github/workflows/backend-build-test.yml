@@ -36,6 +36,7 @@ jobs:
         Debug: True
         Allowed_Hosts: '*'
       run: |
+        sudo apt-get install postgresql
         sudo service postgresql start  # Start PostgreSQL service
         sudo psql -U $DB_USER -c "CREATE DATABASE $NAME;"  # Create PostgreSQL database
         python3 --version
