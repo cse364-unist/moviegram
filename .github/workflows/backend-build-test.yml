@@ -1,4 +1,4 @@
-name: Backend build and test.
+name: Backend build and test
 
 on:
   push:
@@ -24,20 +24,23 @@ jobs:
         python-version: ${{ matrix.python-version }}
         cache: pip
 
-    - name: Set up
+    - name: Set up PostgreSQL
       env:
-        ENGINE: django.db.backends.mysql
+        ENGINE: django.db.backends.postgresql
         NAME: moviegram
-        DB_USER: root
-        DB_PASSWORD: root
+        DB_USER: postgres  # Update this with your PostgreSQL username
+        DB_PASSWORD: postgres  # Update this with your PostgreSQL password
+        HOST: localhost
+        PORT: 5432
+        ENVIRONMENT: testing  # Set the environment variable to 'testing'
       run: |
-        sudo systemctl start mysql
-        mysql -u$DB_USER -p$DB_PASSWORD -e "CREATE DATABASE $NAME;"
+        sudo service postgresql start  # Start PostgreSQL service
+        psql -U $DB_USER -c "CREATE DATABASE $NAME;"  # Create PostgreSQL database
         python3 --version
         python3 -m venv venv
         source venv/bin/activate
         python3 -m pip install --upgrade pip
-        python3 -m pip install -r requirements.txt
+        python3 -m pip install -r backend/requirements.txt
         python3 backend/manage.py makemigrations
 
         # Output the environment variables
@@ -53,11 +56,11 @@ jobs:
 
     - name: Run tests
       env:
-        ENGINE: django.db.backends.mysql
+        ENGINE: django.db.backends.postgresql
         NAME: moviegram
-        DB_USER: root
-        DB_PASSWORD: root
+        DB_USER: postgres
+        DB_PASSWORD: postgres
         
       run: |
         source venv/bin/activate
-        python3  backend/manage.py test moviegram
+        python3 backend/manage.py test moviegram

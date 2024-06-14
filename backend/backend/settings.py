@@ -1,21 +1,18 @@
 from pathlib import Path
-import os 
 import dj_database_url
+import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-secret-key')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 
 # Application definition
@@ -32,7 +29,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,30 +58,34 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+ENVIRONMENT = config('ENVIRONMENT', default='development')
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+dev_db = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'moviegram',
+        'USER': 'moviegram',
+        'PASSWORD': 'asdf',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+prod_db = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL'))
+}
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'moviegram',
-#         'USER':'root',
-#         'PASSWORD':'root',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#     }
-# }
+if ENVIRONMENT == 'development':
+    DATABASES = dev_db
+elif ENVIRONMENT == 'production':
+    DATABASES = prod_db
+elif ENVIRONMENT == 'testing':
+    DATABASES = dev_db
 
-# local postgresql
+
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -97,12 +97,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
-# remote postgresql
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'))
-}
-
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=config('DATABASE_URL'))
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -140,8 +138,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
