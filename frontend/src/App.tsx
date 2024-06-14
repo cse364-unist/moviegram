@@ -1,6 +1,8 @@
 import './App.css'
 import Header from './components/Header/Header'
 import { Routes, Route } from 'react-router-dom'
+import React, {useEffect, useState} from 'react'; 
+
 
 //import pages 
 import HomePage from './pages/HomePage/HomePage'
@@ -11,9 +13,19 @@ import SignUpPage from './pages/SignUpPage/SignUpPage'
 import MoviesPage from './pages/MoviesPage/MoviesPage'
 
 function App() {
+  const [authenticated, setAuthenticated] = useState(false) 
+
+  useEffect(() => {
+    const token = localStorage.getItem('token') 
+    if(token){
+      setAuthenticated(true) 
+    }
+  }, [])
+
+
   return (
     <>
-      <Header />
+      <Header authenticated={authenticated}/>
       <div className='flex justify-center bg-white'>
         <Routes>
           <Route path='/*' element={<HomePage />} />
