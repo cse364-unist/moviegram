@@ -1,14 +1,43 @@
 import React, {useEffect, useState} from 'react'; 
-import { Link} from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 
 
-const LoginInPage = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+const LoginInPage = ({setAuthenticated}) => {
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    const handleLoginIn = () => {
-        // To do: Implement sign up functionality
+    const handleLogin = async (username, password) => {
+        try {
+            const response = await fetch('http://localhost:8000/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+    
+            const data = await response.json();
+            console.log('Login successful, token:', data.token);
+
+            localStorage.setItem('token', data.token);
+            navigate('/movies');
+            setAuthenticated(true);
+
+        } catch (error) {
+            console.log('Error during login:', error);
+            alert('Invalid credentials or already logged in.');
+
+        }
+    }; 
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await handleLogin(username, password);
     };
 
     return (
@@ -24,8 +53,8 @@ const LoginInPage = () => {
                         id="name"
                         type="text"
                         placeholder="Enter your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
 
@@ -46,7 +75,7 @@ const LoginInPage = () => {
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="button"
-                        onClick={handleLoginIn}
+                        onClick={handleSubmit}
                     >
                         Login
                     </button>

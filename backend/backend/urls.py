@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from moviegram.views import UserViewSet, MovieViewSet, RecommendViewSet, FollowViewSet, FeedViewSet, CollectionViewSet
+from moviegram.views import UserViewSet, MovieViewSet, RecommendViewSet, FollowViewSet, FeedViewSet, CollectionViewSet, CustomLoginView, CustomLogoutView, CustomSignupView
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
@@ -31,6 +31,11 @@ urlpatterns = [
          CollectionViewSet.as_view({'post': 'add_movie'}), name='collection-add'),
 
     path('', FeedViewSet.as_view({'get': 'list'}), name='feed'),
+
+    path('login/', CustomLoginView.as_view(), name='login'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
+    path('signup/', CustomSignupView.as_view(), name='signup')
+
 ]
 
 urlpatterns += router.urls

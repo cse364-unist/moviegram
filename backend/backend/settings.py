@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'moviegram',
 ]
 
@@ -105,12 +106,11 @@ prod_db = {
 
 
 if ENVIRONMENT == 'development':
-    DATABASES = prod_db
+    DATABASES = dev_db
 elif ENVIRONMENT == 'production':
     DATABASES = prod_db
 elif ENVIRONMENT == 'testing':
     DATABASES = dev_db
-
 
 
 # DATABASES = {
@@ -173,8 +173,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
 }
