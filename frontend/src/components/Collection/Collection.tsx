@@ -8,17 +8,18 @@ interface Movie {
 interface CollectionProps {
   title: string;
   movies: Movie[];
+  onClick: () => void; // Add onClick prop
 }
 
-const Collection: React.FC<CollectionProps> = ({ title, movies }) => {
+const Collection: React.FC<CollectionProps> = ({ title, movies, onClick }) => {
   const containerBorderRadius = '20px'; // Custom border radius for containers
   const imageBorderRadius = '5px'; // Custom border radius for images
 
   return (
-    <div className="p-4 rounded-lg" style={{ backgroundColor: '#1a1a1a' }}>
+    <div onClick={onClick} className="p-4 rounded-lg cursor-pointer" style={{ backgroundColor: '#1a1a1a' }}>
       <h3 className="text-xl font-semibold mb-2 text-white">{title}</h3>
       <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))' }}>
-        {movies.slice(0, 4).map((movie, index) => (
+        {movies.map((movie, index) => (
           <div key={index} className="relative" style={{ borderRadius: containerBorderRadius }}>
             <div style={{ width: '100px', height: '100px', borderRadius: imageBorderRadius }} className="overflow-hidden bg-gray-900">
               <img
