@@ -10,7 +10,7 @@ const SignUpPage = () => {
 
     const handleSignUp = async(username, email, password) => {
         try{
-            const response = await fetch('http://localhost:8000/signup/', {
+            const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/signup/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

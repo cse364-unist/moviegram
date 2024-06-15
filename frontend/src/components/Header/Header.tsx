@@ -8,7 +8,7 @@ function Header({ authenticated, setAuthenticated }) {
         try {
             const token = localStorage.getItem('token');
             console.log('Token:', token);
-            const response = await fetch('http://localhost:8000/logout/', {
+            const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/logout/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
