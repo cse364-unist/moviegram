@@ -1,13 +1,40 @@
 import React, {useEffect, useState} from 'react'; 
 import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const SignUpPage = () => {
-    const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    const handleSignUp = () => {
-        // To do: Implement sign up functionality
+    const handleSignUp = async(username, email, password) => {
+        try{
+            const response = await fetch('http://localhost:8000/signup/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, email, password }),
+            });
+
+            if(response.ok){
+                console.log('Sign up successful'); 
+                navigate('/login');
+
+            }else{
+                throw new Error('Something went wrong');
+            }
+
+        }catch(error){
+            console.log('Error singing up: ', error);
+            alert('Error singing up');
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await handleSignUp(username,email, password);
     };
 
     return (
@@ -23,8 +50,8 @@ const SignUpPage = () => {
                         id="name"
                         type="text"
                         placeholder="Enter your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div className="mb-4">
@@ -57,7 +84,7 @@ const SignUpPage = () => {
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="button"
-                        onClick={handleSignUp}
+                        onClick={handleSubmit}
                     >
                         Sign Up
                     </button>

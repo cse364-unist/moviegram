@@ -1,7 +1,34 @@
 import './Header.css';
-import { Link} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 
-function Header({authenticated}) {
+function Header({ authenticated, setAuthenticated }) {
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            console.log('Token:', token);
+            const response = await fetch('http://localhost:8000/logout/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}`,
+                },
+            });
+            console.log('Logout response:', response);
+            if (response.ok){
+                localStorage.removeItem('token');
+                setAuthenticated(false);
+                navigate('/');
+            }else{
+                throw new Error('Logout failed');
+            }
+        }catch (error){
+            console.log('Error during logout:', error);
+            alert('Error during logout');
+        }
+    };
+
     return (
         <header className='header'>
             <div className='header-inner'>
@@ -10,7 +37,11 @@ function Header({authenticated}) {
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/explore">Explore</Link></li>
                         <li><Link to="/collections">Collections</Link></li>
-                        {authenticated ? "Hello, user" : <li><Link to="/login">Login</Link></li>}
+                        {authenticated ? (
+                            <li><button onClick={handleLogout}>Logout</button></li>
+                        ) : (
+                            <li><Link to="/login">Login</Link></li>
+                        )}
                     </ul>
                 </nav>
             </div>
