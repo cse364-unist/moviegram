@@ -79,6 +79,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     pagination_class = PageNumberPagination
+    authentication_classes = []
 
     def list(self, request):
         queryset = Movie.objects.order_by('id')
