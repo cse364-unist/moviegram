@@ -83,11 +83,11 @@ const ExplorePage: React.FC = () => {
   ];
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">Explore</h1>
-      <div className="flex flex-wrap justify-center gap-6">
+    <div className="container mx-auto py-8 px-48">
+      <h1 className="text-3xl font-bold mb-8">Explore</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-center">
         {movies.map((movie) => (
-          <div key={movie.id} className="bg-white shadow-md rounded-lg overflow-hidden w-64">
+          <div key={movie.id} className="bg-white shadow-md rounded-lg overflow-hidden">
             <img
               src={movie.imageUrl}
               alt={movie.title}
