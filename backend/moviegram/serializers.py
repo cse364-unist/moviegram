@@ -115,8 +115,8 @@ class ActivitySerializer(serializers.ModelSerializer):
 
     def get_message(self, obj):
         if obj.type == 'rate':
-            movie = Movie.objects.get(id=obj.activity_id)
-            return f"{obj.user} rated '{movie.name}'"
+            rating = Rate.objects.get(id=obj.activity_id)
+            return f"{obj.user} rated '{rating.movie.name}' with '{rating.rate}' stars"
         elif obj.type == 'review':
             review = Review.objects.get(id=obj.activity_id)
             movie = review.movie

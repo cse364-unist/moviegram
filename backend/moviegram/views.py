@@ -37,13 +37,15 @@ class UserViewSet(viewsets.ModelViewSet):
 
         paginator = self.pagination_class()
         paginated_queryset = paginator.paginate_queryset(queryset, request)
-        serializer = UserSerializer(paginated_queryset, many=True, context={'request': request})
+        serializer = UserSerializer(
+            paginated_queryset, many=True, context={'request': request})
         return paginator.get_paginated_response(serializer.data)
-    
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+
 
 class FollowViewSet(viewsets.ViewSet):
     authentication_classes = [TokenAuthentication]
@@ -169,6 +171,7 @@ class MovieViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def give_review(self, request, movie_id):
+        print("HI")
 
         if not request.user.is_authenticated:
             return Response({'error': 'Authentication credentials were not provided.'}, status=status.HTTP_403_FORBIDDEN)
@@ -340,11 +343,11 @@ class RecommendViewSet(viewsets.GenericViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class FeedViewSet(viewsets.GenericViewSet):
-    authentication_classes = [BasicAuthentication]
+class FeedViewSet(APIView):
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def list(self, request):
+    def get(self, request):
         user = request.user
         follow_users_id = [
             follow.following.id for follow in user.following_set.all()]
@@ -354,7 +357,9 @@ class FeedViewSet(viewsets.GenericViewSet):
 
         activities = Activity.objects.filter(
             user_id__in=follow_users_id).order_by('-created_at')
-        serializer = ActivitySerializer(activities, many=True)
+        
+        serializer = ActivitySerializer(
+            activities, many=True, context={'request': request})
 
         return Response({'activities': serializer.data}, status=status.HTTP_200_OK)
 

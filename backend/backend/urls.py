@@ -30,7 +30,7 @@ urlpatterns = [
     path('collections/<int:collection_id>/add/',
          CollectionViewSet.as_view({'post': 'add_movie'}), name='collection-add'),
 
-    path('', FeedViewSet.as_view({'get': 'list'}), name='feed'),
+    path('', FeedViewSet.as_view(), name='feed'),
 
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),

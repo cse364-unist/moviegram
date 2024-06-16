@@ -68,8 +68,10 @@ const Header: React.FC<HeaderProps> = ({ authenticated, setAuthenticated }) => {
                     <ul>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/explore">Explore</Link></li>
+                        <li><Link to="/movies">Movies</Link></li>
                         <li><Link to="/collections">Collections</Link></li>
                         <li><Link to="/users">Friends</Link></li>
+
 
                         {authenticated ? (
                             <li className="relative">
