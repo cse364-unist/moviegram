@@ -1,142 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface Movie {
   id: number;
-  title: string;
-  rating: number;
-  imageUrl: string;
-  genres: string;
+  name: string;
+  average_rating: number;
+  review_list: any[]; // Adjust based on your actual data structure
+  genres_list: any[]; // Adjust based on your actual data structure
+  total_people_rated: number;
 }
 
 const ExplorePage: React.FC = () => {
-  const initialMovies: Movie[] = [
-    {
-      id: 1,
-      title: "Inception",
-      rating: 8.8,
-      imageUrl: "https://image.tmdb.org/t/p/w500/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg",
-      genres: "Action, Sci-Fi",
-    },
-    {
-      id: 2,
-      title: "The Dark Knight",
-      rating: 9.0,
-      imageUrl: "https://image.tmdb.org/t/p/w500/1hRoyzDtpgMU7Dz4JF22RANzQO7.jpg",
-      genres: "Action, Crime, Drama",
-    },
-    {
-      id: 3,
-      title: "Interstellar",
-      rating: 8.6,
-      imageUrl: "https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",
-      genres: "Adventure, Drama, Sci-Fi",
-    },
-    {
-      id: 4,
-      title: "The Matrix",
-      rating: 8.7,
-      imageUrl: "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
-      genres: "Action, Sci-Fi",
-    },
-    {
-      id: 5,
-      title: "Gladiator",
-      rating: 8.5,
-      imageUrl: "https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg",
-      genres: "Action, Adventure, Drama",
-    },
-    {
-      id: 6,
-      title: "The Godfather",
-      rating: 9.2,
-      imageUrl: "https://image.tmdb.org/t/p/w500/rSPw7tgCH9c6NqICZef4kZjFOQ5.jpg",
-      genres: "Crime, Drama",
-    },
-    {
-      id: 7,
-      title: "Pulp Fiction",
-      rating: 8.9,
-      imageUrl: "https://image.tmdb.org/t/p/w500/tGpTpVyIow4NzHVsxyA1A8EIVdd.jpg",
-      genres: "Crime, Drama",
-    },
-    {
-      id: 8,
-      title: "Fight Club",
-      rating: 8.8,
-      imageUrl: "https://image.tmdb.org/t/p/w500/bptfVGEQuv6vDTIMVCHjJ9Dz8PX.jpg",
-      genres: "Drama",
-    },
-    {
-      id: 9,
-      title: "Forrest Gump",
-      rating: 8.8,
-      imageUrl: "https://image.tmdb.org/t/p/w500/yE5d3BUhE8hCnkMUJOo1QDoOGNz.jpg",
-      genres: "Drama, Romance",
-    },
-    {
-      id: 10,
-      title: "The Shawshank Redemption",
-      rating: 9.3,
-      imageUrl: "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
-      genres: "Drama",
-    },
-  ];
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [canFetch, setCanFetch] = useState<boolean>(true); // Flag to control fetching
+  const token = localStorage.getItem('token');
 
+  const fetchRecommendations = async () => {
+    setLoading(true);
+    try {
+      // const response = await fetch('http://localhost:8000/recommend/', {
+      const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/recommend/', {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
 
-  const [movies, setMovies] = useState<Movie[]>(initialMovies);
+      if (!response.ok) {
+        throw new Error('Failed to fetch recommendations');
+      }
 
-  const refreshMovies = () => {
-    const newMovies: Movie[] = [
-      {
-        id: 11,
-        title: "Avengers: Endgame",
-        rating: 8.4,
-        imageUrl: "https://image.tmdb.org/t/p/w500/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg",
-        genres: "Action, Adventure, Drama",
-      },
-      {
-        id: 12,
-        title: "Titanic",
-        rating: 7.8,
-        imageUrl: "https://image.tmdb.org/t/p/w500/kHXEpyfl6zqn8a6YuozZUujufXf.jpg",
-        genres: "Drama, Romance",
-      },
-      // Add more movies here...
-    ];
-    setMovies(newMovies);
+      const data = await response.json();
+      setMovies(data); // Assuming data is an array of Movie objects
+
+      // Prevent fetching for the next 1 minute (60000 milliseconds)
+      setCanFetch(false);
+      setTimeout(() => setCanFetch(true), 60000); // Enable fetching after 1 minute
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+      // Handle error state or show a message to the user
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    fetchRecommendations();
+  }, []);
+
+  const handleRefresh = () => {
+    if (canFetch) {
+      fetchRecommendations();
+    } else {
+      console.log('Please wait before refreshing again.'); // Optional: Provide feedback to the user
+    }
+  };
 
   return (
     <div className="container mx-auto py-8 px-48">
       <div className="text-center mb-6 mt-20">
-        <h2 className="text-2xl font-semibold text-gray-600">Recommendations based on your preferences</h2>
+        <h2 className="text-2xl font-semibold text-gray-600">
+          Recommendations based on your preferences
+        </h2>
       </div>
       <div className="flex justify-between items-center mb-6">
-        <div></div> {}
         <button
-          onClick={refreshMovies}
+          onClick={handleRefresh} 
           className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
         >
           Refresh
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-center">
-        {movies.map((movie) => (
-          <div key={movie.id} className="bg-white shadow-md rounded-lg overflow-hidden">
-            <img
-              src={movie.imageUrl}
-              alt={movie.title}
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-xl font-bold mb-2">{movie.title}</h2>
-              <p className="text-gray-600">{movie.genres}</p>
-              <p className="text-gray-800 font-semibold">Rating: {movie.rating}</p>
+      {loading ? (
+        <div className="text-center text-gray-600">
+          Loading our machine learning model. Please wait...
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-center">
+          {movies.map((movie) => (
+            <div key={movie.id} className="bg-white shadow-md rounded-lg overflow-hidden">
+              <div className="p-4">
+                <h2 className="text-xl font-bold mb-2">{movie.name}</h2>
+                <p className="text-gray-600">
+                  Average Rating: {movie.average_rating}
+                </p>
+                <div>
+                  <h3>Genres:</h3>
+                  <ul>
+                    {movie.genres_list.map((genre, index) => (
+                      <li key={index}>{genre}</li> 
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -6,7 +6,6 @@ from moviegram.views import UserViewSet, MovieViewSet, RecommendViewSet, FollowV
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'movies', MovieViewSet, basename='movie')
-router.register(r'recommend', RecommendViewSet, basename='recommend')
 router.register(r'collections', CollectionViewSet, basename='collection')
 
 urlpatterns = [
@@ -32,6 +31,7 @@ urlpatterns = [
 
     path('', FeedViewSet.as_view(), name='feed'),
 
+    path('recommend/', RecommendViewSet.as_view(), name='recommend-list'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('signup/', CustomSignupView.as_view(), name='signup')
