@@ -30,7 +30,8 @@ function App() {
       <Header authenticated={authenticated} setAuthenticated={setAuthenticated}/>
       <div className='flex justify-center bg-white'>
         <Routes>
-          <Route path='/*' element={<HomePage />} />
+          <Route path='/*' element={<LoginPage setAuthenticated={setAuthenticated} />} />
+          <Route path='/home' element={<HomePage />} />
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/collections" element={<CollectionsPage />} />
           <Route path="/login" element={<LoginPage setAuthenticated={setAuthenticated}/>} />
