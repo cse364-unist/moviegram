@@ -1,0 +1,18 @@
+.input-field {
+    background-color: #EAF0F7; 
+}
+
+.signup-button {
+    background-color: #A87FF3; 
+    color: white; 
+    border: none; 
+    padding: 0.5rem 1rem; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+    border-radius: 0.25rem; 
+}
+
+.signup-button:hover {
+    background-color: #916de8; 
+}
