@@ -83,7 +83,7 @@ const UsersPage: React.FC = () => {
         try {
             const token = localStorage.getItem('token'); // Assuming you have a token stored in localStorage
             // const response = await fetch(`http://localhost:8000/users/${userId}/unfollow/`, {
-            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/users/${userId}/unfollow/`,{
+            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/users/${userId}/unfollow/`, {
 
                 method: 'DELETE',
                 headers: {
@@ -109,7 +109,9 @@ const UsersPage: React.FC = () => {
 
     return (
         <div className="container mx-auto mt-8">
-            <h1 className="text-3xl font-bold mb-4">Users Page</h1>
+            <div className="text-center mb-6 mt-20">
+                <h2 className="text-2xl font-semibold text-gray-600">Connect with friends</h2>
+            </div>
             <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {users.map(user => (
                     <li key={user.id} className="bg-white shadow-black shadow-sm rounded-lg p-4">
