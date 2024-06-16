@@ -44,6 +44,20 @@ class RecommenderNet(Model):
         dot_user_movie = tf.tensordot(user_vector, movie_vector, 2)
         x = dot_user_movie + user_bias + movie_bias
         return tf.nn.sigmoid(x)
+    
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            'num_users': self.num_users,
+            'num_movies': self.num_movies,
+            'embedding_size': self.embedding_size
+        })
+        return config
+    
+    @classmethod
+    def from_config(cls, config):
+        return cls(**config)
+
 
 def train_and_save_model():
     ratings_df = pd.DataFrame(list(ratings.values()))
