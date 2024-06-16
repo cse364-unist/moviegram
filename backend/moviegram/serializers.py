@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Movie, Follow, Review, Activity, Rate, Collection
+from .models import User, Movie, Follow, Review, Activity, Rate, Collection, Genre
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -9,11 +9,13 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     follower_list = serializers.SerializerMethodField()
     following_list = serializers.SerializerMethodField()
+    rated_movies = serializers.SerializerMethodField()
+    reviewed_movies = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password',
-                  'follower_list', 'following_list']
+                  'follower_list', 'following_list', 'rated_movies', 'reviewed_movies']
 
     def retrieve(self, instance):
         return instance
@@ -26,9 +28,21 @@ class UserSerializer(serializers.ModelSerializer):
         follower = obj.followers_set.all()
         return FollowSerializer(follower, many=True).data
 
+    # def get_following_list(self, obj):
+    #     following = obj.following_set.all()
+    #     return FollowSerializer(following, many=True).data
+
     def get_following_list(self, obj):
-        following = obj.following_set.all()
-        return FollowSerializer(following, many=True).data
+        following = obj.following_set.all().values_list('following_id', flat=True)
+        return list(following)
+
+    def get_rated_movies(self, obj):
+        rates = obj.rate_set.all()
+        return RateSerializer(rates, many=True).data
+
+    def get_reviewed_movies(self, obj):
+        reviews = obj.review_set.all()
+        return ReviewSerializer(reviews, many=True).data
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -38,25 +52,38 @@ class FollowSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    # user_name = serializers.SerializerMethodField()
+    user_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Review
-        fields = ['id', 'user', 'movie', 'content']
+        fields = ['id', 'user', 'user_name', 'movie', 'content']
 
-    # def get_user_name(self, obj):
-    #     return obj.user.username
+    def get_user_name(self, obj):
+        return obj.user.username
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ['id', 'name']
 
 
 class MovieSerializer(serializers.HyperlinkedModelSerializer):
     review_list = serializers.SerializerMethodField()
+    genres_list = serializers.SerializerMethodField()
 
     class Meta:
         model = Movie
-        fields = ['id', 'url', 'name', 'average_rating', 'review_list']
+        fields = ['id', 'url', 'name', 'average_rating',
+                  'review_list', 'genres_list', 'total_people_rated']
 
     def get_review_list(self, obj):
         reviews = obj.review_set.all()
         return ReviewSerializer(reviews, many=True).data
+
+    def get_genres_list(self, obj):
+        genres = obj.genres.all()
+        return GenreSerializer(genres, many=True).data
 
 
 class CollectionSerializer(serializers.ModelSerializer):

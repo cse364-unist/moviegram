@@ -25,16 +25,28 @@ from .models import Movie, Review, Follow, Activity, Rate, Collection
 from .recommendation import recommend_movies_for_user
 
 
-class UserViewSet(viewsets.ViewSet):
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+    pagination_class = PageNumberPagination
+    permission_classes = [AllowAny]
 
     def list(self, request):
         User = get_user_model()
-        queryset = User.objects.all()
-        serializer = UserSerializer(queryset, many=True)
+        queryset = User.objects.order_by('-id')
+
+        paginator = self.pagination_class()
+        paginated_queryset = paginator.paginate_queryset(queryset, request)
+        serializer = UserSerializer(paginated_queryset, many=True, context={'request': request})
+        return paginator.get_paginated_response(serializer.data)
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
 class FollowViewSet(viewsets.ViewSet):
-    authentication_classes = [BasicAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def create(self, request, user_id):
@@ -79,7 +91,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     pagination_class = PageNumberPagination
-    authentication_classes = []
+    permission_classes = [AllowAny]
 
     def list(self, request):
         queryset = Movie.objects.order_by('id')
@@ -157,8 +169,9 @@ class MovieViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def give_review(self, request, movie_id):
+
         if not request.user.is_authenticated:
-            return Response({'error': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'Authentication credentials were not provided.'}, status=status.HTTP_403_FORBIDDEN)
 
         movie = get_object_or_404(Movie, pk=movie_id)
 
@@ -322,7 +335,8 @@ class RecommendViewSet(viewsets.GenericViewSet):
         user_id = request.user.id
         recommended_movie_ids = recommend_movies_for_user(user_id)
         recommended_movies = Movie.objects.filter(id__in=recommended_movie_ids)
-        serializer = MovieSerializer(recommended_movies, many=True, context={'request':request})
+        serializer = MovieSerializer(
+            recommended_movies, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -331,13 +345,13 @@ class FeedViewSet(viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        user = request.user 
+        user = request.user
         follow_users_id = [
             follow.following.id for follow in user.following_set.all()]
 
-        if len(follow_users_id) == 0: 
-            return Response({'message':'Please follow other users to see their activities.'}, status = status.HTTP_200_OK)
-        
+        if len(follow_users_id) == 0:
+            return Response({'message': 'Please follow other users to see their activities.'}, status=status.HTTP_200_OK)
+
         activities = Activity.objects.filter(
             user_id__in=follow_users_id).order_by('-created_at')
         serializer = ActivitySerializer(activities, many=True)
@@ -352,23 +366,25 @@ class CustomLoginView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(username=username, password=password)
-        
+
         if user is not None:
             token, created = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            return Response({'token': token.key, 'user_id': user.id}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
-        
-class CustomLogoutView(APIView): 
+
+
+class CustomLogoutView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         request.user.auth_token.delete()
-        return Response({'message':'User logged out successfully'}, status=status.HTTP_200_OK)
+        return Response({'message': 'User logged out successfully'}, status=status.HTTP_200_OK)
 
-class CustomSignupView(APIView): 
-    permission_classes = [AllowAny] 
+
+class CustomSignupView(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)

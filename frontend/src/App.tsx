@@ -11,6 +11,8 @@ import CollectionsPage from './pages/CollectionsPage/CollectionsPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import SignUpPage from './pages/SignUpPage/SignUpPage'
 import MoviesPage from './pages/MoviesPage/MoviesPage'
+import UsersPage from './pages/UsersPage/UsersPage'
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false) 
@@ -34,6 +36,8 @@ function App() {
           <Route path="/login" element={<LoginPage setAuthenticated={setAuthenticated}/>} />
           <Route path="/signup" element={<SignUpPage/>} />
           <Route path="/movies" element={<MoviesPage/>} />
+          <Route path="/users" element={<UsersPage/>}/>
+          <Route path="/profile" element={<ProfilePage/>}/>
         </Routes>
 
       </div>
