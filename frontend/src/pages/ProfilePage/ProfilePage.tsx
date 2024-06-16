@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 interface UserProfile {
     username: string;
-    profilePictureUrl: string;
-    bio: string;
     followers: number;
     following: number;
+    bio: string;
+    profilePictureUrl?: string;
 }
 
 interface Movie {
@@ -20,61 +20,64 @@ interface Review {
 
 const ProfilePage: React.FC = () => {
     const [userProfile, setUserProfile] = useState<UserProfile>({
-        username: 'JohnDoe',
-        profilePictureUrl: '',
-        bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        username: 'John Doe',
         followers: 1000,
         following: 500,
+        bio: 'Movie enthusiast. Love to watch and review movies!',
+        profilePictureUrl: ''
     });
 
     const movies: Movie[] = [
         { title: 'Inception', rating: 5 },
-        { title: 'Interstellar', rating: 4 },
-        { title: 'The Dark Knight', rating: 5 },
-        { title: 'Fight Club', rating: 4 },
-        { title: 'Pulp Fiction', rating: 5 },
+        { title: 'The Dark Knight', rating: 4 },
+        { title: 'Interstellar', rating: 4.5 },
+        { title: 'Dunkirk', rating: 4 },
+        { title: 'Tenet', rating: 3.5 }
     ];
 
     const reviews: Review[] = [
         { movieTitle: 'Inception', reviewText: 'Amazing movie with a mind-bending plot!' },
-        { movieTitle: 'Interstellar', reviewText: 'A visually stunning and emotionally profound journey.' },
-        { movieTitle: 'The Dark Knight', reviewText: 'The best Batman movie ever made.' },
-        { movieTitle: 'Fight Club', reviewText: 'A cult classic with a brilliant twist.' },
-        { movieTitle: 'Pulp Fiction', reviewText: 'A masterpiece of nonlinear storytelling.' },
+        { movieTitle: 'The Dark Knight', reviewText: 'A brilliant portrayal of Batman.' },
+        { movieTitle: 'Interstellar', reviewText: 'A visually stunning and emotionally captivating film.' },
+        { movieTitle: 'Dunkirk', reviewText: 'An intense and immersive war movie experience.' },
+        { movieTitle: 'Tenet', reviewText: 'A complex film that requires multiple viewings.' }
     ];
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setUserProfile({
-                    ...userProfile,
-                    profilePictureUrl: reader.result as string,
-                });
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
-        setUserProfile((prevProfile) => ({
-            ...prevProfile,
-            [name]: value,
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setUserProfile((prevState) => ({
+            ...prevState,
+            [name]: value
         }));
     };
 
     const handleSave = () => {
         setIsEditing(false);
-        // Save the updated profile data to the server or local storage
+        // Save changes to the user profile
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            if (file.type === 'image/jpeg' || file.type === 'image/png') {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setUserProfile((prevState) => ({
+                        ...prevState,
+                        profilePictureUrl: reader.result as string
+                    }));
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Only JPEG and PNG files are allowed.');
+            }
+        }
     };
 
     return (
-        <div className="flex flex-col justify-center items-center min-h-screen pt-24 text-black">
+        <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 pt-16">
             <div className="bg-white w-full max-w-screen-lg shadow-lg rounded-lg overflow-hidden mb-8">
                 <div className="px-6 py-4">
                     <div className="flex items-center mb-4">
@@ -118,7 +121,7 @@ const ProfilePage: React.FC = () => {
                                         name="username"
                                         value={userProfile.username}
                                         onChange={handleChange}
-                                        className="block w-full mb-2 p-2 border border-gray-300 rounded"
+                                        className="block w-full mb-2 p-2 bg-white border border-purple-500 rounded"
                                     />
                                     <div className="flex justify-between text-sm text-gray-600 mb-2">
                                         <p>Followers: {userProfile.followers}</p>
@@ -128,7 +131,7 @@ const ProfilePage: React.FC = () => {
                                         name="bio"
                                         value={userProfile.bio}
                                         onChange={handleChange}
-                                        className="block w-full mb-2 p-2 border border-gray-300 rounded"
+                                        className="block w-full mb-2 p-2 bg-white border border-purple-500 rounded"
                                     />
                                     <button
                                         className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
