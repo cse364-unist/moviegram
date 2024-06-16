@@ -67,8 +67,7 @@ def train_and_save_model():
     movie_encoded2movie = {i: x for i, x in enumerate(movie_ids)}
 
     ratings_df["user_encoded"] = ratings_df["user_id"].map(user2user_encoded)
-    ratings_df["movie_encoded"] = ratings_df["movie_id"].map(
-        movie2movie_encoded)
+    ratings_df["movie_encoded"] = ratings_df["movie_id"].map(movie2movie_encoded)
 
     num_users = len(user2user_encoded)
     num_movies = len(movie_encoded2movie)
@@ -100,39 +99,28 @@ def train_and_save_model():
         validation_data=(x_val, y_val)
     )
 
-    # # Get current working directory
-    # current_directory = os.getcwd()
-    
-    # # Construct model directory path (you can modify 'models' to your desired directory name)
-    # model_directory = os.path.join(current_directory, 'models')
-
-    # # Create the directory if it does not exist
-    # if not os.path.exists(model_directory):
-    #     os.makedirs(model_directory)
-
     # Construct the path to save the model
-    model_directory = os.path.join(os.path.dirname(__file__), 'moviegram', 'backend', 'moviegram', 'saved_model')
+    model_directory = os.path.join(os.path.dirname(__file__), 'saved_model')
 
     # Check if the directory exists; if not, create it
     if not os.path.exists(model_directory):
         os.makedirs(model_directory)
-    tf.saved_model.save(model, model_directory)
+
+    model_path = os.path.join(model_directory, 'recommender_model')
+    model.save(model_path, save_format='tf')
 
 
 def recommend_movies_for_user(user_id):
-    # # Get current working directory
-    # current_directory = os.getcwd()
-    
     # Construct model directory path (you can modify 'models' to your desired directory name)
-    model_directory = os.path.join(os.path.dirname(__file__), 'moviegram', 'backend', 'moviegram', 'saved_model')
-
+    model_directory = os.path.join(os.path.dirname(__file__), 'saved_model')
+    model_path = os.path.join(model_directory, 'recommender_model')
+    
     # Check if the model directory exists
-    if not os.path.exists(model_directory):
-        # Train and save the model if it doesn't exist
+    if not os.path.exists(model_path):
         train_and_save_model()
 
     # Load the saved model
-    model = tf.saved_model.load(model_directory)
+    model = tf.saved_model.load(model_path)
 
     ratings_df = pd.DataFrame(list(ratings.values()))
 
@@ -160,7 +148,7 @@ def recommend_movies_for_user(user_id):
     user_movie_array = np.full((len(movies_not_watched_encoded), 2), user_encoder)
     user_movie_array[:, 1] = movies_not_watched_encoded
 
-    ratings_final = model.predict(user_movie_array).flatten()
+    ratings_final = model(user_movie_array).numpy().flatten()
     top_ratings_indices = ratings_final.argsort()[-10:][::-1]
 
     recommended_movie_ids = [movie_encoded2movie[x] for x in top_ratings_indices] 
