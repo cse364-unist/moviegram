@@ -45,15 +45,6 @@ class RecommenderNet(Model):
         dot_user_movie = tf.tensordot(user_vector, movie_vector, 2)
         x = dot_user_movie + user_bias + movie_bias
         return tf.nn.sigmoid(x)
-    
-    # def get_config(self):
-    #     config = super().get_config()
-    #     config.update({
-    #         'num_users': self.num_users,
-    #         'num_movies': self.num_movies,
-    #         'embedding_size': self.embedding_size
-    #     })
-    #     return config
 
 
 def train_and_save_model():
@@ -120,7 +111,7 @@ def recommend_movies_for_user(user_id):
         train_and_save_model()
 
     # Load the saved model
-    model = tf.saved_model.load(model_path)
+    model = tf.keras.models.load_model(model_path)
 
     ratings_df = pd.DataFrame(list(ratings.values()))
 
@@ -148,7 +139,7 @@ def recommend_movies_for_user(user_id):
     user_movie_array = np.full((len(movies_not_watched_encoded), 2), user_encoder)
     user_movie_array[:, 1] = movies_not_watched_encoded
 
-    ratings_final = model(user_movie_array).numpy().flatten()
+    ratings_final = model.predict(user_movie_array).flatten()
     top_ratings_indices = ratings_final.argsort()[-10:][::-1]
 
     recommended_movie_ids = [movie_encoded2movie[x] for x in top_ratings_indices] 
