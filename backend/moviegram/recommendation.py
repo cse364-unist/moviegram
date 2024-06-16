@@ -106,14 +106,14 @@ def train_and_save_model():
     if not os.path.exists(model_directory):
         os.makedirs(model_directory)
 
-    model_path = os.path.join(model_directory, 'recommender_model')
-    model.save(model_path, save_format='tf')
+    model_path = os.path.join(model_directory, 'recommender_model.h5')
+    model.save(model_path)
 
 
 def recommend_movies_for_user(user_id):
     # Construct model directory path (you can modify 'models' to your desired directory name)
     model_directory = os.path.join(os.path.dirname(__file__), 'saved_model')
-    model_path = os.path.join(model_directory, 'recommender_model')
+    model_path = os.path.join(model_directory, 'recommender_model.h5')
     
     # Check if the model directory exists
     if not os.path.exists(model_path):

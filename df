@@ -1,0 +1,762 @@
+[33mcommit 5ce27422aadd70460ab7d89650d9b6238517a37f[m[33m ([m[1;36mHEAD -> [m[1;32mfront-recom[m[33m, [m[1;31morigin/front-recom[m[33m)[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sun Jun 16 19:34:00 2024 +0900
+
+    some changes 5
+
+[33mcommit e9bcb8c2d5974ae3d7df7168da0513acf1ee2bae[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sun Jun 16 17:08:58 2024 +0900
+
+    small changes 3
+
+[33mcommit a22ab0be1739894edef63ab57b6b0f94c3460157[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sun Jun 16 16:46:53 2024 +0900
+
+    some changes2
+
+[33mcommit 631c7b9ae15d5c9a5ca0f9ea8d33e4e1681613c3[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sun Jun 16 16:15:52 2024 +0900
+
+    some changes
+
+[33mcommit a705ae93af211a2039c097e21194afc25806304d[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sun Jun 16 16:09:04 2024 +0900
+
+    some changes to saving
+
+[33mcommit e17e833304cdc235dfd51da9df4a8922d544c0b6[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sun Jun 16 15:46:30 2024 +0900
+
+    modifications to saving the model
+
+[33mcommit 2ef29cf9b66e0cb2b301a87af3abb5b1e727f2a1[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sun Jun 16 15:19:49 2024 +0900
+
+    modified for saving the model
+
+[33mcommit fb9ec8acf54e0fd455a7f6b53c83764bb836cb62[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sun Jun 16 13:55:16 2024 +0900
+
+    added a heading and a refresh button
+
+[33mcommit 840d2e2232bea83962d6ea7b33471641b066ec34[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sat Jun 15 20:11:18 2024 +0900
+
+    some modifications to the movie cards
+
+[33mcommit 7084bda54c10e9805f36ab18f4ad8483212e8509[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Sat Jun 15 19:34:08 2024 +0900
+
+    added movie cards
+
+[33mcommit b9c15bb04a8160077799d31b6e97b8b94aa18ad9[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sat Jun 15 03:39:17 2024 +0900
+
+    done: update login/sign up pages. to do: update auth method
+
+[33mcommit 2520855b97bfaf426ffdcf3016a82b544a24ed9b[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sat Jun 15 02:28:09 2024 +0900
+
+    done: tested deploy. to do: change auth method + create login/sign up pages
+
+[33mcommit fd69b2deeeeb827bddcb26aca5369e049ced65d6[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Jun 14 22:13:49 2024 +0900
+
+    done: configuring CI
+
+[33mcommit 676ea86e2c3810186dde39607ab12fb89f609d50[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Jun 14 22:09:23 2024 +0900
+
+    done: configuring CI
+
+[33mcommit f746ac2bf8f5b4edfc5ec8fd21c967dd6006afb2[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Jun 14 22:02:59 2024 +0900
+
+    done: created dev, prod and testing envs
+
+[33mcommit 40b4609a156fd288c795a58f3a842c33535b5042[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Jun 14 19:59:46 2024 +0900
+
+    done: deployed backend is working
+
+[33mcommit 7a646f54fe22ca792ea7204b62b10b5f2528b5ca[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Jun 10 16:23:53 2024 +0900
+
+    done: updated python version again
+
+[33mcommit 4d201683730f7c504197610484502685944cc721[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Jun 10 16:22:50 2024 +0900
+
+    done: updated python version again
+
+[33mcommit a5154d1582adcb295a2ba773cb0e2558fab8f7b6[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Jun 10 16:21:07 2024 +0900
+
+    done: updated the python version
+
+[33mcommit 67a8f6967d819dfa9a1fd59d0d4ecd63ae8f13e1[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Jun 10 16:14:46 2024 +0900
+
+    done: updated req.txt outer one
+
+[33mcommit 6bbca7457dd863d57abe96abad89712a1df41a24[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Jun 10 16:10:47 2024 +0900
+
+    done: deploy in process
+
+[33mcommit 677a9e5e412fb385496b8dbdbc338e0b4ea34e83[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Jun 10 15:55:01 2024 +0900
+
+    done: deploying - added whitenoise library
+
+[33mcommit d8610a957fbed76964f11d1fdebeb1ac560fa2bc[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Jun 10 15:47:53 2024 +0900
+
+    done: prepared for deploy
+
+[33mcommit 67570bbd1ef5c2a31225313e13aebae47a476699[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Jun 10 15:27:23 2024 +0900
+
+    done: migrated to postgre and deployed db. to do: prepare backend for deploy
+
+[33mcommit 25de2d2b11fbdbedfdbb96a3047b7d3f09c28afb[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sun Jun 9 04:11:32 2024 +0900
+
+    done: minor clean up
+
+[33mcommit 76c8c233c9b6725e677f27ff132262f788aa2687[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sun Jun 9 04:04:02 2024 +0900
+
+    done: switeched to auto deploy of front. started working on login/signup. to do: deploy backend
+
+[33mcommit d6e6e6f28fda6300d0be14cabf39e7d64395c787[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sun Jun 9 03:20:30 2024 +0900
+
+    done: created new branch for prod
+
+[33mcommit ff42d9fced4db1b8b6a8ec8f482533a9ca3fc1f9[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sun Jun 9 02:58:04 2024 +0900
+
+    done: deployed frontend with manual deploy. to do: switch to auto deploy
+
+[33mcommit e7e728ff0ddc39769962b4e18fbc75c8f30de6d8[m[33m ([m[1;31morigin/front-collections[m[33m)[m
+Merge: 44dd486 b302ff0
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Wed May 29 13:26:19 2024 +0900
+
+    Merge branch 'main' into milestone3
+
+[33mcommit b302ff01572561d5b0a4a40727bf9b1b7a7207b5[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Fri May 24 21:37:24 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit 1ee780483c839790431e09e635cce0f85c30ea72[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Fri May 24 21:28:01 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit 2c5b838ed1831ee194fbf9ab7cac9c64cdf23b48[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Fri May 24 21:24:29 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit 4a1348967540a68765f772b96adc9151b77e763c[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 18:42:42 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit 29a83606f90813719ba49e8fce1335b3842cabe6[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 18:39:52 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit b4262c3a5d711dca4c056aa636a0586595291654[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Wed May 22 17:35:46 2024 +0900
+
+    done: changed the mysql server password
+
+[33mcommit 8306880a38ce4b0a0980f9a599cad554f65b1270[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 17:34:19 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit 952c63f96759aa41e8df422df54954af79e9c24e[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 17:08:10 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit e266a5aa21b751ac253fb7234a77e876f50e0cb7[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 17:05:28 2024 +0900
+
+    try: to fix issue #1 (7). Update backend-build-test.yml
+
+[33mcommit 8fba4a915739948929219f350a301f445a04374e[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 16:51:39 2024 +0900
+
+    try: to fix issue #1 (6). Update backend-build-test.yml
+
+[33mcommit 285f91979bebf013eed4817cadca3bd4c604800a[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 15:31:06 2024 +0900
+
+    try: to fix #1 issue (5). Update backend-build-test.yml
+
+[33mcommit 3a1ce22921d9759b3f48cb5373faa1b1682a6763[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 15:27:56 2024 +0900
+
+    try: to fix #1 issue (4). Update backend-build-test.yml
+
+[33mcommit 65933dccc3a8d82c1e516f86b3fe94bcf9861e48[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 15:25:41 2024 +0900
+
+    try: to fix issue #1 . Update backend-build-test.yml
+
+[33mcommit a203431844b0c84cea7878ab380bc88e4b7a2086[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 15:22:50 2024 +0900
+
+    try: to fix #1 issue. Update backend-build-test.yml
+
+[33mcommit 4f9ec93828e896bd7c4ac75dbc2ad0cb7215b1ee[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 15:20:21 2024 +0900
+
+    try: to fix #1 issue. Update backend-build-test.yml
+
+[33mcommit cf05aa997ef5fc3d7cb8b0a094aa07ecbd94961c[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 15:17:48 2024 +0900
+
+    try: to fix #1 issue. Update backend-build-test.yml
+
+[33mcommit 2d01dd966f0ff250a86a3fcef928e5abb466c1b6[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Wed May 22 15:15:49 2024 +0900
+
+    try: to fix #1 issue
+
+[33mcommit 7cd31d9c3ac8a064333f6b8929d5e6a617682021[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Wed May 22 15:12:29 2024 +0900
+
+    try: fixing github actions issue
+
+[33mcommit 44dd4865b5559e154750f77da4b61dad05afc030[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Wed May 22 14:51:13 2024 +0900
+
+    Started creating collectioncard component
+
+[33mcommit 5b003e17fa815f578505d7bc44d7318a758bdfe7[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Mon May 20 18:01:24 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit 37b345aed2ab3b90b05905ef1007cb68775120f0[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Mon May 20 17:56:29 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit d5a32e9231f17eaf4ff025b9a5af3a31b785b266[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Mon May 20 17:52:05 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit bb40cd0a7a80b96098e56109307b14d24d37f0db[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Mon May 20 17:49:35 2024 +0900
+
+    Update backend-build-test.yml
+
+[33mcommit aae269da7f1cb1cd1ff2612398d72512676620e0[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon May 20 17:45:10 2024 +0900
+
+    Checking the github actions
+
+[33mcommit 2d9c28f315c69068ad5312413fd66c5746af3a13[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Mon May 20 17:42:11 2024 +0900
+
+    Created backend-build-test.yml for GitHub Actions
+
+[33mcommit 0a0bca043baf6ddd6c7eaef998ff5941841768be[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Thu May 9 23:11:53 2024 +0900
+
+    done: added design to review component. to do: connect home view to API
+
+[33mcommit b0f5b089f203f55c401f2d71a61bc7b60a760a7a[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Thu May 9 17:18:52 2024 +0900
+
+    done: did some refactoring. to do: work on review component
+
+[33mcommit fc4d7817a3d91cf9ec6ceb0571e280ae0952f164[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Wed May 8 14:39:16 2024 +0900
+
+    done: added some design to main page and review component. to do: complete the review component
+
+[33mcommit 1a868ee21fb4ff4d589ba1d7c119d9e5bd855192[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Tue May 7 13:29:22 2024 +0900
+
+    done: added review component to do: work on review component
+
+[33mcommit 7219b392946f5728e2233a3d8ed4ff39f605729b[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon May 6 15:09:41 2024 +0900
+
+    done: added react routing - to do: create components for activity types
+
+[33mcommit 8634cae253927a3f3fd9da979369034653289868[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sun May 5 16:08:42 2024 +0900
+
+    done: added nav bar to do: add react routing
+
+[33mcommit ef3d5fa0c3bb7cd47d643b9644f6512efb5b5dce[m[33m ([m[1;31morigin/milestone2[m[33m)[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri May 3 23:56:08 2024 +0900
+
+    Final changes 2
+
+[33mcommit 77e93fb1cfac0a89bb1e9669484718adf6decafd[m
+Author: Aizat Karybekova <78578663+karybekova3355@users.noreply.github.com>
+Date:   Fri May 3 23:54:47 2024 +0900
+
+    Update README.md
+
+[33mcommit bf7e51c5644e8dac0752771d0ad44abf372a5048[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri May 3 23:29:31 2024 +0900
+
+    final changes 1
+
+[33mcommit abbe205cd116152fe046fecd7ac376f324abb198[m
+Merge: c9dd9c8 7f1ae57
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri May 3 23:08:49 2024 +0900
+
+    Merge recommend branch
+
+[33mcommit c9dd9c855933f8fde4010185074b4a8d4ce9c2fc[m
+Author: Aizat Karybekova <78578663+karybekova3355@users.noreply.github.com>
+Date:   Fri May 3 23:01:37 2024 +0900
+
+    Update README.md
+
+[33mcommit 7f1ae57dc3f366b78c318da13170ff710a1cb71f[m[33m ([m[1;31morigin/recommendation[m[33m)[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri May 3 23:00:14 2024 +0900
+
+    done: commit before merge to main
+
+[33mcommit b43e226bd58e2d09e6d96932262861e73ac74852[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri May 3 22:55:34 2024 +0900
+
+    done: commit before clean up
+
+[33mcommit c0bae9ded6aa3373900b88655e284ab0704d0ebe[m[33m ([m[1;32mmilestone2[m[33m, [m[1;32mmain[m[33m)[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Fri May 3 22:25:49 2024 +0900
+
+    done: achieved 91% test coverage of views.py file
+
+[33mcommit 27887290d91a7ef073d8a3fc9b947cbe31aa151c[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri May 3 20:38:27 2024 +0900
+
+    Printing top 10 recommendations
+
+[33mcommit 40299510205be068f520a2e0b3f4230ea76c6ac1[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri May 3 17:55:25 2024 +0900
+
+    writing tests
+
+[33mcommit d72846508be59fdc3ba1a04da2aa8b6cca77f506[m
+Author: uni20192026 <91851247+uni20192026@users.noreply.github.com>
+Date:   Fri May 3 14:05:43 2024 +0900
+
+    Update README.md
+
+[33mcommit a794d3f869967a08a8817cbaae8fbdd89a46596f[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 14:02:19 2024 +0900
+
+    Update expected outputs on README.md
+
+[33mcommit 431bdafef2ff472d60681b41f93417e05e8c8139[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:59:06 2024 +0900
+
+    Update expected outputs on README.md
+
+[33mcommit c9d2e0b92f4aa89c35c3910f6468a84ac2ea25f5[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:26:41 2024 +0900
+
+    update README.md
+
+[33mcommit bfb174b78940d484c5a782ae455d96c0ab45c069[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:16:54 2024 +0900
+
+    update README.md
+
+[33mcommit 9e42f896e8df4e2466b3540a1a6208778223e4b4[m
+Author: uni20192026 <91851247+uni20192026@users.noreply.github.com>
+Date:   Fri May 3 13:04:25 2024 +0900
+
+    Update README.md
+    
+    Step 3 Expected output
+
+[33mcommit 2458e1cee57a9d4f36596b5017d6113b390506c7[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:00:43 2024 +0900
+
+    Step 3 Expected output
+
+[33mcommit cf5a8a25dbca562a4faf97d7df2d95830b953f89[m[33m ([m[1;32mrecommendation[m[33m)[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Fri May 3 16:41:19 2024 +0900
+
+    Adding recommendations for a user
+
+[33mcommit 812d49c49b41d7f072566eb76605a14521492115[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri May 3 16:04:11 2024 +0900
+
+    done: added more test coverage of views = 58%. to do: make views coverage > 90%
+
+[33mcommit 1bc27367ac04d3f275349ca5db64c0b5edc15756[m
+Author: uni20192026 <91851247+uni20192026@users.noreply.github.com>
+Date:   Fri May 3 14:05:43 2024 +0900
+
+    Update README.md
+
+[33mcommit 7c88991f66a9b3af19c9a260cefb0be7e6dc1c72[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 14:02:19 2024 +0900
+
+    Update expected outputs on README.md
+
+[33mcommit 013976ccc0eba068c5cad2179262a65fa17f5b90[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:59:06 2024 +0900
+
+    Update expected outputs on README.md
+
+[33mcommit 5309d8bce18e2a7232a4d04f1881db78c1515285[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:26:41 2024 +0900
+
+    update README.md
+
+[33mcommit 9a4feed7e3571bd4f514e8e70102c04c77865957[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:20:59 2024 +0900
+
+    update README.md
+
+[33mcommit a10ea66313b5e2de1cee3a0334eba75f60ab3ce4[m
+Merge: c5f6471 57be093
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:18:29 2024 +0900
+
+    Merge branch 'main' of https://github.com/cse364-unist/moviegram
+
+[33mcommit c5f647101a22cada607c15bda41ee68a37080497[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:16:54 2024 +0900
+
+    update README.md
+
+[33mcommit 57be093bb755ad937c7b149d9ec2e79adeb259c7[m
+Author: uni20192026 <91851247+uni20192026@users.noreply.github.com>
+Date:   Fri May 3 13:13:30 2024 +0900
+
+    Update README.md
+
+[33mcommit 5712926b352e858a4d18f67af3c82312ac296ee2[m
+Author: uni20192026 <91851247+uni20192026@users.noreply.github.com>
+Date:   Fri May 3 13:04:25 2024 +0900
+
+    Update README.md
+    
+    Step 3 Expected output
+
+[33mcommit 49722a2a9df96f3a2e297fb1e052162542537d1c[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Fri May 3 13:00:43 2024 +0900
+
+    Step 3 Expected output
+
+[33mcommit b84a46ab796d7b274eb2f50f216e192b1b021d54[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri May 3 02:30:52 2024 +0900
+
+    done: added test for user listing, follow to do: add more tests
+
+[33mcommit e9f73bec94476f64a0bb84b97788b9966c541fed[m
+Author: karybekova3355 <karybekova3355@gmail.com>
+Date:   Fri May 3 02:27:37 2024 +0900
+
+    done: completed the model training
+
+[33mcommit 3eb7fd4917e71d045aed7de98bafe229c962abad[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Thu May 2 20:36:35 2024 +0900
+
+    done: loaded initial data of movies, users and ratings. to do: test on milestone2 branch
+
+[33mcommit f83d938055f8c7299096a3da2c6814079381b1e2[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Wed May 1 20:18:47 2024 +0900
+
+    done: completed collections to do: add notifications
+
+[33mcommit 8a433747832c7a7a85e3002a01e49c4ce4ec007e[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Wed May 1 15:21:42 2024 +0900
+
+    done: added duplicate-user-creation-test, updated user creation, added dockerfile & run.sh. to do: complete collections, create notifications
+
+[33mcommit 25ee49db4b42319deb79e193b0ccc531ec3dd383[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Tue Apr 30 22:20:27 2024 +0900
+
+    done: updated the settings.py
+
+[33mcommit 9e6cc1a1425b7dd24612cb6a2f305f69b5f2039e[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Tue Apr 30 22:07:21 2024 +0900
+
+    done: created first test to do: finish collections api endpoints, work on notifications, cover endpoints with tests
+
+[33mcommit a5c66085a676af4315f942dbb5aea48ab7d522e3[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Tue Apr 30 12:01:41 2024 +0900
+
+    Update README.md
+
+[33mcommit 4641a9e6462b108a0f9419e0a348e22b4d96be49[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Tue Apr 30 11:54:53 2024 +0900
+
+    done: follow collection, add new collection . to do: add movie to collection, add movies when creating collection
+
+[33mcommit 27d6caffc3be093ad23958673bc52596364952c3[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Apr 29 22:12:51 2024 +0900
+
+    done: updated movie viewsets, serializer. to do: write test for movie
+
+[33mcommit bcb3579e4fc3fee2111e1562563ae6e6ad873219[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Apr 29 17:03:00 2024 +0900
+
+    done: added collectionviewset to list all collections. to do: create collection api endpoint
+
+[33mcommit 6105056ce5c5ee64826b105765ab8e825c7be4c4[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Mon Apr 29 13:29:03 2024 +0900
+
+    done: adding activity when rate, review is created. to do: view collections, create collections
+
+[33mcommit bf55f35669c18127b3155daca0a2d670ffecf63b[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sat Apr 27 23:05:20 2024 +0900
+
+    done: added collections model to do: review, reate > create new activity
+
+[33mcommit 2918893498455e094884570da44fd4ab6cd1dea0[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 26 21:53:08 2024 +0900
+
+    done: created activity model to do: update rate, review views to add activity obj
+
+[33mcommit a77c23b2dabf0e5eae709252044f23383acecb62[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 26 18:41:34 2024 +0900
+
+    done: added follow, unfollow api endpoints to do: add feed api endpoint
+
+[33mcommit 7e365ef956b91d1d7163590ac51b4538e3b3b94d[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 26 16:09:14 2024 +0900
+
+    done: added review api endpoint. to do: complete follow each other functionality
+
+[33mcommit 91f576b2c5af19e92923f1c67ef771a04c27aa7e[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 26 00:49:20 2024 +0900
+
+    Done: Added rating movie functionality. To do: add review model
+
+[33mcommit 7c7838b452563dcf20afd494e936f8d91badaf9f[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 26 00:21:44 2024 +0900
+
+    Working on follow model
+
+[33mcommit 12463f614b1e0d65acc985046481d98855b9cf45[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Thu Apr 25 17:33:52 2024 +0900
+
+    Done: added user creation, authentication,recommendations api endpoints. To do: add ability to follow other users
+
+[33mcommit 2c97b39320a949e11f54d0525d9c721635dc5715[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Thu Apr 25 14:36:01 2024 +0900
+
+    Done: added recommendation.py To do: create a user
+
+[33mcommit 204015d83ce7fe4f32a75b1d95eae5314b8f572e[m
+Author: Makida <makidagebregiorgis@gmail.com>
+Date:   Mon Apr 22 16:07:10 2024 +0900
+
+    readme
+
+[33mcommit c38cc88a650492d2fbac6797b079a3af135738b8[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sat Apr 20 19:48:49 2024 +0900
+
+    Connecting to mysql db
+
+[33mcommit 2fb0ca704f06b163de0d09277ef0a58fb5bd86d3[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Sat Apr 20 18:24:02 2024 +0900
+
+    Update README.md
+
+[33mcommit e3ee0b80136e9bcd78d82e321867a8fdccd58b9c[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sat Apr 20 18:18:28 2024 +0900
+
+    Done: updated readme, added models to admin. To do: create api to register and login a user
+
+[33mcommit fbdb81f8984213f58c0de2d3a6279bb80fe7d9d0[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sat Apr 20 16:08:07 2024 +0900
+
+    Done: created reviews model, calculated ratings for movies. To do: work on user model
+
+[33mcommit 3b6c21758f9918d491ada891fc82521939a84c3f[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sat Apr 20 14:58:35 2024 +0900
+
+    Created movies, genre models. Added movies loader
+
+[33mcommit be9b9cba4b00a0a05e58ce83e1231385af66b297[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 19 22:14:44 2024 +0900
+
+    Added moviegram application
+
+[33mcommit ef868a6e5146449e63c3c87b3f1ac272fbb252f7[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 19 21:01:44 2024 +0900
+
+    Updated requirements.txt
+
+[33mcommit bd9d938ae4d1026f004c02f369644e42c580ed11[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 19 20:54:44 2024 +0900
+
+    Updated requirements.txt
+
+[33mcommit 8dbdfc4ea757171176f0409e221cb3331d7ae1e7[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 19 20:50:31 2024 +0900
+
+    Updated requirements.txt
+
+[33mcommit 274d3a79aac9a420959e7f40d6de2f1ebac7e412[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 19 20:45:06 2024 +0900
+
+    Updated requirements.txt file
+
+[33mcommit 8ff94322ebe3837fa1bd96f5237a35051d5d40be[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 19 19:23:26 2024 +0900
+
+    Readme updated
+
+[33mcommit 4980186eeef278c115ce7e5e803a93bdf9645b96[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Fri Apr 19 19:16:19 2024 +0900
+
+    Checking if repo is workign
+
+[33mcommit f303427f83ac4689bc4382f78d64cb2c07672030[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sun Mar 17 22:38:15 2024 +0900
+
+    Initialized frontend
+
+[33mcommit cb6153709e3143d1d16b9800846de1fca1c4f057[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sun Mar 17 22:14:34 2024 +0900
+
+    Initialized backend and added gitignore file
+
+[33mcommit fbd3b1162fc201a8369e477fd2d1044663063508[m
+Author: Aibek Minbaev <aibekminbaev050402@gmail.com>
+Date:   Sun Mar 17 21:29:15 2024 +0900
+
+    Updated Readme file
+
+[33mcommit b8bd74d164b20638b6f088c5b062cfb60e07c566[m
+Author: Aibek Minbaev <71759007+AibekMinbaev@users.noreply.github.com>
+Date:   Sun Mar 17 21:07:11 2024 +0900
+
+    Initial commit
