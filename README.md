@@ -1,10 +1,9 @@
 # Welcome!
 # This is MovieGram - social media for movie lovers. 
+Welcome to MovieGram, your go-to platform for connecting with other movie enthusiasts, discovering new movies, and sharing your movie experiences. Whether you're a casual moviegoer or a cinephile, MovieGram offers a rich set of features designed to enhance your movie-watching journey.
 
 ## Link: https://mooviegram.netlify.app/
 
-## Note
-If you don't have README previwer, please, open this README in the some previewer such as (https://markdownlivepreview.com/) for better experience.  
 
 ### Feature #1: Social Media notion
 The purpose of this feature is to give an ability to users interact with each other as well as with movies. Collections of small features make up this big feature. To make sure users can interact with each other we implemented functinalities:  
@@ -381,15 +380,13 @@ curl -u instructor:asdf  http://localhost:8000/recommend/ | json_pp
 ```  
 
 ## Test Coverage:  
-Here is way to check for coverage: 
+Here is a way to check for coverage: 
 Assuming you are in the root directory.  
 ```bash
 cd backend
 coverage run manage.py test 
 coverage report
 ```
-
-FYI, Movie gamification feature from the proposal won't be implemented, since we already have 3 big features.
 
 # MovieGram User Documentation
 Welcome to MovieGram! This documentation provides comprehensive information on using our social media platform designed for movie lovers.
