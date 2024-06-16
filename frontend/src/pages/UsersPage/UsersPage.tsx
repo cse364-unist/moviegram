@@ -20,7 +20,8 @@ const UsersPage: React.FC = () => {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/users/${currentUserId}/`);
+                // const response = await fetch(`http://localhost:8000/users/${currentUserId}/`);
+                const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/users/${currentUserId}/`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch user details');
                 }
@@ -34,7 +35,9 @@ const UsersPage: React.FC = () => {
 
         const fetchUsers = async () => {
             try {
-                const response = await fetch('http://localhost:8000/users/');
+                // const response = await fetch('http://localhost:8000/users/');
+                const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/users/');
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch users');
                 }
@@ -52,7 +55,8 @@ const UsersPage: React.FC = () => {
     const handleFollow = async (userId: number) => {
         try {
             const token = localStorage.getItem('token'); // Assuming you have a token stored in localStorage
-            const response = await fetch(`http://localhost:8000/users/${userId}/follow/`, {
+            // const response = await fetch(`http://localhost:8000/users/${userId}/follow/`, {
+            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/users/${userId}/follow/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,7 +82,9 @@ const UsersPage: React.FC = () => {
     const handleUnfollow = async (userId: number) => {
         try {
             const token = localStorage.getItem('token'); // Assuming you have a token stored in localStorage
-            const response = await fetch(`http://localhost:8000/users/${userId}/unfollow/`, {
+            // const response = await fetch(`http://localhost:8000/users/${userId}/unfollow/`, {
+            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/users/${userId}/unfollow/`,{
+
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

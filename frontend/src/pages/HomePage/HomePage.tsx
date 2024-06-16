@@ -16,7 +16,8 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await fetch('http://localhost:8000/movies');
+                // const response = await fetch('http://localhost:8000/movies');
+                const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/movies');
 
                 if (!response.ok) {
                     throw new Error('Something went wrong');

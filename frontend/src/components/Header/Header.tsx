@@ -29,7 +29,9 @@ const Header: React.FC<HeaderProps> = ({ authenticated, setAuthenticated }) => {
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8000/logout/', {
+            // const response = await fetch('http://localhost:8000/logout/', {
+            const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/logout/',{
+
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
