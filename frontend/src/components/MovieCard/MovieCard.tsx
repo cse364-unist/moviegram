@@ -24,6 +24,7 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating, total_people_rated, id, review_list }) => {
     const [reviewInput, setReviewInput] = useState<string>('');
     const [reviews, setReviews] = useState<Review[]>(review_list); // Initialize with the prop value
+    const [userRating, setUserRating] = useState<number>(0);
 
     console.log('reviews:', reviews);
 
@@ -39,8 +40,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating
 
         try {
             // const response = await fetch(`http://localhost:8000/movies/${id}/review/`, {
-            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/movies/${id}/review/`,{
-
+            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/${id}/review/`, {
+        
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,7 +62,39 @@ const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating
         }
     };
 
-    const renderStars = (rating: number) => {
+    const handleRatingChange = (rating: number) => {
+        setUserRating(rating);
+    };
+
+    const handleSubmitRating = async () => {
+        if (userRating < 1 || userRating > 5) {
+            alert('Please select a rating between 1 and 5.');
+            return;
+        }
+
+        try {
+            // const response = await fetch(`http://localhost:8000/movies/${id}/rate/`, {
+            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/${id}/rate/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Token ${localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify({ rating: userRating }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit rating');
+            }
+
+            alert('Rating submitted successfully!');
+        } catch (error) {
+            console.error('Error submitting rating:', error);
+            alert('Already rated the movie');
+        }
+    };
+
+    const renderStars = (rating: number, interactive: boolean = false) => {
         const stars = [];
         const starStyle: React.CSSProperties = {
             width: '29.35px',
@@ -70,12 +103,19 @@ const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating
             stroke: '#34A853',
             strokeWidth: '1',
             strokeLinejoin: 'round',
+            cursor: interactive ? 'pointer' : 'default',
         };
 
         for (let i = 0; i < 5; i++) {
             stars.push(
-                <svg key={i} style={starStyle} viewBox="0 0 24 24">
-                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" 
+                <svg
+                    key={i}
+                    style={starStyle}
+                    viewBox="0 0 24 24"
+                    onClick={interactive ? () => handleRatingChange(i + 1) : undefined}
+                >
+                    <polygon
+                        points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
                         fill={i < rating ? '#34A853' : 'none'}
                         stroke="#34A853"
                         strokeWidth="1"
@@ -95,22 +135,26 @@ const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating
                 <img className="mt-4 mx-auto rounded-lg" src={myImage} alt='Movie Poster' style={{ width: '183.06px', height: '272px' }} />
             </div>
 
-            <div className="flex justify-center mt-4">
-                <button className="bg-gray-800 text-white px-2 py-1 rounded-md text-sm hover:bg-gray-700 focus:outline-none">
-                    Add Movie to Collections
-                </button>
-            </div>
-
             <div className="px-6 py-4">
                 <p className="font-bold text-md mt-4">Genres:</p>
                 <p className="text-sm">{genres_list.map(genre => genre.name).join(', ')}</p>
             </div>
 
             <div className="px-6 py-4">
-                <div className="flex">
-                    {renderStars(Math.round(average_rating))}
+                <div className="flex items-center">
+                    <div className="flex">
+                        {renderStars(Math.round(average_rating))}
+                    </div>
+                    <p className="ml-4 font-bold text-md">Rated by: {total_people_rated}</p>
                 </div>
-                <p className="font-bold text-md">Rated by: {total_people_rated}</p>
+                <div className="flex items-center mt-4">
+                    <div className="flex">
+                        {renderStars(userRating, true)}
+                    </div>
+                    <button onClick={handleSubmitRating} className="bg-gray-800 text-white px-4 py-2 rounded-md ml-4 hover:bg-gray-700 focus:outline-none" style={{ backgroundColor: '#292929' }}>
+                        Submit Rating
+                    </button>
+                </div>
             </div>
 
             <div className="px-6 py-4">
