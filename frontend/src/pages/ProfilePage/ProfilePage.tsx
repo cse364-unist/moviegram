@@ -77,7 +77,7 @@ const ProfilePage: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center min-h-screen pt-24">
+        <div className="flex flex-col justify-center items-center min-h-screen pt-24 text-black">
             <div className="bg-white w-full max-w-screen-lg shadow-lg rounded-lg overflow-hidden mb-8">
                 <div className="px-6 py-4">
                     <div className="flex items-center mb-4">
