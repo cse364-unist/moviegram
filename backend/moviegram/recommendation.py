@@ -14,7 +14,6 @@ users = User.objects.all()
 
 EMBEDDING_SIZE = 50
 
-
 class RecommenderNet(Model):
 
     def __init__(self, num_users, num_movies, embedding_size, **kwargs):
@@ -46,15 +45,11 @@ class RecommenderNet(Model):
         x = dot_user_movie + user_bias + movie_bias
         return tf.nn.sigmoid(x)
 
-
-def recommend_movies_for_user(user_id):
-    # users_df = pd.DataFrame(list(users.values()))
-    movies_df = pd.DataFrame(list(movies.values()))
+def train_and_save_model():
     ratings_df = pd.DataFrame(list(ratings.values()))
 
     user_ids = ratings_df["user_id"].unique().tolist()
     user2user_encoded = {x: i for i, x in enumerate(user_ids)}
-    # userencoded2user = {i: x for i, x in enumerate(user_ids)}
 
     movie_ids = ratings_df["movie_id"].unique().tolist()
     movie2movie_encoded = {x: i for i, x in enumerate(movie_ids)}
@@ -69,7 +64,7 @@ def recommend_movies_for_user(user_id):
 
     min_rating = min(ratings_df["rate"])
     max_rating = max(ratings_df["rate"])
-    
+
     ratings_df = ratings_df.sample(frac=1, random_state=42)
 
     x = ratings_df[["user_encoded", "movie_encoded"]].values
@@ -81,6 +76,7 @@ def recommend_movies_for_user(user_id):
         x, y, test_size=0.1, random_state=42)
 
     model = RecommenderNet(num_users, num_movies, EMBEDDING_SIZE)
+
     model.compile(
         loss=tf.keras.losses.BinaryCrossentropy(), optimizer=keras.optimizers.Adam(learning_rate=0.001)
     )
@@ -92,6 +88,26 @@ def recommend_movies_for_user(user_id):
         epochs=5,
         validation_data=(x_val, y_val)
     )
+
+    # Save the model after training
+    model.save('.')
+
+def recommend_movies_for_user(user_id):
+    # Load the saved model
+    model = keras.models.load_model('.')
+
+    ratings_df = pd.DataFrame(list(ratings.values()))
+
+    user_ids = ratings_df["user_id"].unique().tolist()
+    user2user_encoded = {x: i for i, x in enumerate(user_ids)}
+
+    movie_ids = ratings_df["movie_id"].unique().tolist()
+    movie2movie_encoded = {x: i for i, x in enumerate(movie_ids)}
+    movie_encoded2movie = {i: x for i, x in enumerate(movie_ids)}
+
+    ratings_df["user_encoded"] = ratings_df["user_id"].map(user2user_encoded)
+    ratings_df["movie_encoded"] = ratings_df["movie_id"].map(
+        movie2movie_encoded)
 
     movies_watched_by_user = [
         rating.movie_id for rating in ratings if rating.user_id == user_id]
@@ -111,3 +127,6 @@ def recommend_movies_for_user(user_id):
 
     recommended_movie_ids = [movie_encoded2movie[x] for x in top_ratings_indices] 
     return recommended_movie_ids
+
+# Run this function to train and save the model
+train_and_save_model()
