@@ -391,15 +391,29 @@ coverage report
 
 FYI, Movie gamification feature from the proposal won't be implemented, since we already have 3 big features.
 
-## MovieGram User Documentation
+# MovieGram User Documentation
 Welcome to MovieGram! This documentation provides comprehensive information on using our social media platform designed for movie lovers.
 
 Access Moviegram: https://mooviegram.netlify.app/ 
 
-# User Guide
+## User Guide
 **Getting Started**
 1. Signup and Login
 To access Moviegram you must login or signup first:
-![Signup](https://github.com/cse364-unist/moviegram/assets/91851247/be9b0beb-3a78-4434-b43b-7ead3586db7d)
-
-
+2. Navigating through Moviegram 
+Once logged in at the top of the screen, you'll find a navigation bar. you can access the key parts of the app. 
+   - Home: Click on the Home page to see your feed and what others are doing.
+   - Explore: Visit this page to discover new movies and collections. 
+   - Collections: Manage and view the movies you've saved in your collections.
+   - Friends: Look up other users and see what they're interested in.
+   - Profile: Manage your own profile and activities. 
+**Key Features**
+1. Social Interactions
+Follow other users, view their activities, and interact through ratings and reviews. 
+2. Collections
+Create, manage, and follow collections of movies based on themes or genres.
+3. Recommendations
+Discover personalized movie recommendations based on your history(ratings, reviews) and preferences. 
+## FAQs
+1. How can I edit my profile information?
+Here is how you can update your profile details such as your bio and profile picture.
