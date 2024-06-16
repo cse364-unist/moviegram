@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth.models import User
 from moviegram.models import Movie, Rate
 
@@ -89,12 +90,34 @@ def train_and_save_model():
         validation_data=(x_val, y_val)
     )
 
+    # Get current working directory
+    current_directory = os.getcwd()
+    
+    # Construct model directory path (you can modify 'models' to your desired directory name)
+    model_directory = os.path.join(current_directory, 'models')
+
+    # Create the directory if it does not exist
+    if not os.path.exists(model_directory):
+        os.makedirs(model_directory)
+
     # Save the model after training
-    model.save('.')
+    model.save(os.path.join(model_directory, 'recommender_model'))
+
 
 def recommend_movies_for_user(user_id):
-    # Load the saved model
-    model = keras.models.load_model('.')
+    # Get current working directory
+    current_directory = os.getcwd()
+    
+    # Construct model directory path (you can modify 'models' to your desired directory name)
+    model_directory = os.path.join(current_directory, 'models')
+    model_path = os.path.join(model_directory, 'recommender_model')
+
+    # Check if the model directory exists
+    if not os.path.exists(model_path):
+        # Train and save the model if it doesn't exist
+        train_and_save_model()
+
+    model = keras.models.load_model(model_path)
 
     ratings_df = pd.DataFrame(list(ratings.values()))
 
@@ -127,6 +150,3 @@ def recommend_movies_for_user(user_id):
 
     recommended_movie_ids = [movie_encoded2movie[x] for x in top_ratings_indices] 
     return recommended_movie_ids
-
-# Run this function to train and save the model
-train_and_save_model()
