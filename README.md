@@ -409,12 +409,12 @@ Once logged in at the top of the screen, you'll find a navigation bar. you can a
    - Profile: Manage your own profile and activities.
 
 **Key Features**
-1. Social Interactions
+1. Social Interactions\
 Follow other users, view their activities, and interact through ratings and reviews. 
-2. Collections
+2. Collections\
 Create, manage, and follow collections of movies based on themes or genres.
-3. Recommendations
+3. Recommendations\
 Discover personalized movie recommendations based on your history(ratings, reviews) and preferences. 
 ## FAQs
-1. How can I edit my profile information?
+1. How can I edit my profile information?\
 Here is how you can update your profile details such as your bio and profile picture.
