@@ -391,5 +391,15 @@ coverage report
 
 FYI, Movie gamification feature from the proposal won't be implemented, since we already have 3 big features.
 
+## MovieGram User Documentation
+Welcome to MovieGram! This documentation provides comprehensive information on using our social media platform designed for movie lovers.
+
+Access Moviegram: https://mooviegram.netlify.app/ 
+
+# User Guide
+**Getting Started**
+1. Signup and Login
+To access Moviegram you must login or signup first:
+![Signup](https://github.com/cse364-unist/moviegram/assets/91851247/be9b0beb-3a78-4434-b43b-7ead3586db7d)
 
 
