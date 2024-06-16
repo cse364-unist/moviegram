@@ -1,12 +1,33 @@
 import React, { useState } from 'react';
 import myImage from '../../../public/images/toy-story.jpg';
 
-export default function MovieCard({ name, genres_list, average_rating, total_people_rated, id, review_list }) {
-    const [reviewInput, setReviewInput] = useState('');
-    const [reviews, setReviews] = useState(review_list); // Initialize with the prop value
-    console.log('reviews:', reviews)
+interface Genre {
+    id: number;
+    name: string;
+}
 
-    const handleReviewInputChange = (e) => {
+interface Review {
+    id: number;
+    user_name: string;
+    content: string;
+}
+
+interface MovieCardProps {
+    name: string;
+    genres_list: Genre[];
+    average_rating: number;
+    total_people_rated: number;
+    id: number;
+    review_list: Review[];
+}
+
+const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating, total_people_rated, id, review_list }) => {
+    const [reviewInput, setReviewInput] = useState<string>('');
+    const [reviews, setReviews] = useState<Review[]>(review_list); // Initialize with the prop value
+
+    console.log('reviews:', reviews);
+
+    const handleReviewInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setReviewInput(e.target.value);
     };
 
@@ -29,7 +50,7 @@ export default function MovieCard({ name, genres_list, average_rating, total_peo
             if (!response.ok) {
                 throw new Error('Failed to submit review');
             }
-            const newReview = await response.json();
+            const newReview: Review = await response.json();
             setReviews([...reviews, newReview]);
             setReviewInput('');
         } catch (error) {
@@ -81,4 +102,6 @@ export default function MovieCard({ name, genres_list, average_rating, total_peo
             </div>
         </div>
     );
-}
+};
+
+export default MovieCard;

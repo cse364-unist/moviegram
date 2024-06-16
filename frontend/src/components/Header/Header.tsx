@@ -2,14 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 
-function Header({ authenticated, setAuthenticated }) {
+interface HeaderProps {
+    authenticated: boolean;
+    setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Header: React.FC<HeaderProps> = ({ authenticated, setAuthenticated }) => {
     const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
-    const dropdownRef = useRef(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setShowDropdown(false);
             }
         };
@@ -66,7 +71,7 @@ function Header({ authenticated, setAuthenticated }) {
 
                         {authenticated ? (
                             <li className="relative">
-                                <div className="avatar cursor-pointer" onClick={toggleDropdown}>
+                                <div className="avatar cursor-pointer" onClick={toggleDropdown} ref={dropdownRef}>
                                     <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
                                         <img className="w-full h-full object-cover" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="Profile" />
                                     </div>
@@ -86,6 +91,6 @@ function Header({ authenticated, setAuthenticated }) {
             </div>
         </header>
     );
-}
+};
 
 export default Header;

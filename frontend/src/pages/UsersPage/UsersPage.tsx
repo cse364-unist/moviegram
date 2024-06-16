@@ -1,26 +1,33 @@
 import React, { useState, useEffect } from 'react';
 
-export default function UsersPage() {
-    const [users, setUsers] = useState([]);
-    const currentUserId = parseInt(localStorage.getItem('user_id'), 10);
-    const [followedby, setFollowedby] = useState([]);
-    const [followingUsers, setFollowingUsers] = useState([]);
+interface User {
+    id: number;
+    username: string;
+    email: string;
+    follower_list: number[]; // Assuming follower_list contains ids of followers
+    following_list: number[]; // Assuming following_list contains ids of users being followed
+    rated_movies: any[]; // Replace 'any' with actual type
+    reviewed_movies: any[]; // Replace 'any' with actual type
+    // Add other properties as needed based on your API response
+}
 
-    console.log(followedby, followingUsers);
+const UsersPage: React.FC = () => {
+    const [users, setUsers] = useState<User[]>([]);
+    const currentUserId = parseInt(localStorage.getItem('user_id') || '', 10);
+    // const [followedby, setFollowedby] = useState<number[]>([]);
+    const [followingUsers, setFollowingUsers] = useState<number[]>([]);
 
     useEffect(() => {
-
-        const fetchUserDeails = async () => {
+        const fetchUserDetails = async () => {
             try {
                 const response = await fetch(`http://localhost:8000/users/${currentUserId}/`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch user details');
                 }
                 const data = await response.json();
-                setFollowedby(data.follower_list);
+                // setFollowedby(data.follower_list);
                 setFollowingUsers(data.following_list);
-            }
-            catch (error) {
+            } catch (error) {
                 console.error('Error fetching user details:', error);
             }
         };
@@ -38,11 +45,11 @@ export default function UsersPage() {
             }
         };
 
-        fetchUserDeails();
+        fetchUserDetails();
         fetchUsers();
-    }, []);
+    }, [currentUserId]); // Ensure useEffect runs when currentUserId changes
 
-    async function handleFollow(userId) {
+    const handleFollow = async (userId: number) => {
         try {
             const token = localStorage.getItem('token'); // Assuming you have a token stored in localStorage
             const response = await fetch(`http://localhost:8000/users/${userId}/follow/`, {
@@ -57,7 +64,6 @@ export default function UsersPage() {
                 // Handle success, e.g., update UI or show success message
                 console.log('Followed user successfully');
                 setFollowingUsers(prevState => [...prevState, userId]);
-
             } else {
                 // Handle failure, e.g., show error message
                 console.error('Failed to follow user');
@@ -67,9 +73,9 @@ export default function UsersPage() {
             console.error('Error following user:', error);
             alert('Error following user. Please try again.');
         }
-    }
+    };
 
-    async function handleUnfollow(userId) {
+    const handleUnfollow = async (userId: number) => {
         try {
             const token = localStorage.getItem('token'); // Assuming you have a token stored in localStorage
             const response = await fetch(`http://localhost:8000/users/${userId}/unfollow/`, {
@@ -93,57 +99,52 @@ export default function UsersPage() {
             console.error('Error unfollowing user:', error);
             alert('Error unfollowing user. Please try again.');
         }
-    }
-
+    };
 
     return (
         <div className="container mx-auto mt-8">
             <h1 className="text-3xl font-bold mb-4">Users Page</h1>
             <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {users.map(user => {
-                    console.log("followingUsers:", followingUsers);
-                    console.log(followingUsers.includes(user.id));
-                    return ((
-                        <li key={user.id} className="bg-white shadow-black shadow-sm rounded-lg p-4">
-                            <div className="flex items-center mb-2">
-                                <div className="w-12 h-12 rounded-full overflow-hidden">
-                                    <img className="w-full h-full object-cover" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="Profile" />
-                                </div>
-                                <div className="ml-4">
-                                    <p className="font-bold">
-                                        {user.id === currentUserId ? `${user.username} ( you )` : user.username}
-                                    </p>
-                                    <p className="text-sm text-gray-600">{user.email}</p>
-                                    <p className="text-sm text-gray-600">
-                                        Followers: {user.follower_list.length} | Following: {user.following_list.length}
-                                    </p>
-                                    <p className='text-sm text-gray-600'>Rated: {user.rated_movies.length} movies</p>
-                                    <p className='text-sm text-gray-600'>Reviewed: {user.reviewed_movies.length} movies</p>
-                                </div>
+                {users.map(user => (
+                    <li key={user.id} className="bg-white shadow-black shadow-sm rounded-lg p-4">
+                        <div className="flex items-center mb-2">
+                            <div className="w-12 h-12 rounded-full overflow-hidden">
+                                <img className="w-full h-full object-cover" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="Profile" />
                             </div>
-                            {user.id !== currentUserId && (
-                                followingUsers.includes(user.id) ? (
-                                    <button
-                                        className="block w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded"
-                                        onClick={() => handleUnfollow(user.id)}
-                                    >
-                                        Unfollow
-                                    </button>
-                                ) : (
-                                    <button
-                                        className="block w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-                                        onClick={() => handleFollow(user.id)}
-                                    >
-                                        Follow
-                                    </button>
-                                )
-                            )}
-
-                        </li>
-                    )
-                    );
-                })}
+                            <div className="ml-4">
+                                <p className="font-bold">
+                                    {user.id === currentUserId ? `${user.username} ( you )` : user.username}
+                                </p>
+                                <p className="text-sm text-gray-600">{user.email}</p>
+                                <p className="text-sm text-gray-600">
+                                    Followers: {user.follower_list.length} | Following: {user.following_list.length}
+                                </p>
+                                <p className='text-sm text-gray-600'>Rated: {user.rated_movies.length} movies</p>
+                                <p className='text-sm text-gray-600'>Reviewed: {user.reviewed_movies.length} movies</p>
+                            </div>
+                        </div>
+                        {user.id !== currentUserId && (
+                            followingUsers.includes(user.id) ? (
+                                <button
+                                    className="block w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded"
+                                    onClick={() => handleUnfollow(user.id)}
+                                >
+                                    Unfollow
+                                </button>
+                            ) : (
+                                <button
+                                    className="block w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                                    onClick={() => handleFollow(user.id)}
+                                >
+                                    Follow
+                                </button>
+                            )
+                        )}
+                    </li>
+                ))}
             </ul>
         </div>
     );
-}
+};
+
+export default UsersPage;

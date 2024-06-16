@@ -1,7 +1,7 @@
 import './App.css'
 import Header from './components/Header/Header'
 import { Routes, Route } from 'react-router-dom'
-import React, {useEffect, useState} from 'react'; 
+import {useEffect, useState} from 'react'; 
 
 
 //import pages 

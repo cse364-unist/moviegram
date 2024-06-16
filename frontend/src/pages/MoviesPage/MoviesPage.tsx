@@ -1,8 +1,18 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useEffect, useState } from 'react';
 import MovieCard from '../../components/MovieCard/MovieCard';
 
-const MoviesPage = () => {
-    const [movies, setMovies] = useState([]); 
+interface Movie {
+    id: number;
+    name: string;
+    genres_list: { id: number; name: string }[];
+    average_rating: number;
+    total_people_rated: number;
+    review_list: { id: number; user_name: string; content: string }[];
+    // Add other properties as needed based on your API response
+}
+
+const MoviesPage: React.FC = () => {
+    const [movies, setMovies] = useState<Movie[]>([]);
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -13,15 +23,14 @@ const MoviesPage = () => {
                 if (!response.ok) {
                     throw new Error('Something went wrong');
                 }
-                const jsonMovies = await response.json(); 
-                setMovies(jsonMovies.results); // results is the key in the json object 
+                const jsonMovies = await response.json();
+                setMovies(jsonMovies.results); // results is the key in the json object
             } catch (error) {
-                console.log('Error fetching movies', error); 
+                console.log('Error fetching movies', error);
             }
-        }
+        };
         fetchMovies();
     }, []);
-    console.log(movies)
 
     return (
         <div>
@@ -31,7 +40,7 @@ const MoviesPage = () => {
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default MoviesPage;
