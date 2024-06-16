@@ -32,14 +32,12 @@ const HomePage: React.FC = () => {
     }, []);
 
     return (
-        <div className="flex w-70 pt-16">
-            <div className="w-20"> </div>
-            <div className="w-60">
+        <div className="flex flex-col items-center pt-16">
+            <div className="w-full max-w-4xl">
                 {movies?.map((movie) => (
                     <MovieCard {...movie} key={movie.id} />
                 ))}
             </div>
-            <aside className="w-20"></aside>
         </div>
     );
 };
