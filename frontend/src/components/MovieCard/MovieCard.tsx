@@ -61,22 +61,55 @@ const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating
         }
     };
 
-    return (
-        <div className="w-full shadow-md shadow-black rounded-lg mt-8">
-            <p className="text-center font-bold text-xl">{name}</p>
-            <img className="mt-4 mx-auto rounded-lg" src={myImage} alt='Movie Poster' style={{ width: '250px', height: '350px' }} />
+    const renderStars = (rating: number) => {
+        const stars = [];
+        const starStyle: React.CSSProperties = {
+            width: '29.35px',
+            height: '29.15px',
+            fill: '#34A853',
+            stroke: '#34A853',
+            strokeWidth: '1',
+            strokeLinejoin: 'round',
+        };
 
-            <div className="px-6 py-4">
-                <p className="font-bold text-md mt-4">Genres:</p>
-                <ul className="text-sm">
-                    {genres_list.map(genre => (
-                        <li key={genre.id}>{genre.name}</li>
-                    ))}
-                </ul>
+        for (let i = 0; i < 5; i++) {
+            stars.push(
+                <svg key={i} style={starStyle} viewBox="0 0 24 24">
+                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" 
+                        fill={i < rating ? '#34A853' : 'none'}
+                        stroke="#34A853"
+                        strokeWidth="1"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            );
+        }
+        return stars;
+    };
+
+    return (
+        <div className="w-full shadow-md rounded-lg mt-8 text-black" style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1)' }}>
+            <p className="text-center font-bold text-xl">{name}</p>
+            
+            <div className="flex justify-center">
+                <img className="mt-4 mx-auto rounded-lg" src={myImage} alt='Movie Poster' style={{ width: '183.06px', height: '272px' }} />
+            </div>
+
+            <div className="flex justify-center mt-4">
+                <button className="bg-gray-800 text-white px-2 py-1 rounded-md text-sm hover:bg-gray-700 focus:outline-none">
+                    Add Movie to Collections
+                </button>
             </div>
 
             <div className="px-6 py-4">
-                <p className="font-bold text-md">Rating: {average_rating}</p>
+                <p className="font-bold text-md mt-4">Genres:</p>
+                <p className="text-sm">{genres_list.map(genre => genre.name).join(', ')}</p>
+            </div>
+
+            <div className="px-6 py-4">
+                <div className="flex">
+                    {renderStars(Math.round(average_rating))}
+                </div>
                 <p className="font-bold text-md">Rated by: {total_people_rated}</p>
             </div>
 
@@ -93,12 +126,12 @@ const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating
 
             <div className="px-6 py-4">
                 <textarea
-                    className="w-full border rounded-lg p-2 focus:outline-none"
+                    className="w-full border border-purple-500 rounded-lg p-2 focus:outline-none bg-transparent"
                     placeholder="Write your review..."
                     value={reviewInput}
                     onChange={handleReviewInputChange}
                 ></textarea>
-                <button onClick={handleSubmitReview} className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600 focus:outline-none">
+                <button onClick={handleSubmitReview} className="bg-gray-800 text-white px-4 py-2 rounded-md mt-2 hover:bg-gray-700 focus:outline-none" style={{ backgroundColor: '#292929' }}>
                     Submit Review
                 </button>
             </div>
