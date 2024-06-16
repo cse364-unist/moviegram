@@ -16,7 +16,6 @@ users = User.objects.all()
 EMBEDDING_SIZE = 50
 
 class RecommenderNet(Model):
-
     def __init__(self, num_users, num_movies, embedding_size, **kwargs):
         super().__init__(**kwargs)
         self.num_users = num_users
@@ -101,7 +100,7 @@ def train_and_save_model():
         os.makedirs(model_directory)
 
     # Save the model after training
-    model.save(os.path.join(model_directory, 'recommender_model'))
+    model.save(os.path.join(model_directory, 'recommender_model.h5'))
 
 
 def recommend_movies_for_user(user_id):
@@ -110,14 +109,14 @@ def recommend_movies_for_user(user_id):
     
     # Construct model directory path (you can modify 'models' to your desired directory name)
     model_directory = os.path.join(current_directory, 'models')
-    model_path = os.path.join(model_directory, 'recommender_model')
+    model_path = os.path.join(model_directory, 'recommender_model.h5')
 
     # Check if the model directory exists
     if not os.path.exists(model_path):
-        # Train and save the model if it doesn't exist
         train_and_save_model()
 
-    model = keras.models.load_model(model_path)
+    with keras.utils.custom_object_scope({'RecommenderNet': RecommenderNet}):
+        model = keras.models.load_model(model_path)
 
     ratings_df = pd.DataFrame(list(ratings.values()))
 
