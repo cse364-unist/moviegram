@@ -406,7 +406,8 @@ Once logged in at the top of the screen, you'll find a navigation bar. you can a
    - Explore: Visit this page to discover new movies and collections. 
    - Collections: Manage and view the movies you've saved in your collections.
    - Friends: Look up other users and see what they're interested in.
-   - Profile: Manage your own profile and activities. 
+   - Profile: Manage your own profile and activities.
+
 **Key Features**
 1. Social Interactions
 Follow other users, view their activities, and interact through ratings and reviews. 
