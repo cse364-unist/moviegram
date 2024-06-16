@@ -10,8 +10,8 @@ const SignUpPage: React.FC = () => {
 
     const handleSignUp = async (username: string, email: string, password: string) => {
         try {
-            // const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/signup/', {
-            const response = await fetch('http://localhost:8000/signup/', {
+            const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/signup/', {
+            // const response = await fetch('http://localhost:8000/signup/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

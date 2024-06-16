@@ -12,8 +12,8 @@ const LoginInPage: React.FC<LoginInPageProps> = ({ setAuthenticated }) => {
 
     const handleLogin = async (username: string, password: string) => {
         try {
-            // const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/login/', {
-            const response = await fetch('http://localhost:8000/login/', {
+            const response = await fetch('https://mooviegram-4860c7f65aef.herokuapp.com/login/', {
+            // const response = await fetch('http://localhost:8000/login/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
