@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
+import backgroundImage from '../../assets/sub-container.jpg';
 
 interface LoginInPageProps {
     setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,7 +46,14 @@ const LoginInPage: React.FC<LoginInPageProps> = ({ setAuthenticated }) => {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-screen w-screen"
+        style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            minHeight: '100vh',
+        }}
+        >
             <div className="bg-white shadow-lg border border-gray-200 rounded px-8 pt-6 pb-8 mb-4">
                 <h2 className="text-2xl font-bold mb-6 text-black">Login</h2>
                 <form onSubmit={handleSubmit}>
