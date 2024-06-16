@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 from tensorflow import keras
 from keras import Model, layers
+from recommendation import RecommenderNet
 
 ratings = Rate.objects.all()
 movies = Movie.objects.all()
@@ -21,6 +22,7 @@ class RecommenderNet(Model):
         self.num_users = num_users
         self.num_movies = num_movies
         self.embedding_size = embedding_size
+
         self.user_embedding = layers.Embedding(
             num_users,
             embedding_size,
@@ -53,10 +55,6 @@ class RecommenderNet(Model):
             'embedding_size': self.embedding_size
         })
         return config
-    
-    @classmethod
-    def from_config(cls, config):
-        return cls(**config)
 
 
 def train_and_save_model():
@@ -103,34 +101,36 @@ def train_and_save_model():
         validation_data=(x_val, y_val)
     )
 
-    # Get current working directory
-    current_directory = os.getcwd()
+    # # Get current working directory
+    # current_directory = os.getcwd()
     
-    # Construct model directory path (you can modify 'models' to your desired directory name)
-    model_directory = os.path.join(current_directory, 'models')
+    # # Construct model directory path (you can modify 'models' to your desired directory name)
+    # model_directory = os.path.join(current_directory, 'models')
 
-    # Create the directory if it does not exist
-    if not os.path.exists(model_directory):
-        os.makedirs(model_directory)
+    # # Create the directory if it does not exist
+    # if not os.path.exists(model_directory):
+    #     os.makedirs(model_directory)
 
-    # Save the model after training
+    # # Save the model after training
+    # model.save(os.path.join(model_directory, 'recommender_model.h5'))
+    model_directory = os.path.join('backend', 'moviegram', 'model_directory')
     model.save(os.path.join(model_directory, 'recommender_model.h5'))
 
 
 def recommend_movies_for_user(user_id):
-    # Get current working directory
-    current_directory = os.getcwd()
+    # # Get current working directory
+    # current_directory = os.getcwd()
     
     # Construct model directory path (you can modify 'models' to your desired directory name)
-    model_directory = os.path.join(current_directory, 'models')
+    model_directory = os.path.join('backend', 'moviegram', 'model_directory')
     model_path = os.path.join(model_directory, 'recommender_model.h5')
 
     # Check if the model directory exists
     if not os.path.exists(model_path):
         train_and_save_model()
 
-    with keras.utils.custom_object_scope({'RecommenderNet': RecommenderNet}):
-        model = keras.models.load_model(model_path)
+    #with keras.utils.custom_object_scope({'RecommenderNet': RecommenderNet}):
+    model = keras.models.load_model(model_path)
 
     ratings_df = pd.DataFrame(list(ratings.values()))
 
