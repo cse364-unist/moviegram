@@ -40,7 +40,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating
 
         try {
             // const response = await fetch(`http://localhost:8000/movies/${id}/review/`, {
-            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/${id}/review/`, {
+            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/movies/${id}/review/`, {
         
                 method: 'POST',
                 headers: {
@@ -74,7 +74,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ name, genres_list, average_rating
 
         try {
             // const response = await fetch(`http://localhost:8000/movies/${id}/rate/`, {
-            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/${id}/rate/`, {
+            const response = await fetch(`https://mooviegram-4860c7f65aef.herokuapp.com/movies/${id}/rate/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
